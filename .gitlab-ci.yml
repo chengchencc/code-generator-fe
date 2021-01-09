@@ -1,0 +1,64 @@
+# cache:
+#   paths:
+#     - NugetPackages
+#     - src/ClientApp/pc/node_modules/
+
+stages:
+  - build
+  # - test
+  # - package
+  - deploy
+
+variables:
+  NUGET_PACKAGES: $CI_PROJECT_DIR/NugetPackages
+
+before_script:
+  - echo _auth=$(echo -n $ARTIFACTS_REPO_USERNAME:$ARTIFACTS_REPO_PASSWORD | base64) >> /root/.npmrc
+
+  # - PROJECTPTAH=$(echo $(echo $CI_PROJECT_DIR |sed -e 's/\//\\\//g')\\/NugetPackage)
+    #echo $PROJECTPTAH
+  # - sed -i 's/NUGET_PACKAGE_CACHE_PATH/'"$PROJECTPTAH"'/g'  src/Inspur.Ecm.TaskTrace.Host/Nuget.config
+
+build_web_pc:
+  stage: build
+  tags:
+    # - docker:ecp
+    - alicloud
+  only:
+    - f_bugfix
+    - master
+    - dev
+  cache:
+    paths:
+      - node_modules/
+  image: node:8-slim
+  script:
+    # TODO: 请在处理前端lint异常后，删除下面一行。
+    - unset CI
+    - npm config set registry https://registry.npm.taobao.org
+    - npm install 
+    - npm run build
+  artifacts:
+    paths:
+      - dist
+    expire_in: 10d
+
+# build_docker_image:
+#   stage: deploy
+#   tags:
+#     # - docker:ecp
+#     - alicloud
+#   only:
+#     - f_bugfix
+#     - master
+#     - dev
+#   image: docker:18.03
+#   script:
+#     # 发布程序并部署运行
+#     - DOCKER_VER_SNS_CORE=$(cat ./docker/version)"-"${CI_COMMIT_REF_NAME}
+#     - echo $DOCKER_VER_SNS_CORE
+#     # - cp -rfu src/ClientApp/pc/build/*  src/Inspur.Ecm.TaskTrace.Host/publish/wwwroot/web/d/
+#     # 由于Dockerfile与发布目录必须在一个Build Context，所以将 Build Context设置到源码根目录，同时修改Dockerfile中的目录;支持私有仓库提交
+#     - docker build -f ./docker/prod/Dockerfile -t snapshots.ecm.docker.iec.io/task-core:$DOCKER_VER_SNS_CORE .
+#     - docker login -u $ARTIFACTS_REPO_USERNAME -p $ARTIFACTS_REPO_PASSWORD snapshots.ecm.docker.iec.io 
+#     - docker push snapshots.ecm.docker.iec.io/task-core:$DOCKER_VER_SNS_CORE
