@@ -43,22 +43,23 @@ build_web_pc:
       - dist
     expire_in: 10d
 
-# build_docker_image:
-#   stage: deploy
-#   tags:
-#     # - docker:ecp
-#     - alicloud
-#   only:
-#     - f_bugfix
-#     - master
-#     - dev
-#   image: docker:18.03
-#   script:
-#     # 发布程序并部署运行
-#     - DOCKER_VER_SNS_CORE=$(cat ./docker/version)"-"${CI_COMMIT_REF_NAME}
-#     - echo $DOCKER_VER_SNS_CORE
-#     # - cp -rfu src/ClientApp/pc/build/*  src/Inspur.Ecm.TaskTrace.Host/publish/wwwroot/web/d/
-#     # 由于Dockerfile与发布目录必须在一个Build Context，所以将 Build Context设置到源码根目录，同时修改Dockerfile中的目录;支持私有仓库提交
-#     - docker build -f ./docker/prod/Dockerfile -t snapshots.ecm.docker.iec.io/task-core:$DOCKER_VER_SNS_CORE .
-#     - docker login -u $ARTIFACTS_REPO_USERNAME -p $ARTIFACTS_REPO_PASSWORD snapshots.ecm.docker.iec.io 
-#     - docker push snapshots.ecm.docker.iec.io/task-core:$DOCKER_VER_SNS_CORE
+build_docker_image:
+  stage: deploy
+  tags:
+    # - docker:ecp
+    - docker
+  only:
+    - f_bugfix
+    - master
+    - dev
+  image: docker:18.03
+  script:
+    # 发布程序并部署运行
+    - DOCKER_VER_SNS_CORE=$(cat ./docker/version)"-"${CI_COMMIT_REF_NAME}
+    - echo $DOCKER_VER_SNS_CORE
+    # - cp -rfu src/ClientApp/pc/build/*  src/Inspur.Ecm.TaskTrace.Host/publish/wwwroot/web/d/
+    # 由于Dockerfile与发布目录必须在一个Build Context，所以将 Build Context设置到源码根目录，同时修改Dockerfile中的目录;支持私有仓库提交
+    # - docker build -f ./docker/prod/Dockerfile -t snapshots.ecm.docker.iec.io/task-core:$DOCKER_VER_SNS_CORE .
+    # - docker login -u $ARTIFACTS_REPO_USERNAME -p $ARTIFACTS_REPO_PASSWORD snapshots.ecm.docker.iec.io 
+    # - docker push snapshots.ecm.docker.iec.io/task-core:$DOCKER_VER_SNS_CORE
+    - docker push http://10.10.20.242:5000/task-core:$DOCKER_VER_SNS_CORE
