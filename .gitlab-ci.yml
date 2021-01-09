@@ -31,7 +31,7 @@ build_web_pc:
   cache:
     paths:
       - node_modules/
-  image: node:8-slim
+  image: node:10.23.1-alpine
   script:
     # TODO: 请在处理前端lint异常后，删除下面一行。
     - unset CI
