@@ -62,4 +62,4 @@ build_docker_image:
     # - docker build -f ./docker/prod/Dockerfile -t snapshots.ecm.docker.iec.io/task-core:$DOCKER_VER_SNS_CORE .
     # - docker login -u $ARTIFACTS_REPO_USERNAME -p $ARTIFACTS_REPO_PASSWORD snapshots.ecm.docker.iec.io 
     # - docker push snapshots.ecm.docker.iec.io/task-core:$DOCKER_VER_SNS_CORE
-    - docker push http://10.10.20.242:5000/task-core:$DOCKER_VER_SNS_CORE
+    - docker push 10.10.20.242:5000/form-builder-fe:$DOCKER_VER_SNS_CORE
