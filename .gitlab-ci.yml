@@ -23,7 +23,7 @@ build_web_pc:
   stage: build
   tags:
     # - docker:ecp
-    - alicloud
+    - docker
   only:
     - f_bugfix
     - master
