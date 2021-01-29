@@ -1,17 +1,23 @@
 <template>
-  <div>
-    modeldesigner
-  </div>
-
+  <a-col v-bind="defaultColSpan">
+    <slot></slot>
+  </a-col>
 </template>
 
 <script>
 export default {
-  name: 'Modeldesigner',
+  name: 'FormItemWrapper',
   components: {},
   data () {
     return {
-
+      defaultColSpan: {
+        xs: { span: 24 },
+        sm: { span: 12 },
+        md: { span: 8 },
+        lg: { span: 8 },
+        xl: { span: 6 },
+        xxl: { span: 6 }
+      }
     }
   },
     // 生命周期 - 创建完成（可以访问当前this实例）
@@ -25,7 +31,3 @@ export default {
   }
 }
 </script>
-
-<style lang="sass" scoped>
-
-</style>

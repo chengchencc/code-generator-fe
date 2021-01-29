@@ -6,7 +6,7 @@ const proxyConfig = {
   //   changeOrigin: true
   // }
   '/api-test': {
-      target: 'http://127.0.0.1:9999',
+      target: 'http://127.0.0.1:8080',
       pathRewrite: { '^/api-test': '' },
       ws: false,
       changeOrigin: true

@@ -4,6 +4,7 @@ import Vue from 'vue'
 import {
   ConfigProvider,
   Layout,
+  Space,
   Input,
   InputNumber,
   Button,
@@ -44,7 +45,8 @@ import {
   Statistic,
   Descriptions,
   message,
-  notification
+  notification,
+  FormModel
 } from 'ant-design-vue'
 import Viser from 'viser-vue'
 
@@ -58,6 +60,7 @@ import './directives/action'
 
 Vue.use(ConfigProvider)
 Vue.use(Layout)
+Vue.use(Space)
 Vue.use(Input)
 Vue.use(InputNumber)
 Vue.use(Button)
@@ -67,6 +70,7 @@ Vue.use(Checkbox)
 Vue.use(Select)
 Vue.use(Card)
 Vue.use(Form)
+Vue.use(FormModel)
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Modal)

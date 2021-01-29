@@ -46,23 +46,52 @@ export const asyncRouterMap = [
       },
 
       {
+        path: '/generator',
+        name: 'generator',
+        meta: { title: '代码生成', icon: 'code' },
+        component: RouteView,
+        redirect: '/generator/datamodel',
+        children: [
+          {
+            path: '/generator/datamodel',
+            name: 'datamodel',
+            component: () => import('@/views/designer/model/index'),
+            meta: { title: '模型设计器', keepAlive: false, icon: bxAnaalyse }
+          },
+          {
+            path: '/generator/datasource',
+            name: 'datasource',
+            component: () => import('@/views/designer/model/index'),
+            meta: { title: '数据源管理', keepAlive: false, icon: bxAnaalyse }
+          },
+          {
+            path: '/generator/strategy',
+            name: 'strategy',
+            component: () => import('@/views/designer/model/index'),
+            meta: { title: '生成策略管理', keepAlive: false, icon: bxAnaalyse }
+          },
+          {
+            path: '/generator/edit',
+            name: 'edit',
+            component: () => import('@/views/designer/model/design/DesignModal'),
+            meta: { title: '配置', keepAlive: false, icon: bxAnaalyse }
+          }
+
+        ]
+      },
+
+      {
         path: '/designer',
         name: 'designer',
-        meta: { title: '设计器' },
+        meta: { title: '流程设计器', icon: 'form' },
         component: RouteView,
-        redirect: '/designer/bpmn',
+        redirect: '/designer/datamodel',
         children: [
           {
             path: '/designer/bpmn',
             name: 'bpmn',
             component: () => import('@/views/designer/bpmn/index'),
-            meta: { title: '流程设计器', keepAlive: false, icon: bxAnaalyse }
-          },
-          {
-            path: '/designer/model',
-            name: 'model',
-            component: () => import('@/views/designer/model/index'),
-            meta: { title: '模型设计器', keepAlive: false, icon: bxAnaalyse }
+            meta: { title: '流程管理', keepAlive: false, icon: bxAnaalyse }
           }
 
         ]
@@ -235,20 +264,6 @@ export const asyncRouterMap = [
             hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
             component: () => import('@/views/SysDataDict/form-page'),
             meta: { title: '字典详情', keepAlive: true, permission: ['sys'] }
-          },
-          {
-            path: '/demo/projectindex',
-            name: 'dict-projectindex',
-            hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
-            component: () => import('@/views/GuarProject/index'),
-            meta: { title: '项目列表', keepAlive: true, permission: ['sys'] }
-          },
-          {
-            path: '/demo/projectdetail',
-            name: 'dict-projectdetail',
-            hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
-            component: () => import('@/views/GuarProject/form-page'),
-            meta: { title: '项目详情', keepAlive: true, permission: ['sys'] }
           }
         ]
       },
