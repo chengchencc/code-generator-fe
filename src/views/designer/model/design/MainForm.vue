@@ -109,6 +109,22 @@ import FormItemWrapper from '../component/FormItemWrapper'
 export default {
   name: 'MainForm',
   components: { FormItemWrapper },
+  props: {
+    model: {
+      type: Object,
+      default: () => {
+        return {
+          tableName: '',
+          name: '',
+          description: '',
+          tableSchema: '',
+          tableType: '',
+          tableIdType: '',
+          uiTemplate: ''
+        }
+      }
+    }
+  },
   data () {
     return {
       // 布局
@@ -131,15 +147,15 @@ export default {
         }
       },
       // 模型
-      model: {
-        tableName: '',
-        name: '',
-        description: '',
-        tableSchema: '',
-        tableType: '',
-        tableIdType: '',
-        uiTemplate: ''
-      },
+      // model: {
+      //   tableName: '',
+      //   name: '',
+      //   description: '',
+      //   tableSchema: '',
+      //   tableType: '',
+      //   tableIdType: '',
+      //   uiTemplate: ''
+      // },
       // 校验规则
       validatorRules: {
         tenantId: { rules: [{ required: false }] },
@@ -156,7 +172,14 @@ export default {
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {},
   // 生命周期 - 载入后, Vue 实例挂载到实际的 DOM 操作完成，一般在该过程进行 Ajax 交互
-  mounted () {},
+  mounted () {
+    console.log('mainform::mounted::', this.model)
+    this.$watch('model', (s) => {
+      console.log('mainform::modelChanged::', this.model)
+
+      // this.model = this.value
+    })
+  },
   methods: {}
 }
 </script>

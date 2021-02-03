@@ -1,5 +1,5 @@
 <template>
-  <a-table :columns="columns" :dataSource="dataSource" size="small" rowKey="id" :pagination="false">
+  <a-table :columns="columns" :dataSource="value" size="small" rowKey="id" :pagination="false">
     <template v-for="c in controls" :slot="c.dataIndex" slot-scope="text, record, index">
       <dynamic-form-item
         :key="c.dataIndex"
@@ -35,17 +35,28 @@ import DynamicFormItem, { ControlType } from '../component/DynamicFormItem.vue'
 
 export const FieldType = [
   { value: 'INTETER', name: '整型' },
+  { value: 'LONG', name: '长整型' },
+  { value: 'FLOAT', name: '单精度' },
+  { value: 'DOUBLE', name: '双精度' },
   { value: 'STRING', name: '字符型' },
   { value: 'BOOLEAN', name: '布尔型' },
   { value: 'DATETIME', name: '日期时间' },
   { value: 'DECIMAL', name: '小数' },
-  { value: 'Double', name: '双精度' }
+  { value: 'UNKNOWN', name: '未知类型' }
 ]
 
 export default {
   name: 'FieldConfig',
   components: {
     DynamicFormItem
+  },
+  props: {
+    value: {
+      type: Array,
+      default: () => {
+        return []
+      }
+    }
   },
   data () {
     return {

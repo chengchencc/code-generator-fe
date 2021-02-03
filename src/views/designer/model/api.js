@@ -9,3 +9,5 @@ export const deleteItem = (params) => httpDelete(path, params)
 export const saveItem = (params) => httpPost(path, params)
 
 export const getTableInfos = (params) => httpPost('/datasource/getTableInfos', params)
+
+export const importFromDb = (params) => httpPost('/datasource/importFromDb', params)

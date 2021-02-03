@@ -64,7 +64,7 @@
       </div>
       <!-- 功能按钮区域 -->
       <div class="table-operator">
-        <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button>
+        <!-- <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button> -->
         <a-button type="default" icon="import" @click="handleImportData">导入</a-button>
         <a-dropdown v-if="selectedRowKeys.length > 0">
           <a-menu slot="overlay">
@@ -273,7 +273,7 @@ export default {
 
     handleDesign (record) {
       // this.$router.push({ path: '/designer/ModelDesigner' })
-
+      console.log('aaaaaaaaaaaaa')
       this.$refs.modalDesigner.edit(record)
       this.$refs.modalDesigner.title = '设计'
     },

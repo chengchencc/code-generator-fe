@@ -1,5 +1,5 @@
 <template>
-  <a-table :columns="columns" :dataSource="dataSource" size="small" rowKey="id" :pagination="false">
+  <a-table :columns="columns" :dataSource="value" size="small" rowKey="id" :pagination="false">
     <template v-for="c in controls" :slot="c.dataIndex" slot-scope="text, record, index">
       <dynamic-form-item
         :key="c.dataIndex"
@@ -38,6 +38,14 @@ export default {
   name: 'UiConfig',
   components: {
     DynamicFormItem
+  },
+    props: {
+    value: {
+      type: Array,
+      default: () => {
+        return []
+      }
+    }
   },
   data () {
     return {
@@ -161,7 +169,7 @@ export default {
       record[fieldName] = event
       console.log(event, fieldName, record, index)
 
-      console.log('datasource', this.dataSource)
+      console.log('uiConfig::values', this.value)
     }
   }
 }

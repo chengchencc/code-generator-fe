@@ -1,5 +1,5 @@
 <template>
-  <!-- <a-modal
+  <a-modal
     :title="title"
     :visible="visible"
     :confirmLoading="confirmLoading"
@@ -7,30 +7,31 @@
     @ok="handleOk"
     @cancel="handleCancel"
     cancelText="关闭"
+    :destroyOnClose="true"
     wrapClassName="ant-modal-cust-warp"
     dialogClass="full-screen-modal">
-    <a-spin :spinning="confirmLoading"> -->
-  <a-card>
-    <div>
-      <a-button type="primary" @click="handleOk">保存</a-button>
-    </div>
-    <!-- 实体配置 -->
-    <a-divider>模型配置</a-divider>
-    <main-form></main-form>
-    <a-divider>字段配置</a-divider>
-    <a-tabs default-active-key="1" type="card">
-      <!-- 字段信息 -->
-      <a-tab-pane key="1" tab="字段属性">
-        <field-config></field-config>
-      </a-tab-pane>
-      <!-- 显示配置 -->
-      <a-tab-pane key="2" tab="显示属性" force-render>
-        <ui-config></ui-config>
-      </a-tab-pane>
-    </a-tabs>
-  </a-card>
-  <!-- </a-spin>
-  </a-modal> -->
+    <a-spin :spinning="confirmLoading">
+      <a-card>
+        <div>
+          <a-button type="primary" @click="handleOk">保存</a-button>
+        </div>
+        <!-- 实体配置 -->
+        <a-divider>模型配置</a-divider>
+        <main-form :model="model"></main-form>
+        <a-divider>字段配置</a-divider>
+        <a-tabs default-active-key="1" type="card">
+          <!-- 字段信息 -->
+          <a-tab-pane key="1" tab="字段属性">
+            <field-config :value="model.fields"></field-config>
+          </a-tab-pane>
+          <!-- 显示配置 -->
+          <a-tab-pane key="2" tab="显示属性" force-render>
+            <ui-config :value="model.fieldUIs"></ui-config>
+          </a-tab-pane>
+        </a-tabs>
+      </a-card>
+    </a-spin>
+  </a-modal>
 
 </template>
 
@@ -65,14 +66,20 @@ export default {
     },
     edit (record) {
       this.model = Object.assign({}, record)
+
+      console.log('model::fields::', this.model.fields)
+
+      const fieldUIs = this.model.fields.map(item => {
+        const { tableFieldName, name, dataFieldUI } = item
+        const ui = dataFieldUI || {}
+        ui.tableFieldName = tableFieldName
+        ui.name = name
+        return ui
+      })
+      console.log('model::fieldUIs::', fieldUIs)
+      this.model.fieldUIs = fieldUIs
       this.visible = true
 
-      // 编辑页面禁止修改角色编码
-      if (this.model.id) {
-        this.roleDisabled = true
-      } else {
-        this.roleDisabled = false
-      }
       // this.$nextTick(() => {
       //   this.form.setFieldsValue(pick(this.model, 'roleName', 'remark', 'roleCode'))
       // })
@@ -82,7 +89,7 @@ export default {
       this.visible = false
     },
     handleOk () {
-      const that = this
+      // const that = this
       // 触发表单验证
       // this.form.validateFields((err, values) => {
       //   if (!err) {

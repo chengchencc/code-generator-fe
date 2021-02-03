@@ -19,7 +19,7 @@
         <div class="content">
           <step1 v-if="currentTab === 0" @nextStep="nextStep" />
           <step2 v-if="currentTab === 1" :value="model" @nextStep="nextStep2" @prevStep="prevStep" />
-          <step3 v-if="currentTab === 2" @prevStep="prevStep" @finish="finish" />
+          <step3 v-if="currentTab === 2" :value="model" @prevStep="prevStep" @finish="finish" />
         </div>
       </a-card>
 
@@ -37,11 +37,7 @@ import Step3 from './step3.vue'
 export default {
   name: 'ImportModal',
   components: { Step1, Step2, Step3 },
-  // provide () {
-  //   return {
-  //     model: this.model
-  //   }
-  // },
+
   data () {
     return {
       title: '从数据库导入',
