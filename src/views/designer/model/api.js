@@ -11,3 +11,5 @@ export const saveItem = (params) => httpPost(path, params)
 export const getTableInfos = (params) => httpPost('/datasource/getTableInfos', params)
 
 export const importFromDb = (params) => httpPost('/datasource/importFromDb', params)
+
+export const saveDataModel = (params) => httpPost('/dataModel/saveDataModel', params)

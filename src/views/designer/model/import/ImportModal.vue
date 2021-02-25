@@ -90,6 +90,7 @@ export default {
     },
     finish () {
       this.currentTab = 0
+      this.$emit('ok')
       this.close()
     },
     add () {

@@ -39,7 +39,7 @@ export default {
   components: {
     DynamicFormItem
   },
-    props: {
+  props: {
     value: {
       type: Array,
       default: () => {
@@ -127,6 +127,18 @@ export default {
           dataIndex: 'validation',
           control: ControlType.Object,
           scopedSlots: { customRender: 'validation' }
+        },
+        {
+          title: '字典编码',
+          dataIndex: 'dictCode',
+          control: ControlType.InputText,
+          scopedSlots: { customRender: 'dictCode' }
+        },
+        {
+          title: '字典值编码',
+          dataIndex: 'dictType',
+          control: ControlType.InputText,
+          scopedSlots: { customRender: 'dictType' }
         }
       ],
       dataSource: []
@@ -170,6 +182,9 @@ export default {
       console.log(event, fieldName, record, index)
 
       console.log('uiConfig::values', this.value)
+    },
+    getSaveData () {
+      return this.value
     }
   }
 }

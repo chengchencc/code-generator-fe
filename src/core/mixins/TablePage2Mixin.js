@@ -164,6 +164,9 @@ export const TablePageMixin = {
     searchQuery () {
       this.loadData(1)
     },
+    refresh () {
+      this.loadData(1)
+    },
     resetSearchForm () {
       this.queryParam = {}
       this.loadData(1)

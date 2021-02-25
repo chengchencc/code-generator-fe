@@ -9,24 +9,24 @@
     cancelText="关闭"
     :destroyOnClose="true"
     wrapClassName="ant-modal-cust-warp"
-    dialogClass="full-screen-modal">
+    dialogClass="full-screen-modal model-design-modal">
     <a-spin :spinning="confirmLoading">
       <a-card>
-        <div>
+        <!-- <div>
           <a-button type="primary" @click="handleOk">保存</a-button>
-        </div>
+        </div> -->
         <!-- 实体配置 -->
         <a-divider>模型配置</a-divider>
-        <main-form :model="model"></main-form>
+        <main-form :model="model" ref="mainForm"></main-form>
         <a-divider>字段配置</a-divider>
         <a-tabs default-active-key="1" type="card">
           <!-- 字段信息 -->
           <a-tab-pane key="1" tab="字段属性">
-            <field-config :value="model.fields"></field-config>
+            <field-config ref="fieldConfig" :value="model.fields"></field-config>
           </a-tab-pane>
           <!-- 显示配置 -->
           <a-tab-pane key="2" tab="显示属性" force-render>
-            <ui-config :value="model.fieldUIs"></ui-config>
+            <ui-config ref="uiConfig" :value="model.fieldUIs"></ui-config>
           </a-tab-pane>
         </a-tabs>
       </a-card>
@@ -39,6 +39,7 @@
 import MainForm from './MainForm'
 import FieldConfig from './FieldConfig'
 import UiConfig from './UiConfig'
+import { saveDataModel } from '../api'
 
 export default {
   name: 'DesignModal',
@@ -69,7 +70,7 @@ export default {
 
       console.log('model::fields::', this.model.fields)
 
-      const fieldUIs = this.model.fields.map(item => {
+      const fieldUIs = this.model.fields.map((item) => {
         const { tableFieldName, name, dataFieldUI } = item
         const ui = dataFieldUI || {}
         ui.tableFieldName = tableFieldName
@@ -89,6 +90,27 @@ export default {
       this.visible = false
     },
     handleOk () {
+      const mainFormData = this.$refs.mainForm.getSaveData()
+      console.log('DesignModal::handleOK::mainFormData::', mainFormData)
+      const fieldData = this.$refs.fieldConfig.getSaveData()
+      console.log('DesignModal::handleOK::fieldData::', fieldData)
+      const uiData = this.$refs.uiConfig.getSaveData()
+      console.log('DesignModal::handleOK::uiData::', uiData)
+
+      if (mainFormData && fieldData && uiData) {
+        const params = {
+          dataEntity: mainFormData,
+          dataFields: fieldData,
+          dataFieldUI: uiData
+        }
+        console.log('DesignModal::handleOK::params::', params)
+        saveDataModel(params).then((res) => {
+          this.$message.success('保存成功！')
+          this.visible = false
+          this.$emit('ok')
+        })
+      }
+
       // const that = this
       // 触发表单验证
       // this.form.validateFields((err, values) => {
@@ -127,4 +149,7 @@ export default {
 </script>
 
 <style lang="less">
+.model-design-modal .ant-card-body{
+  background-color: #fafafa;
+}
 </style>

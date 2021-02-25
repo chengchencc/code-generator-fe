@@ -1,4 +1,18 @@
 <template>
+  <!-- <a-card style="margin-left:-24px"> -->
+  <!-- <a-form layout="inline">
+    <a-form-item label="必填">
+      <a-checkbox v-model="value.required"></a-checkbox>
+    </a-form-item>
+    <a-form-item label="最大长度">
+      <a-input v-model="value.max"></a-input>
+    </a-form-item>
+    <a-form-item label="最小长度">
+      <a-input v-model="value.min"></a-input>
+    </a-form-item>
+
+  </a-form> -->
+  <!-- </a-card> -->
   <a-popconfirm @confirm="handleChange">
     <span slot="icon" />
     <template slot="title">

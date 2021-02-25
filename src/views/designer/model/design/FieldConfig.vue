@@ -150,7 +150,7 @@ export default {
         description: 'name' + i,
         dataFieldType: 'STRING',
         length: i,
-        isPrimaryKey: false,
+        isPrimaryKey: true,
         isRequired: false,
         defaultValue: '',
         sortNo: i,
@@ -170,6 +170,9 @@ export default {
       console.log(event, fieldName, record, index)
 
       console.log('datasource', this.dataSource)
+    },
+    getSaveData () {
+      return this.value
     }
   }
 }

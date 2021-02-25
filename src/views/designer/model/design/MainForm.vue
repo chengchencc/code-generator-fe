@@ -2,7 +2,7 @@
   <div>
     <!-- 表信息 -->
     <!-- <a-form :form="form" v-bind="formLayout"> -->
-    <a-form-model :model="model" :rules="validatorRules" v-bind="formLayout">
+    <a-form-model ref="form" :model="model" :rules="validatorRules" v-bind="formLayout">
       <!-- <a-card class="card" title="表单管理" :bordered="true" size="small"> -->
       <a-row class="form-row" :gutter="5">
         <!-- <form-item-wrapper v-if="model">
@@ -11,34 +11,34 @@
           </a-form-item>
         </form-item-wrapper> -->
         <form-item-wrapper>
-          <a-form-model-item label="数据库表名" required prop="tableName">
+          <a-form-model-item label="数据库表名" prop="tableName">
             <a-input v-model="model.tableName" />
           </a-form-model-item>
         </form-item-wrapper>
 
         <form-item-wrapper>
-          <a-form-model-item label="编号" required prop="tableName">
+          <a-form-model-item label="编号" prop="code">
             <a-input v-model="model.code" />
           </a-form-model-item>
         </form-item-wrapper>
 
         <form-item-wrapper>
-          <a-form-model-item label="名称" required prop="tableName">
+          <a-form-model-item label="名称" prop="name">
             <a-input v-model="model.name" />
           </a-form-model-item>
         </form-item-wrapper>
-        <form-item-wrapper>
+        <!-- <form-item-wrapper>
           <a-form-model-item label="编号" required prop="tableName">
             <a-input v-model="model.code" />
           </a-form-model-item>
-        </form-item-wrapper>
+        </form-item-wrapper> -->
         <form-item-wrapper>
-          <a-form-model-item label="描述" required prop="tableName">
+          <a-form-model-item label="描述" prop="description">
             <a-input v-model="model.description" />
           </a-form-model-item>
         </form-item-wrapper>
         <form-item-wrapper>
-          <a-form-model-item label="主键策略" required>
+          <a-form-model-item label="主键策略" required prop="tableIdType">
             <a-select v-model="model.tableIdType">
               <a-select-option key="ASSIGN_ID" value="ASSIGN_ID">自动生成(雪花算法)</a-select-option>
               <a-select-option key="AUTO" value="AUTO">数据库ID自增</a-select-option>
@@ -48,14 +48,14 @@
           </a-form-model-item>
         </form-item-wrapper>
         <form-item-wrapper>
-          <a-form-model-item label="表单模板" required>
+          <a-form-model-item label="表单模板" required prop="uiTemplate">
             <a-select v-model="model.uiTemplate">
               <a-select-option key="Default" value="Default">默认</a-select-option>
             </a-select>
           </a-form-model-item>
         </form-item-wrapper>
         <form-item-wrapper>
-          <a-form-model-item label="表结构" required>
+          <a-form-model-item label="表结构" required prop="tableSchema">
             <a-select v-model="model.tableSchema">
               <a-select-option key="Nomal" value="Nomal">一般表结构</a-select-option>
               <a-select-option key="Tree" value="Tree">树状结构</a-select-option>
@@ -66,8 +66,7 @@
         <form-item-wrapper v-if="model.tableSchema && model.tableSchema === 'Tree'">
           <a-form-model-item label="ParentId" required>
             <a-select v-model="model.parentId">
-              <a-select-option key="pId" value="pId">一般表结构</a-select-option>
-              <a-select-option key="parentId" value="parentId">树状结构</a-select-option>
+              <a-select-option v-for="(field,index) in model.fields" :key="index" :value="field.id">{{ field.name || field.code }}</a-select-option>
             </a-select>
           </a-form-model-item>
         </form-item-wrapper>
@@ -116,6 +115,7 @@ export default {
         return {
           tableName: '',
           name: '',
+          code: '',
           description: '',
           tableSchema: '',
           tableType: '',
@@ -158,14 +158,26 @@ export default {
       // },
       // 校验规则
       validatorRules: {
-        tenantId: { rules: [{ required: false }] },
-        code: { rules: [{ required: false }] },
-        description: { rules: [{ required: false }] },
-        name: { rules: [{ required: false }] },
-        isPublished: { rules: [{ required: false }] },
-        storageType: { rules: [{ required: false }] },
-        tableName: { rules: [{ required: false }] },
-        version: { rules: [{ required: false }] }
+        tableName: [
+          { required: true, message: '必填', trigger: 'blur' },
+          { min: 0, max: 36, message: '最大长度36', trigger: 'blur' }
+        ],
+        name: [
+          { required: true, message: '必填', trigger: 'blur' },
+          { min: 0, max: 36, message: '最大长度36', trigger: 'blur' }
+        ],
+        code: [
+          { required: true, message: '必填', trigger: 'blur' },
+          { min: 0, max: 36, message: '最大长度36', trigger: 'blur' }
+        ],
+        description: [
+          { required: false, message: '必填', trigger: 'blur' },
+          { min: 0, max: 255, message: '最大长度255', trigger: 'blur' }
+        ],
+        tableSchema: [{ required: true, message: '必填', trigger: 'blur' }],
+        tableType: [{ required: true, message: '必填', trigger: 'blur' }],
+        tableIdType: [{ required: true, message: '必填', trigger: 'blur' }],
+        uiTemplate: [{ required: true, message: '必填', trigger: 'blur' }]
       }
     }
   },
@@ -180,7 +192,25 @@ export default {
       // this.model = this.value
     })
   },
-  methods: {}
+  methods: {
+    handleChange () {
+      console.log(arguments)
+    },
+    getSaveData () {
+      let result = 'a'
+      this.$refs.form.validate((valid, values) => {
+        console.log('MainForm::validate::Arguments::', valid, values)
+        if (valid) {
+          result = this.model
+        } else {
+          console.log('error submit!!')
+          result = false
+        }
+      })
+      console.log(result)
+      return result
+    }
+  }
 }
 </script>
 

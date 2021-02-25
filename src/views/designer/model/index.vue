@@ -61,16 +61,23 @@
             </a-col>
           </a-row>
         </a-form>-->
+
       </div>
       <!-- 功能按钮区域 -->
       <div class="table-operator">
         <!-- <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button> -->
+        <a-button type="primary" icon="reload" @click="searchQuery">刷新</a-button>
         <a-button type="default" icon="import" @click="handleImportData">导入</a-button>
         <a-dropdown v-if="selectedRowKeys.length > 0">
           <a-menu slot="overlay">
             <a-menu-item key="1">
               <a-icon type="delete" />删除
             </a-menu-item>
+            <a-menu-item key="1" @click="handleDownloadCode">
+              <a-icon type="import" />下载代码
+            </a-menu-item>
+            <!-- <a-button type="default" icon="import" @click="handleDownloadCode">下载代码</a-button> -->
+
             <!-- lock | unlock -->
             <!-- <a-menu-item key="2">
               <a-icon type="lock" />锁定
@@ -95,43 +102,43 @@
         @change="handleTableChange"
         :rowSelection="rowSelection"
         class="table-page-container-wrapper">
-        <span slot="serial" slot-scope="text, record, index">
+        <!-- <span slot="serial" slot-scope="text, record, index">
           {{ index + 1 }}
-        </span>
-        <!-- <span slot="status" slot-scope="text">
-          <a-badge :status="text | statusTypeFilter" :text="text | statusFilter" />
         </span> -->
+        <span slot="status" slot-scope="text">
+          <a-badge :status="text?'default':'success'" :text="text?'已发布':'未发布'" />
+        </span>
         <!-- <span slot="description" slot-scope="text">
           <ellipsis :length="4" tooltip>{{ text }}</ellipsis>
         </span> -->
 
         <span slot="action" slot-scope="text, record">
           <template>
-            <a @click="handleEdit(record)">编辑</a>
-            <a-divider type="vertical" />
+            <!-- <a @click="handleEdit(record)">编辑</a>
+            <a-divider type="vertical" /> -->
             <a @click="handleDesign(record)">设计</a>
-            <a-divider type="vertical" />
-            <a-popconfirm title="删除后不能恢复，确定删除？" ok-text="是" cancel-text="否" @confirm="handleDelete(record)">
-              <a>删除</a>
-            </a-popconfirm>
             <!-- <a-divider type="vertical" /> -->
-            <!-- <a @click="handleDetail(record)">详情</a> -->
-            <!-- <a-dropdown>
+            <!-- <a-popconfirm title="删除后不能恢复，确定删除？" ok-text="是" cancel-text="否" @confirm="handleDelete(record)">
+              <a>删除</a>
+            </a-popconfirm> -->
+            <a-divider type="vertical" />
+            <a-dropdown>
               <a-menu slot="overlay">
                 <a-menu-item>
-                  <a @click="handleEdit(record)">编辑</a>
+                  <a @click="handleDeploy(record)">发布</a>
+                </a-menu-item>
+                <a-menu-item>
+                  <a @click="handleDownloadCode(record)">下载代码</a>
                 </a-menu-item>
                 <a-menu-item>
                   <a @click="handleDelete(record)">删除</a>
-                </a-menu-item>
-                <a-menu-item>
-                  <a @click="handleDetail(record)">详情</a>
+                  <!-- <a @click="handleDetail(record)">详情</a> -->
                 </a-menu-item>
               </a-menu>
               <a>更多
                 <a-icon type="down" />
               </a>
-            </a-dropdown> -->
+            </a-dropdown>
           </template>
         </span>
       </a-table>
@@ -165,6 +172,7 @@ import CreateModal from './form-drawer.vue' // 切换到抽屉模式 引用改�
 import { TablePageMixin } from '@/core/mixins/TablePage2Mixin'
 import ImportModal from './import/ImportModal.vue'
 import DesignModal from './design/DesignModal.vue'
+import { TableSchema, TableType } from './dictionary'
 
 export default {
   name: 'TableList',
@@ -178,56 +186,13 @@ export default {
   data () {
     return {
       columns: [
-        {
-          title: '#',
-          scopedSlots: { customRender: 'serial' }
-        },
+        // {
+        //   title: '#',
+        //   scopedSlots: { customRender: 'serial' }
+        // },
         {
           title: '主键',
           dataIndex: 'id',
-          ellipsis: false, // 超过宽度将自动省略
-          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-          width: '200px'
-        },
-        {
-          title: '租户Id',
-          dataIndex: 'tenantId',
-          ellipsis: false, // 超过宽度将自动省略
-          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-          width: '200px'
-        },
-        {
-          title: '编号',
-          dataIndex: 'code',
-          ellipsis: false, // 超过宽度将自动省略
-          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-          width: '200px'
-        },
-        {
-          title: '描述',
-          dataIndex: 'description',
-          ellipsis: false, // 超过宽度将自动省略
-          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-          width: '200px'
-        },
-        {
-          title: '名称',
-          dataIndex: 'name',
-          ellipsis: false, // 超过宽度将自动省略
-          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-          width: '200px'
-        },
-        {
-          title: '是否发布',
-          dataIndex: 'isPublished',
-          ellipsis: false, // 超过宽度将自动省略
-          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-          width: '200px',
-          customRender: (value) => (value ? '是' : '否')
-        },
-        {
-          title: '存储方式',
-          dataIndex: 'storageType',
           ellipsis: false, // 超过宽度将自动省略
           align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
           width: '200px'
@@ -240,11 +205,65 @@ export default {
           width: '200px'
         },
         {
+          title: '模型编号',
+          dataIndex: 'code',
+          ellipsis: false, // 超过宽度将自动省略
+          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+          width: '200px'
+        },
+        {
+          title: '模型名称',
+          dataIndex: 'name',
+          ellipsis: false, // 超过宽度将自动省略
+          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+          width: '200px'
+        },
+        {
+          title: '表结构',
+          dataIndex: 'tableSchema',
+          ellipsis: false, // 超过宽度将自动省略
+          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+          width: '200px',
+          customRender: (value) => {
+            return TableSchema[value] || value
+          }
+        },
+        {
+          title: '表类型',
+          dataIndex: 'tableType',
+          ellipsis: false, // 超过宽度将自动省略
+          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+          width: '200px',
+          customRender: (value) => {
+            return TableType[value] || value
+          }
+        },
+
+        {
+          title: '是否发布',
+          dataIndex: 'isPublished',
+          ellipsis: false, // 超过宽度将自动省略
+          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+          width: '200px',
+          // customRender: (value) => (value ? '是' : '否')
+          scopedSlots: { customRender: 'status' }
+        },
+        // {
+        //   title: '存储方式',
+        //   dataIndex: 'storageType',
+        //   ellipsis: false, // 超过宽度将自动省略
+        //   align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+        //   width: '200px'
+        // },
+        {
           title: '版本',
           dataIndex: 'version',
           ellipsis: false, // 超过宽度将自动省略
           align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-          width: '200px'
+          width: '200px',
+          customRender: (value) => {
+            return `v${value}`
+          }
         },
         {
           title: '操作',
@@ -284,15 +303,17 @@ export default {
 
     /** 单条业务删除 */
     handleDelete (record) {
-      deleteItem(record.id)
+      deleteItem({ id: record.id })
         .then((res) => {
-          this.refreshTable()
+          this.refresh()
           this.$message.info('删除成功')
         })
         .catch((e) => {
+          console.error(e)
           this.$message.error('删除失败')
         })
-    }
+    },
+    handleDownloadCode (record) {}
   }
 }
 </script>

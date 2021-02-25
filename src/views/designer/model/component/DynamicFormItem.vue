@@ -17,7 +17,7 @@
       @change="(time,timeString)=>handleChange(timeString)"></a-date-picker>
     <a-checkbox
       v-else-if="controlType == cType.Boolean"
-      :value="computedValue"
+      :checked="computedValue"
       :disabled="disabled"
       @change="handleChange($event.target.checked)"></a-checkbox>
     <a-select
