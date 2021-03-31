@@ -6,10 +6,16 @@ const proxyConfig = {
   //   changeOrigin: true
   // }
   '/api-test': {
-      target: 'http://127.0.0.1:8080',
-      pathRewrite: { '^/api-test': '' },
-      ws: false,
-      changeOrigin: true
+    target: 'http://127.0.0.1:8080',
+    pathRewrite: { '^/api-test': '' },
+    ws: false,
+    changeOrigin: true
+  },
+  '/api-sample': {
+    target: 'http://127.0.0.1:8888',
+    pathRewrite: { '^/api-sample': '' },
+    ws: false,
+    changeOrigin: true
   },
   '/api-cm': {
     target: 'https://sit-creditmis.huinongyun.cn',

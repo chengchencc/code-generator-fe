@@ -173,6 +173,7 @@ import { TablePageMixin } from '@/core/mixins/TablePage2Mixin'
 import ImportModal from './import/ImportModal.vue'
 import DesignModal from './design/DesignModal.vue'
 import { TableSchema, TableType } from './dictionary'
+import { downFile } from '@/utils/httpClient'
 
 export default {
   name: 'TableList',
@@ -313,7 +314,28 @@ export default {
           this.$message.error('删除失败')
         })
     },
-    handleDownloadCode (record) {}
+    handleDownloadCode (record) {
+      console.log(record)
+      downFile(`/api-test/generator/exportToZip`, { entityId: record.id }).then((data) => {
+        if (!data) {
+          this.$message.warning('文件下载失败')
+          return
+        }
+        if (typeof window.navigator.msSaveBlob !== 'undefined') {
+          window.navigator.msSaveBlob(new Blob([data]), 'code.zip')
+        } else {
+          const url = window.URL.createObjectURL(new Blob([data]))
+          const link = document.createElement('a')
+          link.style.display = 'none'
+          link.href = url
+          link.setAttribute('download', 'code.zip')
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link) // 下载完成移除元素
+          window.URL.revokeObjectURL(url) // 释放掉blob对象
+        }
+      })
+    }
   }
 }
 </script>

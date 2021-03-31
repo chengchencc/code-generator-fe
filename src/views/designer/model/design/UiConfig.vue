@@ -93,28 +93,34 @@ export default {
         },
         {
           title: '表单显示',
-          dataIndex: 'isFormDisplay',
+          dataIndex: 'formDisplay',
           control: ControlType.Boolean,
           enums: FieldType,
-          scopedSlots: { customRender: 'isFormDisplay' }
+          scopedSlots: { customRender: 'formDisplay' }
         },
         {
           title: '列表页显示',
-          dataIndex: 'isListDisplay',
+          dataIndex: 'listDisplay',
           control: ControlType.Boolean,
-          scopedSlots: { customRender: 'isListDisplay' }
+          scopedSlots: { customRender: 'listDisplay' }
         },
         {
           title: '是否排序字段',
-          dataIndex: 'isSupportSort',
+          dataIndex: 'supportSort',
           control: ControlType.Boolean,
-          scopedSlots: { customRender: 'isSupportSort' }
+          scopedSlots: { customRender: 'supportSort' }
         },
         {
           title: '是否查询条件',
-          dataIndex: 'isQuery',
+          dataIndex: 'query',
           control: ControlType.Boolean,
-          scopedSlots: { customRender: 'isQuery' }
+          scopedSlots: { customRender: 'query' }
+        },
+        {
+          title: '是否excel导出',
+          dataIndex: 'exportExcel',
+          control: ControlType.Boolean,
+          scopedSlots: { customRender: 'exportExcel' }
         },
         {
           title: '表格列宽',

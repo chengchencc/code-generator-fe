@@ -81,6 +81,22 @@ export const asyncRouterMap = [
       },
 
       {
+        path: '/sample',
+        name: 'sample',
+        meta: { title: 'sample', icon: 'code' },
+        component: RouteView,
+        redirect: '/sample/list',
+        children: [
+          {
+            path: '/sample/list',
+            name: 'sample-list',
+            component: () => import('@/views/GeneratorRule/GeneratorRuleManager'),
+            meta: { title: 'GeneratorRuleManager', keepAlive: false, icon: bxAnaalyse }
+          }
+        ]
+      },
+
+      {
         path: '/designer',
         name: 'designer',
         meta: { title: '流程设计器', icon: 'form' },

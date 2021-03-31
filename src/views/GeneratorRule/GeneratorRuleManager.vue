@@ -1,0 +1,312 @@
+
+<template>
+  <page-header-wrapper>
+    <a-card :bordered="false">
+      <!-- 搜索过滤区域 -->
+      <div class="table-page-search-wrapper">
+        <a-form layout="inline">
+          <a-row :gutter="48">
+            <a-col :md="8" :sm="24">
+              <a-form-item label="规则编号">
+                <a-input v-model="queryParam.id" placeholder="" />
+              </a-form-item>
+            </a-col>
+            <a-col :md="8" :sm="24">
+              <a-form-item label="使用状态">
+                <a-select v-model="queryParam.status" placeholder="请选择" default-value="0">
+                  <a-select-option value="0">全部</a-select-option>
+                  <a-select-option value="1">关闭</a-select-option>
+                  <a-select-option value="2">运行中</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <template v-if="advanced">
+              <a-col :md="8" :sm="24">
+                <a-form-item label="调用次数">
+                  <a-input-number v-model="queryParam.callNo" style="width: 100%" />
+                </a-form-item>
+              </a-col>
+              <a-col :md="8" :sm="24">
+                <a-form-item label="更新日期">
+                  <a-date-picker v-model="queryParam.date" style="width: 100%" placeholder="请输入更新日期" />
+                </a-form-item>
+              </a-col>
+              <a-col :md="8" :sm="24">
+                <a-form-item label="使用状态">
+                  <a-select v-model="queryParam.useStatus" placeholder="请选择" default-value="0">
+                    <a-select-option value="0">全部</a-select-option>
+                    <a-select-option value="1">关闭</a-select-option>
+                    <a-select-option value="2">运行中</a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
+              <a-col :md="8" :sm="24">
+                <a-form-item label="使用状态">
+                  <a-select placeholder="请选择" default-value="0">
+                    <a-select-option value="0">全部</a-select-option>
+                    <a-select-option value="1">关闭</a-select-option>
+                    <a-select-option value="2">运行中</a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
+            </template>
+            <a-col :md="!advanced && 8 || 24" :sm="24">
+              <span
+                class="table-page-search-submitButtons"
+                :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
+                <a-button type="primary" @click="loadData(1)">查询</a-button>
+                <a-button style="margin-left: 8px" @click="() => this.queryParam = {}">重置</a-button>
+                <a @click="toggleAdvanced" style="margin-left: 8px">
+                  {{ advanced ? '收起' : '展开' }}
+                  <a-icon :type="advanced ? 'up' : 'down'" />
+                </a>
+              </span>
+            </a-col>
+          </a-row>
+        </a-form>
+      </div>
+      <!-- 功能按钮区域 -->
+      <div class="table-operator">
+        <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button>
+        <a-dropdown v-if="selectedRowKeys.length > 0">
+          <a-menu slot="overlay">
+            <a-menu-item key="1">
+              <a-icon type="delete" />
+              删除
+            </a-menu-item>
+            <!-- lock | unlock -->
+            <!-- <a-menu-item key="2">
+                          <a-icon type="lock" />锁定
+                        </a-menu-item> -->
+          </a-menu>
+          <a-button style="margin-left: 8px">
+            批量操作
+            <a-icon type="down" />
+          </a-button>
+        </a-dropdown>
+      </div>
+
+      <!-- 表格内容区域 -->
+      <table-wrapper>
+        <div class="ant-alert ant-alert-info" style="margin-bottom: 16px">
+          <i class="anticon anticon-info-circle ant-alert-icon"></i>已选择&nbsp;<a style="font-weight: 600">{{
+            selectedRowKeys.length
+          }}</a>项&nbsp;&nbsp;
+          <a style="margin-left: 24px" @click="onClearSelected">清空</a>
+        </div>
+        <a-table
+          ref="table"
+          bordered
+          size="default"
+          rowKey="id"
+          :columns="columns"
+          :dataSource="dataSource"
+          :pagination="ipagination"
+          :loading="loading"
+          @change="handleTableChange"
+          :rowSelection="rowSelection"
+          class="table-page-container-wrapper">
+          <span slot="serial" slot-scope="text, record, index">
+            {{ index + 1 }}
+          </span>
+          <span slot="status" slot-scope="text">
+            <a-tag color="orange">text</a-tag>
+          </span>
+          <span slot="action" slot-scope="text, record">
+            <template>
+              <a-dropdown>
+                <a-menu slot="overlay">
+                  <a-menu-item key="1" type="primary">
+                    <router-link :to="{ path: `/project/detail/report/${record.id}/task` }">编辑</router-link>
+                  </a-menu-item>
+                </a-menu>
+                <a-button type="primary" style="margin-left: 8px">
+                  更多
+                  <a-icon type="down" />
+                </a-button>
+              </a-dropdown>
+            </template>
+          </span>
+        </a-table>
+      </table-wrapper>
+      <!-- 嵌入表单区域 -->
+      <!-- <create-modal
+        ref="createModal"
+        :visible="visible"
+        :loading="confirmLoading"
+        :model="mdl"
+        @cancel="handleCancel"
+        @ok="handleOk" /> -->
+      <!-- 表单详情 -->
+      <!-- <detail-modal
+              ref="detailModal"
+              :visible="detailVisible"
+              :loading="confirmLoading"
+              :model="mdl"
+              @cancel="handleDetailCancel" /> -->
+    </a-card>
+  </page-header-wrapper>
+</template>
+
+<script>
+import moment from 'moment'
+import { STable, Ellipsis } from '@/components'
+import { toDateTime, toDate } from '@/utils/datetime'
+import { dictMixin } from '@/store/dict-mixin'
+import { TablePageMixin } from '@/core/mixins/TablePageMixin2'
+// import { getList, findById, save, deleteItem } from './api'
+// import CreateModal from './form-modal.vue' // 切换到抽屉模式 引用改为 './form-drawer.vue'
+// import DetailModal from './detail-modal.vue'
+
+const columns = [
+  {
+    title: '#',
+    scopedSlots: { customRender: 'serial' }
+  },
+  {
+    title: '',
+    dataIndex: 'id',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '200px',
+    customRender: (value) => value
+  },
+  {
+    title: '',
+    dataIndex: 'tenantId',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '200px',
+    customRender: (value) => value
+  },
+  {
+    title: '',
+    dataIndex: 'creationTime',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '200px',
+    customRender: toDateTime
+  },
+  {
+    title: '',
+    dataIndex: 'creationUserId',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '200px',
+    customRender: (value) => value
+  },
+  {
+    title: '',
+    dataIndex: 'deletionTime',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '200px',
+    customRender: toDateTime
+  },
+  {
+    title: '',
+    dataIndex: 'deletionUserId',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '200px',
+    customRender: (value) => value
+  },
+  {
+    title: '',
+    dataIndex: 'lastModifyTime',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '200px',
+    customRender: toDateTime
+  },
+  {
+    title: '',
+    dataIndex: 'lastModifyUserId',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '200px',
+    customRender: (value) => value
+  },
+  {
+    title: '',
+    dataIndex: 'authorName',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '200px',
+    customRender: (value) => value
+  },
+  {
+    title: '',
+    dataIndex: 'email',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '200px',
+    customRender: (value) => value
+  },
+  {
+    title: '',
+    dataIndex: 'moduleName',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '200px',
+    customRender: (value) => value
+  },
+  {
+    title: '',
+    dataIndex: 'packageName',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '200px',
+    customRender: (value) => value
+  },
+  {
+    title: '',
+    dataIndex: 'uiTemplate',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '200px',
+    customRender: (value) => value
+  },
+  {
+    title: '操作',
+    dataIndex: 'action',
+    width: '200px',
+    scopedSlots: { customRender: 'action' }
+  }
+]
+
+export default {
+  name: 'TableList',
+  components: {
+    // CreateModal,
+    // DetailModal
+  },
+  mixins: [dictMixin, TablePageMixin],
+  data () {
+    return {
+      columns: columns,
+      url: {
+        list: '/api-sample/GeneratorRule/list',
+        delete: '/api-sample/role/delete',
+        deleteBatch: '/api-sample/role/deleteBatch',
+        exportXlsUrl: '/api-sample/role/exportXls',
+        importExcelUrl: '/api-sample/role/importExcel'
+      }
+    }
+  },
+  filters: {},
+  created () {
+    // 此处可以进行表单中的一些字典的初始化
+    // getRoleList({ t: new Date() })
+  },
+  computed: {
+    // rowSelection () {
+    //   return {
+    //     selectedRowKeys: this.selectedRowKeys,
+    //     onChange: this.onSelectChange
+    //   }
+    // }
+  },
+  methods: {}
+}
+</script>
