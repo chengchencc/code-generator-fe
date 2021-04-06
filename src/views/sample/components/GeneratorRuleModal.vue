@@ -1,22 +1,37 @@
 <template>
-  <a-modal :title="title"
-           :width="width"
-           :visible="visible"
-           :confirmLoading="loading"
-           @ok="handleOk"
-           @cancel="handleCancel">
-    <internal-form ref="internalForm" @ok="submitCallback"></internal-form>
+  <a-modal
+    :title="model? '编辑':'新建'"
+    :width="800"
+    :visible="visible"
+    :confirmLoading="loading"
+    @ok="handleOk"
+    @cancel="handleCancel">
+    <generator-rule-form ref="internalForm" @ok="submitCallback"></generator-rule-form>
   </a-modal>
 </template>
 
 <script>
-import InternalForm from './GeneratorRuleForm'
+import pick from 'lodash.pick'
+import GeneratorRuleForm from './GeneratorRuleForm'
 
 export default {
   components: {
-    InternalForm
+    GeneratorRuleForm
   },
-  props: {},
+  props: {
+    // visible: {
+    //   type: Boolean,
+    //   required: true
+    // },
+    // loading: {
+    //   type: Boolean,
+    //   default: () => false
+    // },
+    // model: {
+    //   type: Object,
+    //   default: () => null
+    // }
+  },
   data () {
     return {
       title: 'title',

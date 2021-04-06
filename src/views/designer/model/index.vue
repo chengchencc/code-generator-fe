@@ -90,18 +90,17 @@
         </a-dropdown>
       </div>
       <!-- 表格内容区域 -->
-      <a-table
-        ref="table"
-        bordered
-        :size="tableConfig.size"
-        rowKey="id"
-        :columns="columns"
-        :dataSource="dataSource"
-        :pagination="ipagination"
-        :loading="loading"
-        @change="handleTableChange"
-        :rowSelection="rowSelection"
-        class="table-page-container-wrapper">
+      <a-table ref="table"
+               bordered
+               :size="tableConfig.size"
+               rowKey="id"
+               :columns="columns"
+               :dataSource="dataSource"
+               :pagination="ipagination"
+               :loading="loading"
+               @change="handleTableChange"
+               :rowSelection="rowSelection"
+               class="table-page-container-wrapper">
         <!-- <span slot="serial" slot-scope="text, record, index">
           {{ index + 1 }}
         </span> -->
@@ -135,9 +134,7 @@
                   <!-- <a @click="handleDetail(record)">详情</a> -->
                 </a-menu-item>
               </a-menu>
-              <a>更多
-                <a-icon type="down" />
-              </a>
+              <a>更多<a-icon type="down" /></a>
             </a-dropdown>
           </template>
         </span>
@@ -147,13 +144,12 @@
 
       <import-modal ref="modalImport" @ok="searchQuery"></import-modal>
 
-      <create-modal
-        ref="modalForm"
-        :visible="visible"
-        :loading="confirmLoading"
-        :model="mdl"
-        @cancel="handleCancel"
-        @ok="handleOk" />
+      <create-modal ref="modalForm"
+                    :visible="visible"
+                    :loading="confirmLoading"
+                    :model="mdl"
+                    @cancel="handleCancel"
+                    @ok="handleOk" />
       <!-- 表单详情 -->
       <!-- <detail-modal
         ref="detailModal"

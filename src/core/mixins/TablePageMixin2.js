@@ -72,7 +72,7 @@ export const TablePageMixin = {
       ipagination: {
         current: 1,
         pageSize: 10,
-        pageSizeOptions: ['10', '20', '30'],
+        pageSizeOptions: ['10', '20', '30', '50'],
         showTotal: (total, range) => {
           return range[0] + '-' + range[1] + ' 共' + total + '条'
         },
@@ -126,9 +126,9 @@ export const TablePageMixin = {
       var params = this.getQueryParams()// 查询条件
       this.loading = true
       httpGet(this.url.list, params).then((res) => {
-        if (res.code === 200) {
-          this.dataSource = res.result.list
-          this.ipagination.total = res.result.total
+        if (res.code === 0) {
+          this.dataSource = res.data
+          this.ipagination.total = res.count
         }
         this.loading = false
       })
@@ -262,9 +262,13 @@ export const TablePageMixin = {
       this.loadData()
     },
 
-    modalFormOk () {
+    handleOk () {
       // 新增/修改 成功时，重载列表
       this.loadData()
+    },
+    handleCancel () {
+      // // 新增/修改 成功时，重载列表
+      // this.loadData()
     },
     handleDetail: function (record) {
       this.$refs.modalForm.edit(record)

@@ -18,7 +18,7 @@ module.exports = {
         'singleline': 5,
         'multiline': {
           'max': 1,
-          'allowFirstLine': false
+          'allowFirstLine': true
         }
       }
     ],

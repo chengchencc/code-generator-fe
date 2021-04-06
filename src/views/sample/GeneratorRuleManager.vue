@@ -7,88 +7,53 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="租户Id">
-                <a-input v-model="queryParam.tenantId" />
+              <a-form-item label="规则编号">
+                <a-input v-model="queryParam.id" placeholder="" />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="创建时间">
-                <a-date-picker v-model="queryParam.creationTime" style="width: 100%" />
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="创建者">
-                <a-select v-model="queryParam.creationUserId">
-                  <a-select-option value="">请选择</a-select-option>
-                  <a-select-option v-for="(item, name) in pageDict.creationUserId" :key="name" :value="item.code">
-                    {{ item.value }}
-                  </a-select-option>
+              <a-form-item label="使用状态">
+                <a-select v-model="queryParam.status" placeholder="请选择" default-value="0">
+                  <a-select-option value="0">全部</a-select-option>
+                  <a-select-option value="1">关闭</a-select-option>
+                  <a-select-option value="2">运行中</a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="删除时间">
-                <a-date-picker v-model="queryParam.deletionTime" style="width: 100%" />
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="删除人">
-                <a-select v-model="queryParam.deletionUserId" mode="multiple">
-                  <a-select-option value="china">
-                    China
-                  </a-select-option>
-                  <a-select-option value="usa">
-                    U.S.A
-                  </a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="最后修改时间">
-                <a-date-picker v-model="queryParam.lastModifyTime" style="width: 100%" />
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="最后修改人">
-                <span>File 类型不支持搜索</span>
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="作者">
-                <span>TextArea 类型不支持搜索</span>
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="作者邮箱">
-                <span>Image 类型不支持搜索</span>
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="模块名">
-                <span>TreeSelect 类型不支持搜索</span>
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="包名">
-                <span>RichText 类型不支持搜索</span>
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="模板">
-                <a-input-number v-model="queryParam.uiTemplate" style="width:100%" />
-              </a-form-item>
-            </a-col>
-
             <template v-if="advanced">
-              <!--<a-col :md="8" :sm="24">
-                                <a-form-item label="调用次数">
-                                    <a-input-number v-model="queryParam.callNo" style="width: 100%"/>
-                                </a-form-item>
-                            </a-col>-->
+              <a-col :md="8" :sm="24">
+                <a-form-item label="调用次数">
+                  <a-input-number v-model="queryParam.callNo" style="width: 100%" />
+                </a-form-item>
+              </a-col>
+              <a-col :md="8" :sm="24">
+                <a-form-item label="更新日期">
+                  <a-date-picker v-model="queryParam.date" style="width: 100%" placeholder="请输入更新日期" />
+                </a-form-item>
+              </a-col>
+              <a-col :md="8" :sm="24">
+                <a-form-item label="使用状态">
+                  <a-select v-model="queryParam.useStatus" placeholder="请选择" default-value="0">
+                    <a-select-option value="0">全部</a-select-option>
+                    <a-select-option value="1">关闭</a-select-option>
+                    <a-select-option value="2">运行中</a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
+              <a-col :md="8" :sm="24">
+                <a-form-item label="使用状态">
+                  <a-select placeholder="请选择" default-value="0">
+                    <a-select-option value="0">全部</a-select-option>
+                    <a-select-option value="1">关闭</a-select-option>
+                    <a-select-option value="2">运行中</a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
             </template>
             <a-col :md="!advanced && 8 || 24" :sm="24">
-              <span class="table-page-search-submitButtons"
-                    :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
+              <span
+                class="table-page-search-submitButtons"
+                :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
                 <a-button type="primary" @click="loadData(1)">查询</a-button>
                 <a-button style="margin-left: 8px" @click="() => this.queryParam = {}">重置</a-button>
                 <a @click="toggleAdvanced" style="margin-left: 8px">
@@ -129,17 +94,18 @@
           }}</a>项&nbsp;&nbsp;
           <a style="margin-left: 24px" @click="onClearSelected">清空</a>
         </div>
-        <a-table ref="table"
-                 bordered
-                 size="default"
-                 rowKey="id"
-                 :columns="columns"
-                 :dataSource="dataSource"
-                 :pagination="ipagination"
-                 :loading="loading"
-                 @change="handleTableChange"
-                 :rowSelection="rowSelection"
-                 class="table-page-container-wrapper">
+        <a-table
+          ref="table"
+          bordered
+          size="default"
+          rowKey="id"
+          :columns="columns"
+          :dataSource="dataSource"
+          :pagination="ipagination"
+          :loading="loading"
+          @change="handleTableChange"
+          :rowSelection="rowSelection"
+          class="table-page-container-wrapper">
           <span slot="serial" slot-scope="text, record, index">
             {{ index + 1 }}
           </span>
@@ -148,22 +114,23 @@
           </span>
           <span slot="action" slot-scope="text, record">
             <template>
-              <a-dropdown>
-                <a-menu slot="overlay">
-                  <a-menu-item key="1" type="primary">
-                    <a @click="handleEdit(record)">编辑</a>
-                  </a-menu-item>
-                </a-menu>
-                <a>更多
-                  <a-icon type="down" />
-                </a>
-              </a-dropdown>
+              <a @click="handleEdit(record)">编辑</a>
+              <a-divider type="vertical" />
+              <a-popconfirm title="删除后不能恢复，确定删除？" ok-text="是" cancel-text="否" @confirm="handleDelete(record)">
+                <a>删除</a>
+              </a-popconfirm>
             </template>
           </span>
         </a-table>
       </table-wrapper>
       <!-- 嵌入表单区域 -->
-      <modal-form ref="modalForm" @cancel="handleCancel" @ok="handleOk" />
+      <modal-form
+        ref="modalForm"
+        :visible="visible"
+        :loading="confirmLoading"
+        :model="mdl"
+        @cancel="handleCancel"
+        @ok="handleOk" />
       <!-- 表单详情 -->
       <!-- <detail-modal
                     ref="detailModal"
@@ -181,10 +148,8 @@ import moment from 'moment'
 import { toDateTime, toDate } from '@/utils/datetime'
 import { dictMixin } from '@/store/dict-mixin'
 import { TablePageMixin } from '@/core/mixins/TablePageMixin2'
-import ModalForm from './components/GeneratorRuleModal' // 切换到抽屉模式 引用改为 './form-drawer.vue'
-import { getDictionaryByCodes } from '@/utils/dictUtil'
 // import { getList, findById, save, deleteItem } from './api'
-// import CreateModal from './form-modal.vue' // 切换到抽屉模式 引用改为 './form-drawer.vue'
+import ModalForm from './components/GeneratorRuleModal' // 切换到抽屉模式 引用改为 './form-drawer.vue'
 // import DetailModal from './detail-modal.vue'
 
 const columns = [
@@ -315,12 +280,11 @@ export default {
       columns: columns,
       url: {
         list: '/api-sample/GeneratorRule/list',
-        delete: '/api-sample/GeneratorRule/delete',
-        deleteBatch: '/api-sample/GeneratorRule/deleteBatch',
-        exportXlsUrl: '/api-sample/GeneratorRule/exportXlsx',
-        importExcelUrl: '/api-sample/GeneratorRule/importExcel'
-      },
-      pageDict: {}
+        delete: '/api-sample/role/delete',
+        deleteBatch: '/api-sample/role/deleteBatch',
+        exportXlsUrl: '/api-sample/role/exportXls',
+        importExcelUrl: '/api-sample/role/importExcel'
+      }
     }
   },
   filters: {},
@@ -328,14 +292,14 @@ export default {
     // 此处可以进行表单中的一些字典的初始化
     // getRoleList({ t: new Date() })
   },
-  computed: {},
-  methods: {
-    initDictConfig () {
-      console.log('初始化页面级字典项')
-      getDictionaryByCodes(['projectSource', 'mainType']).then((res) => {
-        console.log(res)
-      })
-    }
-  }
+  computed: {
+    // rowSelection () {
+    //   return {
+    //     selectedRowKeys: this.selectedRowKeys,
+    //     onChange: this.onSelectChange
+    //   }
+    // }
+  },
+  methods: {}
 }
 </script>

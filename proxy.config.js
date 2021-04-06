@@ -1,6 +1,6 @@
 const proxyConfig = {
   // '/api': {
-  //   target: 'https://sit-creditmis.huinongyun.cn',
+  //   target: 'http://10.10.20.11',
   //   // pathRewrite: { '^/api-cm': 'app-creditmid-service' },
   //   ws: false,
   //   changeOrigin: true
@@ -18,8 +18,8 @@ const proxyConfig = {
     changeOrigin: true
   },
   '/api-cm': {
-    target: 'https://sit-creditmis.huinongyun.cn',
-    // pathRewrite: { '^/api-cm': 'app-creditmid-service' },
+    target: 'http://10.10.20.11',
+    pathRewrite: { '^/api-cm': 'app-creditmid-service-chengch' },
     ws: false,
     changeOrigin: true
   },
@@ -30,18 +30,18 @@ const proxyConfig = {
   //     changeOrigin: true
   // },
   '/api-uaa': {
-    target: 'https://sit-creditmis.huinongyun.cn',
+    target: 'http://10.10.20.11',
     ws: false,
     changeOrigin: true
   },
   '/api-user': {
-    target: 'https://sit-creditmis.huinongyun.cn',
+    target: 'http://10.10.20.11',
     // pathRewrite: { '^/api-crm': '' },
     ws: false,
     changeOrigin: true
   },
   '/api-file': {
-    target: 'https://sit-creditmis.huinongyun.cn',
+    target: 'http://10.10.20.11',
     // pathRewrite: { '^/api-crm': '' },
     ws: false,
     changeOrigin: true
@@ -57,7 +57,7 @@ const proxyConfig = {
     changeOrigin: true
   },
   '/kkfileview': {
-    target: 'https://sit-creditmis.huinongyun.cn',
+    target: 'http://10.10.20.11',
     ws: false,
     changeOrigin: true
   }

@@ -90,11 +90,42 @@ export const asyncRouterMap = [
           {
             path: '/sample/list',
             name: 'sample-list',
+            component: () => import('@/views/sample/GeneratorRuleManager'),
+            meta: { title: 'GeneratorRuleManager', keepAlive: false, icon: bxAnaalyse }
+          }
+        ]
+      },
+      {
+        path: '/codetest',
+        name: 'codetest',
+        meta: { title: 'codetest', icon: 'code' },
+        component: RouteView,
+        redirect: '/codetest/list',
+        children: [
+          {
+            path: '/codetest/list',
+            name: 'codetest-list',
             component: () => import('@/views/GeneratorRule/GeneratorRuleManager'),
             meta: { title: 'GeneratorRuleManager', keepAlive: false, icon: bxAnaalyse }
           }
         ]
       },
+
+      // {
+      //   path: '/sample',
+      //   name: 'sample',
+      //   meta: { title: 'sample', icon: 'code' },
+      //   component: RouteView,
+      //   redirect: '/sample/list',
+      //   children: [
+      //     {
+      //       path: '/sample/list',
+      //       name: 'sample-list',
+      //       component: () => import('@/views/GeneratorRule/GeneratorRuleManager'),
+      //       meta: { title: 'GeneratorRuleManager', keepAlive: false, icon: bxAnaalyse }
+      //     }
+      //   ]
+      // },
 
       {
         path: '/designer',

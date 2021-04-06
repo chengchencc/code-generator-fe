@@ -12,6 +12,7 @@
     dialogClass="full-screen-modal model-design-modal">
     <a-spin :spinning="confirmLoading">
       <a-card>
+        <a-button type="button" @click="handleGenerator">生成代码</a-button>
         <!-- <div>
           <a-button type="primary" @click="handleOk">保存</a-button>
         </div> -->
@@ -40,6 +41,7 @@ import MainForm from './MainForm'
 import FieldConfig from './FieldConfig'
 import UiConfig from './UiConfig'
 import { saveDataModel } from '../api'
+import { downFile } from '@/utils/httpClient'
 
 export default {
   name: 'DesignModal',
@@ -106,11 +108,10 @@ export default {
         console.log('DesignModal::handleOK::params::', params)
         saveDataModel(params).then((res) => {
           this.$message.success('保存成功！')
-          this.visible = false
+          // this.visible = false
           this.$emit('ok')
         })
       }
-
       // const that = this
       // 触发表单验证
       // this.form.validateFields((err, values) => {
@@ -141,6 +142,28 @@ export default {
       //   }
       // })
     },
+    handleGenerator () {
+      downFile(`/api-test/generator/exportToZip`, { entityId: this.model.id }).then((data) => {
+        this.$message.success('已生成！')
+        // if (!data) {
+        //   this.$message.warning('文件下载失败')
+        //   return
+        // }
+        // if (typeof window.navigator.msSaveBlob !== 'undefined') {
+        //   window.navigator.msSaveBlob(new Blob([data]), 'code.zip')
+        // } else {
+        //   const url = window.URL.createObjectURL(new Blob([data]))
+        //   const link = document.createElement('a')
+        //   link.style.display = 'none'
+        //   link.href = url
+        //   link.setAttribute('download', 'code.zip')
+        //   document.body.appendChild(link)
+        //   link.click()
+        //   document.body.removeChild(link) // 下载完成移除元素
+        //   window.URL.revokeObjectURL(url) // 释放掉blob对象
+        // }
+      })
+    },
     handleCancel () {
       this.close()
     }
@@ -149,7 +172,7 @@ export default {
 </script>
 
 <style lang="less">
-.model-design-modal .ant-card-body{
+.model-design-modal .ant-card-body {
   background-color: #fafafa;
 }
 </style>
