@@ -144,12 +144,6 @@
 
       <import-modal ref="modalImport" @ok="searchQuery"></import-modal>
 
-      <create-modal ref="modalForm"
-                    :visible="visible"
-                    :loading="confirmLoading"
-                    :model="mdl"
-                    @cancel="handleCancel"
-                    @ok="handleOk" />
       <!-- 表单详情 -->
       <!-- <detail-modal
         ref="detailModal"
@@ -163,7 +157,6 @@
 
 <script>
 import { deleteItem, findPageList } from './api'
-import CreateModal from './form-drawer.vue' // 切换到抽屉模式 引用改为 './form-drawer.vue'
 
 import { TablePageMixin } from '@/core/mixins/TablePage2Mixin'
 import ImportModal from './import/ImportModal.vue'
@@ -176,7 +169,6 @@ export default {
   mixins: [TablePageMixin],
 
   components: {
-    CreateModal,
     DesignModal,
     ImportModal
   },

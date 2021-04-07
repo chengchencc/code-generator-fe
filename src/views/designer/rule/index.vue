@@ -7,41 +7,6 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="租户Id">
-                <a-input v-model="queryParam.tenantId" />
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="创建时间">
-                <a-date-picker v-model="queryParam.creationTime" style="width: 100%" />
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="创建者">
-                <a-input v-model="queryParam.creationUserId" />
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="删除时间">
-                <a-date-picker v-model="queryParam.deletionTime" style="width: 100%" />
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="删除人">
-                <a-input v-model="queryParam.deletionUserId" />
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="最后修改时间">
-                <a-date-picker v-model="queryParam.lastModifyTime" style="width: 100%" />
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="最后修改人">
-                <a-input v-model="queryParam.lastModifyUserId" />
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
               <a-form-item label="作者">
                 <a-input v-model="queryParam.authorName" />
               </a-form-item>
@@ -51,33 +16,28 @@
                 <a-input v-model="queryParam.email" />
               </a-form-item>
             </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="模块名">
-                <a-input v-model="queryParam.moduleName" />
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="包名">
-                <a-input v-model="queryParam.packageName" />
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="模板">
-                <a-select v-model="queryParam.uiTemplate">
-                  <a-select-option value="">请选择</a-select-option>
-                  <a-select-option v-for="(item, name) in pageDict.projectSource" :key="name" :value="item.code">
-                    {{ item.value }}
-                  </a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
 
             <template v-if="advanced">
-              <!--<a-col :md="8" :sm="24">
-                                <a-form-item label="调用次数">
-                                    <a-input-number v-model="queryParam.callNo" style="width: 100%"/>
-                                </a-form-item>
-                            </a-col>-->
+              <a-col :md="8" :sm="24">
+                <a-form-item label="模块名">
+                  <a-input v-model="queryParam.moduleName" />
+                </a-form-item>
+              </a-col>
+              <a-col :md="8" :sm="24">
+                <a-form-item label="包名">
+                  <a-input v-model="queryParam.packageName" />
+                </a-form-item>
+              </a-col>
+              <a-col :md="8" :sm="24">
+                <a-form-item label="模板">
+                  <a-select v-model="queryParam.uiTemplate">
+                    <a-select-option value="">请选择</a-select-option>
+                    <a-select-option v-for="(item, name) in pageDict.projectSource" :key="name" :value="item.code">
+                      {{ item.value }}
+                    </a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
             </template>
             <a-col :md="!advanced && 8 || 24" :sm="24">
               <span class="table-page-search-submitButtons"
@@ -176,6 +136,7 @@ import { dictMixin } from '@/store/dict-mixin'
 import { TablePageMixin } from '@/core/mixins/TablePageMixin2'
 import ModalForm from './components/GeneratorRuleModal' // 切换到抽屉模式 引用改为 './form-drawer.vue'
 import { getDictionaryByCodes } from '@/utils/dictUtil'
+import { httpGet } from '@/utils/httpClient'
 
 const columns = [
   {
@@ -183,75 +144,10 @@ const columns = [
     scopedSlots: { customRender: 'serial' }
   },
   {
-    title: '主键',
-    dataIndex: 'id',
-    ellipsis: false, // 超过宽度将自动省略
-    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '200px',
-    customRender: (value) => value
-  },
-  {
-    title: '租户Id',
-    dataIndex: 'tenantId',
-    ellipsis: false, // 超过宽度将自动省略
-    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '200px',
-    customRender: (value) => value
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'creationTime',
-    ellipsis: false, // 超过宽度将自动省略
-    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '200px',
-    customRender: toDateTime
-  },
-  {
-    title: '创建者',
-    dataIndex: 'creationUserId',
-    ellipsis: false, // 超过宽度将自动省略
-    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '200px',
-    customRender: (value) => value
-  },
-  {
-    title: '删除时间',
-    dataIndex: 'deletionTime',
-    ellipsis: false, // 超过宽度将自动省略
-    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '200px',
-    customRender: toDateTime
-  },
-  {
-    title: '删除人',
-    dataIndex: 'deletionUserId',
-    ellipsis: false, // 超过宽度将自动省略
-    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '200px',
-    customRender: (value) => value
-  },
-  {
-    title: '最后修改时间',
-    dataIndex: 'lastModifyTime',
-    ellipsis: false, // 超过宽度将自动省略
-    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '200px',
-    customRender: toDateTime
-  },
-  {
-    title: '最后修改人',
-    dataIndex: 'lastModifyUserId',
-    ellipsis: false, // 超过宽度将自动省略
-    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '200px',
-    customRender: (value) => value
-  },
-  {
     title: '作者',
     dataIndex: 'authorName',
     ellipsis: false, // 超过宽度将自动省略
     align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '200px',
     customRender: (value) => value
   },
   {
@@ -259,7 +155,6 @@ const columns = [
     dataIndex: 'email',
     ellipsis: false, // 超过宽度将自动省略
     align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '200px',
     customRender: (value) => value
   },
   {
@@ -267,7 +162,6 @@ const columns = [
     dataIndex: 'moduleName',
     ellipsis: false, // 超过宽度将自动省略
     align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '200px',
     customRender: (value) => value
   },
   {
@@ -275,7 +169,6 @@ const columns = [
     dataIndex: 'packageName',
     ellipsis: false, // 超过宽度将自动省略
     align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '200px',
     customRender: (value) => value
   },
   {
@@ -283,13 +176,25 @@ const columns = [
     dataIndex: 'uiTemplate',
     ellipsis: false, // 超过宽度将自动省略
     align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '200px',
     customRender: (value) => value
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'creationTime',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    customRender: toDateTime
+  },
+  {
+    title: '最后修改时间',
+    dataIndex: 'lastModifyTime',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    customRender: toDateTime
   },
   {
     title: '操作',
     dataIndex: 'action',
-    width: '200px',
     scopedSlots: { customRender: 'action' }
   }
 ]
@@ -306,7 +211,7 @@ export default {
       // 页面级字典
       pageDict: {},
       url: {
-        list: '/api-sample/GeneratorRule/list',
+        list: '/api-test/generator/generatorRule',
         delete: '/api-sample/GeneratorRule/delete',
         deleteBatch: '/api-sample/GeneratorRule/deleteBatch',
         exportXlsUrl: '/api-sample/GeneratorRule/exportXlsx',
@@ -327,6 +232,29 @@ export default {
       getDictionaryByCodes(dictCodes).then((res) => {
         this.pageDict = res
       })
+    },
+    loadData (arg) {
+      if (!this.url.list) {
+        this.$message.error('请设置url.list属性!')
+        return
+      }
+      // 加载数据 若传入参数1则加载第一页的内容
+      if (arg === 1) {
+        this.ipagination.current = 1
+      }
+      var params = this.getQueryParams() // 查询条件
+      this.loading = true
+      httpGet(this.url.list, params)
+        .then((res) => {
+          console.log('get data res::', res)
+          this.dataSource = res.items
+          this.ipagination.total = res.total
+          this.loading = false
+        })
+        .catch((s) => {
+          this.$message.error('获取数据失败')
+          this.loading = false
+        })
     }
   }
 }
