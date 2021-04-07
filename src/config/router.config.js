@@ -61,13 +61,13 @@ export const asyncRouterMap = [
           {
             path: '/generator/datasource',
             name: 'datasource',
-            component: () => import('@/views/designer/model/index'),
+            component: () => import('@/views/designer/datasource/index'),
             meta: { title: '数据源管理', keepAlive: false, icon: bxAnaalyse }
           },
           {
             path: '/generator/strategy',
             name: 'strategy',
-            component: () => import('@/views/designer/model/index'),
+            component: () => import('@/views/designer/rule/index'),
             meta: { title: '生成策略管理', keepAlive: false, icon: bxAnaalyse }
           },
           {
@@ -98,7 +98,7 @@ export const asyncRouterMap = [
       {
         path: '/codetest',
         name: 'codetest',
-        meta: { title: 'codetest', icon: 'code' },
+        meta: { title: '代码生成测试', icon: 'code' },
         component: RouteView,
         redirect: '/codetest/list',
         children: [
@@ -106,7 +106,7 @@ export const asyncRouterMap = [
             path: '/codetest/list',
             name: 'codetest-list',
             component: () => import('@/views/GeneratorRule/GeneratorRuleManager'),
-            meta: { title: 'GeneratorRuleManager', keepAlive: false, icon: bxAnaalyse }
+            meta: { title: 'sample', keepAlive: false, icon: bxAnaalyse }
           }
         ]
       },
