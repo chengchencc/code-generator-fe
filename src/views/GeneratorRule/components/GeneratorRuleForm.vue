@@ -1,3 +1,4 @@
+
 <template>
   <a-spin :spinning="loading">
     <a-form :form="form" v-bind="formLayout">
@@ -12,78 +13,39 @@
         <a-date-picker v-decorator="['creationTime',validatorRules.creationTime ]" style="width: 100%" />
       </a-form-item>
       <a-form-item label="创建者">
-        <a-select v-decorator="['creationUserId',validatorRules.creationUserId ]">
-          <a-select-option value="china">
-            China
-          </a-select-option>
-          <a-select-option value="usa">
-            U.S.A
-          </a-select-option>
-        </a-select>
+        <a-input v-decorator="['creationUserId',validatorRules.creationUserId ]" />
       </a-form-item>
       <a-form-item label="删除时间">
         <a-date-picker v-decorator="['deletionTime',validatorRules.deletionTime ]" style="width: 100%" />
       </a-form-item>
       <a-form-item label="删除人">
-        <a-select v-decorator="['deletionUserId',validatorRules.deletionUserId ]" mode="multiple">
-          <a-select-option value="china">
-            China
-          </a-select-option>
-          <a-select-option value="usa">
-            U.S.A
-          </a-select-option>
-        </a-select>
+        <a-input v-decorator="['deletionUserId',validatorRules.deletionUserId ]" />
       </a-form-item>
       <a-form-item label="最后修改时间">
         <a-date-picker v-decorator="['lastModifyTime',validatorRules.lastModifyTime ]" style="width: 100%" />
       </a-form-item>
       <a-form-item label="最后修改人">
-        <a-upload v-decorator="['lastModifyUserId',
-                                {
-                                  valuePropName: 'fileList',
-                                  getValueFromEvent: normFile,
-                                },
-                  ]"
-                  name="logo"
-                  action="/upload.do"
-                  list-type="picture">
-          <a-button>
-            <a-icon type="upload" /> Click to upload
-          </a-button>
-        </a-upload>
+        <a-input v-decorator="['lastModifyUserId',validatorRules.lastModifyUserId ]" />
       </a-form-item>
       <a-form-item label="作者">
-        <a-textarea v-decorator="['authorName',validatorRules.authorName ]" auto-size />
+        <a-input v-decorator="['authorName',validatorRules.authorName ]" />
       </a-form-item>
       <a-form-item label="作者邮箱">
-        <a-upload v-decorator="['email',
-                                {
-                                  valuePropName: 'fileList',
-                                  getValueFromEvent: normFile,
-                                },
-                  ]"
-                  name="logo"
-                  action="/upload.do"
-                  list-type="picture">
-          <a-button>
-            <a-icon type="upload" /> Click to upload
-          </a-button>
-        </a-upload>
+        <a-input v-decorator="['email',validatorRules.email ]" />
       </a-form-item>
       <a-form-item label="模块名">
-        <a-tree-select v-decorator="['moduleName',validatorRules.moduleName ]"
-                       tree-data-simple-mode
-                       style="width: 100%"
-                       :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
-                       :tree-data="treeData"
-                       placeholder="Please select"
-                       :load-data="onLoadData" />
+        <a-input v-decorator="['moduleName',validatorRules.moduleName ]" />
       </a-form-item>
       <a-form-item label="包名">
-        <a-textarea v-decorator="['packageName',validatorRules.packageName ]" auto-size />
+        <a-input v-decorator="['packageName',validatorRules.packageName ]" />
       </a-form-item>
       <a-form-item label="模板">
-        <a-input-number v-decorator="['uiTemplate',validatorRules.uiTemplate ]" :min="1" :max="10" style="width:100%" />
+        <a-select v-decorator="['uiTemplate',validatorRules.uiTemplate ]">
+          <a-select-option value="">请选择</a-select-option>
+          <a-select-option v-for="(item, name) in pageDict.projectSource" :key="name" :value="item.code">
+            {{ item.value }}
+          </a-select-option>
+        </a-select>
       </a-form-item>
     </a-form>
   </a-spin>
@@ -92,6 +54,9 @@
 <script>
 import pick from 'lodash.pick'
 import { httpGet, httpPost, httpDelete, httpPut, downFile } from '@/utils/httpClient'
+import { getDictionaryByCodes } from '@/utils/dictUtil'
+import FileUploadMixin from '@/core/mixins/FileUploadMixin'
+import FormMixin from '@/core/mixins/FormMixin'
 
 // 表单字段
 // const fields = ['id', 'dictCode', 'code', 'value', 'parentDictValueCode', 'orderBy', 'extA', 'extB', 'enable']
@@ -113,6 +78,10 @@ const fields = [
 
 export default {
   props: {},
+  mixins: {
+    FileUploadMixin,
+    FormMixin
+  },
   data () {
     return {
       model: {},
@@ -136,6 +105,8 @@ export default {
           xxl: { span: 16 }
         }
       },
+      // 页面级字典
+      pageDict: {},
       validatorRules: {
         id: { rules: [{ required: false }, { validator: this.validateId }] },
         tenantId: { rules: [{ required: false }, { validator: this.validateTenantId }] },
@@ -165,6 +136,7 @@ export default {
     // 防止表单未注册
     fields.forEach((v) => this.form.getFieldDecorator(v))
 
+    this.initDictConfig()
     // 当 model 发生改变时，为表单设置值
     // this.$watch('model', () => {
     //   console.log('model change', this.model)
@@ -176,7 +148,11 @@ export default {
   },
   methods: {
     initDictConfig () {
-      console.log('初始化字典')
+      console.log('初始化页面级字典项')
+      const dictCodes = ['projectSource']
+      getDictionaryByCodes(dictCodes).then((res) => {
+        this.pageDict = res
+      })
     },
     handleChange () {
       console.log(arguments)
