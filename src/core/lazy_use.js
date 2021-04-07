@@ -4,7 +4,7 @@ import Vue from 'vue'
 import {
   ConfigProvider,
   Layout,
-  Space,
+  /* Space, */
   Input,
   InputNumber,
   Button,
@@ -60,7 +60,7 @@ import './directives/action'
 
 Vue.use(ConfigProvider)
 Vue.use(Layout)
-Vue.use(Space)
+/* Vue.use(Space) */
 Vue.use(Input)
 Vue.use(InputNumber)
 Vue.use(Button)

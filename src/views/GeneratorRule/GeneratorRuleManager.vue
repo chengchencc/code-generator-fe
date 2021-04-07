@@ -171,127 +171,12 @@
 <script>
     import moment from 'moment'
     import { toDateTime, toDate } from '@/utils/datetime'
+    import { getNameByDict } from '@/utils/dealData'
+    
     import { dictMixin } from '@/store/dict-mixin'
     import { TablePageMixin } from '@/core/mixins/TablePageMixin2'
     import ModalForm from './components/GeneratorRuleModal' // 切换到抽屉模式 引用改为 './form-drawer.vue'
     import { getDictionaryByCodes } from '@/utils/dictUtil'
-
-    const columns = [
-        {
-            title: '#',
-            scopedSlots: { customRender: 'serial' }
-        },
-        {
-            title: '主键',
-            dataIndex: 'id',
-            ellipsis: false, // 超过宽度将自动省略
-            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-            width: '200px',
-            customRender: (value) => value
-        },
-        {
-            title: '租户Id',
-            dataIndex: 'tenantId',
-            ellipsis: false, // 超过宽度将自动省略
-            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-            width: '200px',
-            customRender: (value) => value
-        },
-        {
-            title: '创建时间',
-            dataIndex: 'creationTime',
-            ellipsis: false, // 超过宽度将自动省略
-            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-            width: '200px',
-            customRender: toDateTime
-        },
-        {
-            title: '创建者',
-            dataIndex: 'creationUserId',
-            ellipsis: false, // 超过宽度将自动省略
-            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-            width: '200px',
-            customRender: (value) => value
-        },
-        {
-            title: '删除时间',
-            dataIndex: 'deletionTime',
-            ellipsis: false, // 超过宽度将自动省略
-            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-            width: '200px',
-            customRender: toDateTime
-        },
-        {
-            title: '删除人',
-            dataIndex: 'deletionUserId',
-            ellipsis: false, // 超过宽度将自动省略
-            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-            width: '200px',
-            customRender: (value) => value
-        },
-        {
-            title: '最后修改时间',
-            dataIndex: 'lastModifyTime',
-            ellipsis: false, // 超过宽度将自动省略
-            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-            width: '200px',
-            customRender: toDateTime
-        },
-        {
-            title: '最后修改人',
-            dataIndex: 'lastModifyUserId',
-            ellipsis: false, // 超过宽度将自动省略
-            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-            width: '200px',
-            customRender: (value) => value
-        },
-        {
-            title: '作者',
-            dataIndex: 'authorName',
-            ellipsis: false, // 超过宽度将自动省略
-            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-            width: '200px',
-            customRender: (value) => value
-        },
-        {
-            title: '作者邮箱',
-            dataIndex: 'email',
-            ellipsis: false, // 超过宽度将自动省略
-            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-            width: '200px',
-            customRender: (value) => value
-        },
-        {
-            title: '模块名',
-            dataIndex: 'moduleName',
-            ellipsis: false, // 超过宽度将自动省略
-            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-            width: '200px',
-            customRender: (value) => value
-        },
-        {
-            title: '包名',
-            dataIndex: 'packageName',
-            ellipsis: false, // 超过宽度将自动省略
-            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-            width: '200px',
-            customRender: (value) => value
-        },
-        {
-            title: '模板',
-            dataIndex: 'uiTemplate',
-            ellipsis: false, // 超过宽度将自动省略
-            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-            width: '200px',
-            customRender: (value) => value
-        },
-        {
-            title: '操作',
-            dataIndex: 'action',
-            width: '200px',
-            scopedSlots: { customRender: 'action' }
-        }
-    ]
 
     export default {
         name: 'TableList',
@@ -301,7 +186,124 @@
         mixins: [dictMixin, TablePageMixin],
         data () {
             return {
-                columns: columns,
+                columns: [
+                  {
+                      title: '#',
+                      scopedSlots: { customRender: 'serial' }
+                  },
+                  {
+                      title: '主键',
+                      dataIndex: 'id',
+                      ellipsis: false, // 超过宽度将自动省略
+                      align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                      width: '200px',
+                      customRender: (value) => value
+                  },
+                  {
+                      title: '租户Id',
+                      dataIndex: 'tenantId',
+                      ellipsis: false, // 超过宽度将自动省略
+                      align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                      width: '200px',
+                      customRender: (value) => value
+                  },
+                  {
+                      title: '创建时间',
+                      dataIndex: 'creationTime',
+                      ellipsis: false, // 超过宽度将自动省略
+                      align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                      width: '200px',
+                      customRender: toDateTime
+                  },
+                  {
+                      title: '创建者',
+                      dataIndex: 'creationUserId',
+                      ellipsis: false, // 超过宽度将自动省略
+                      align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                      width: '200px',
+                      customRender: (value) => value
+                  },
+                  {
+                      title: '删除时间',
+                      dataIndex: 'deletionTime',
+                      ellipsis: false, // 超过宽度将自动省略
+                      align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                      width: '200px',
+                      customRender: toDateTime
+                  },
+                  {
+                      title: '删除人',
+                      dataIndex: 'deletionUserId',
+                      ellipsis: false, // 超过宽度将自动省略
+                      align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                      width: '200px',
+                      customRender: (value) => value
+                  },
+                  {
+                      title: '最后修改时间',
+                      dataIndex: 'lastModifyTime',
+                      ellipsis: false, // 超过宽度将自动省略
+                      align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                      width: '200px',
+                      customRender: toDateTime
+                  },
+                  {
+                      title: '最后修改人',
+                      dataIndex: 'lastModifyUserId',
+                      ellipsis: false, // 超过宽度将自动省略
+                      align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                      width: '200px',
+                      customRender: (value) => value
+                  },
+                  {
+                      title: '作者',
+                      dataIndex: 'authorName',
+                      ellipsis: false, // 超过宽度将自动省略
+                      align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                      width: '200px',
+                      customRender: (value) => value
+                  },
+                  {
+                      title: '作者邮箱',
+                      dataIndex: 'email',
+                      ellipsis: false, // 超过宽度将自动省略
+                      align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                      width: '200px',
+                      customRender: (value) => value
+                  },
+                  {
+                      title: '模块名',
+                      dataIndex: 'moduleName',
+                      ellipsis: false, // 超过宽度将自动省略
+                      align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                      width: '200px',
+                      customRender: (value) => value
+                  },
+                  {
+                      title: '包名',
+                      dataIndex: 'packageName',
+                      ellipsis: false, // 超过宽度将自动省略
+                      align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                      width: '200px',
+                      customRender: (value) => value
+                  },
+                  {
+                      title: '模板',
+                      dataIndex: 'uiTemplate',
+                      ellipsis: false, // 超过宽度将自动省略
+                      align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                      width: '200px',
+                      customRender: (value) => {
+                        return getNameByDict(value, this.pageDict.projectSource || [])
+                      }
+                  },
+                  {
+                      title: '操作',
+                      dataIndex: 'action',
+                      width: '200px',
+                      scopedSlots: { customRender: 'action' }
+                  }
+                ],
                 // 页面级字典
                 pageDict: {},
                 url: {
