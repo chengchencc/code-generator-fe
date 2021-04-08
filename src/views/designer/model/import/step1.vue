@@ -8,13 +8,13 @@
         </a-select>
       </a-form-item>
       <a-form-item label="数据库连接" :labelCol="labelCol" :wrapperCol="wrapperCol">
-        <a-input v-decorator="['jdbcUrl', { initialValue: 'jdbc:mysql://10.10.20.242:3306/code-generator?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai', rules: [{required: true, message: '必填'}] }]" />
+        <a-input v-decorator="['jdbcUrl', { initialValue: 'jdbc:mysql://81.70.161.37:3306/code-generator-sample?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai', rules: [{required: true, message: '必填'}] }]" />
       </a-form-item>
       <a-form-item label="登录用户" :labelCol="labelCol" :wrapperCol="wrapperCol">
         <a-input v-decorator="['username', { initialValue: 'root', rules: [{required: true, message: '必填'}] }]" />
       </a-form-item>
       <a-form-item label="登录密码" :labelCol="labelCol" :wrapperCol="wrapperCol">
-        <a-input type="password" v-decorator="['password', { initialValue: 'aaaaaa', rules: [{required: true, message: '必填'}] }]" />
+        <a-input type="password" v-decorator="['password', { initialValue: '1qaz@WSXcc123', rules: [{required: true, message: '必填'}] }]" />
       </a-form-item>
       <a-form-item :wrapperCol="{span: 19, offset: 5}">
         <a-button type="primary" @click="nextStep">下一步</a-button>

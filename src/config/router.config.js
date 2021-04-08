@@ -90,8 +90,8 @@ export const asyncRouterMap = [
           {
             path: '/sample/list',
             name: 'sample-list',
-            component: () => import('@/views/sample/GeneratorRuleManager'),
-            meta: { title: 'GeneratorRuleManager', keepAlive: false, icon: bxAnaalyse }
+            component: () => import('@/views/sample/SampleManager'),
+            meta: { title: '示例', keepAlive: false, icon: bxAnaalyse }
           }
         ]
       },
@@ -106,7 +106,7 @@ export const asyncRouterMap = [
             path: '/codetest/list',
             name: 'codetest-list',
             component: () => import('@/views/GeneratorRule/GeneratorRuleManager'),
-            meta: { title: 'sample', keepAlive: false, icon: bxAnaalyse }
+            meta: { title: '单表测试', keepAlive: false, icon: bxAnaalyse }
           }
         ]
       },
