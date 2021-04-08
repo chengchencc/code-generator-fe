@@ -1,5 +1,5 @@
 <template>
-  <a-col v-bind="model">
+  <a-col v-bind="colSpan">
     <slot></slot>
   </a-col>
 </template>
@@ -9,22 +9,30 @@ export default {
   name: 'FormItemWrapper',
   components: {},
   props: {
-    model: {
+    colSpan: {
       type: Object,
       default: () => {
         return {
           xs: { span: 24 },
-          sm: { span: 12 },
-          md: { span: 8 },
-          lg: { span: 8 },
-          xl: { span: 6 },
-          xxl: { span: 6 }
+          sm: { span: 24 },
+          md: { span: 24 },
+          lg: { span: 24 },
+          xl: { span: 24 },
+          xxl: { span: 24 }
         }
       }
     }
   },
   data () {
     return {
+      defaultColSpan: {
+        xs: { span: 24 },
+        sm: { span: 12 },
+        md: { span: 8 },
+        lg: { span: 8 },
+        xl: { span: 6 },
+        xxl: { span: 6 }
+      }
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）

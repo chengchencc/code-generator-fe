@@ -212,12 +212,12 @@ export const TablePageMixin = {
           content: '是否删除选中数据?',
           onOk: function () {
             httpDelete(that.url.deleteBatch, ids).then((res) => {
-              if (res.code === 200) {
-                that.$message.success(res.remark)
+              if (res.resp_code === 0) {
+                that.$message.success(res.resp_msg)
                 that.loadData()
                 that.onClearSelected()
               } else {
-                that.$message.warning(res.remark)
+                that.$message.warning(res.resp_msg)
               }
             })
           }
@@ -232,11 +232,11 @@ export const TablePageMixin = {
       }
       var that = this
       httpDelete(that.url.delete, { id: id }).then((res) => {
-        if (res.code == 200) {
-          that.$message.success(res.remark)
+        if (res.resp_code === 0) {
+          that.$message.success(res.resp_msg)
           that.loadData()
         } else {
-          that.$message.warning(res.remark)
+          that.$message.warning(res.resp_msg)
         }
       })
     },

@@ -103,7 +103,7 @@
 
 <script>
 import pick from 'lodash.pick'
-import FormItemWrapper from '../component/FormItemWrapper'
+import { FormItemWrapper } from '@/components'
 
 export default {
   name: 'MainForm',

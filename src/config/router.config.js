@@ -83,7 +83,7 @@ export const asyncRouterMap = [
       {
         path: '/sample',
         name: 'sample',
-        meta: { title: 'sample', icon: 'code' },
+        meta: { title: '示例', icon: 'code' },
         component: RouteView,
         redirect: '/sample/list',
         children: [
@@ -91,7 +91,13 @@ export const asyncRouterMap = [
             path: '/sample/list',
             name: 'sample-list',
             component: () => import('@/views/sample/SampleManager'),
-            meta: { title: '示例', keepAlive: false, icon: bxAnaalyse }
+            meta: { title: '示例-列表', keepAlive: false, icon: bxAnaalyse }
+          },
+          {
+            path: '/sample/detail',
+            name: 'sample-detail',
+            component: () => import('@/views/sample/components/SamplePage'),
+            meta: { title: '示例-详情', keepAlive: false, icon: bxAnaalyse }
           }
         ]
       },

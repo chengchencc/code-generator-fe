@@ -27,6 +27,7 @@ import ArticleListContent from '@/components/ArticleListContent'
 
 import Dialog from '@/components/Dialog'
 import TableWrapper from '@/components/TableWrapper'
+import FormItemWrapper from '@/components/FormItemWrapper'
 
 export {
   AvatarList,
@@ -54,5 +55,6 @@ export {
   ArticleListContent,
 
   Dialog,
-  TableWrapper
+  TableWrapper,
+  FormItemWrapper
 }
