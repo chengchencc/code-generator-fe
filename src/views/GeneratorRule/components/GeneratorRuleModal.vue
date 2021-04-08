@@ -60,8 +60,8 @@
                 this.close()
             },
             submitCallback () {
-                this.$emit('ok')
                 this.visible = false
+                this.$emit('ok')
             }
         }
     }
