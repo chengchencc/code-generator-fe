@@ -75,7 +75,8 @@ export default {
             { value: 'SelectOne', name: '下拉单选' },
             { value: 'SelectMany', name: '下拉多选' },
             { value: 'Checkbox', name: '多选' },
-            { value: 'Radio', name: '开关' },
+            { value: 'Radio', name: '单选' },
+            /* { value: 'Switch', name: '开关' },  // 还缺少这个！！ */
             { value: 'Date', name: '日期组件' },
             { value: 'DateTime', name: '日期时间组件' },
             { value: 'Time', name: '时间组件' },
