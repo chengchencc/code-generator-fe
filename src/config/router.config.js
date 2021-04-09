@@ -132,6 +132,16 @@ export const asyncRouterMap = [
       //     }
       //   ]
       // },
+      // 详情页 模版
+      {
+        path: '/codetest/list/detail/:taskId',
+        name: 'codetestListDetail',
+        props: true,
+        hideChildrenInMenu: true,
+        component: () => import('@/views/GeneratorRule/components/GeneratorRuleDetail'),
+        meta: { title: '详情', keepAlive: false, },
+        hidden: true
+      },
 
       {
         path: '/designer',

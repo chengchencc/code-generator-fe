@@ -242,8 +242,12 @@ export const TablePageMixin = {
     },
     /** 编辑 */
     handleEdit: function (record) {
-      this.$refs.modalForm.edit(record)
-      this.$refs.modalForm.title = '编辑'
+      // 弹框编辑
+      // this.$refs.modalForm.edit(record)
+      // this.$refs.modalForm.title = '编辑'
+
+      // 详情页编辑
+      this.$router.push(`/codetest/list/detail/${record.id}`)
     },
     /** 新增 */
     handleAdd: function () {
