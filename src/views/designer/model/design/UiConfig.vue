@@ -135,6 +135,12 @@ export default {
           scopedSlots: { customRender: 'tableColWidth' }
         },
         {
+          title: '分组名称',
+          dataIndex: 'groupName',
+          control: ControlType.InputText,
+          scopedSlots: { customRender: 'groupName' }
+        },
+        {
           title: '校验',
           dataIndex: 'validation',
           control: ControlType.Object,
