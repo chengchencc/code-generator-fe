@@ -6,7 +6,7 @@
 stages:
   - build
   # - test
-  # - package
+  - package
   - deploy
 
 variables:
@@ -25,9 +25,9 @@ build_web_pc:
     # - docker:ecp
     - docker
   only:
-    - f_bugfix
+    # - f_bugfix
     - master
-    - dev
+    # - dev
   cache:
     paths:
       - node_modules/
@@ -44,7 +44,7 @@ build_web_pc:
     expire_in: 10d
 
 build_docker_image:
-  stage: deploy
+  stage: package
   tags:
     # - docker:ecp
     - docker
@@ -62,5 +62,24 @@ build_docker_image:
     # - docker build -f ./docker/prod/Dockerfile -t snapshots.ecm.docker.iec.io/task-core:$DOCKER_VER_SNS_CORE .
     # - docker login -u $ARTIFACTS_REPO_USERNAME -p $ARTIFACTS_REPO_PASSWORD snapshots.ecm.docker.iec.io 
     # - docker push snapshots.ecm.docker.iec.io/task-core:$DOCKER_VER_SNS_CORE
-    - docker build -f ./Dockerfile -t 10.10.20.242:5000/form-builder-fe:$DOCKER_VER_SNS_CORE .
-    - docker push 10.10.20.242:5000/form-builder-fe:$DOCKER_VER_SNS_CORE
+    - docker build -f ./Dockerfile -t 10.10.20.242:5000/code-generator-fe:$DOCKER_VER_SNS_CORE .
+    - docker push 10.10.20.242:5000/code-generator-fe:$DOCKER_VER_SNS_CORE
+
+deploy_to_server:
+  stage: deploy
+  tags:
+    # - docker:ecp
+    - docker
+  only:
+    - f_bugfix
+    - master
+    - dev
+  image: yisiqi/docker-debian-ssh-agent
+  script:
+    # 发布程序并部署运行 
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - echo "$SSH_PRIVATE_KEY"
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh -t appadm@10.10.20.242 -o "StrictHostKeyChecking no" "cd /home/appadm/docker/biz/code-generator-fe && docker-compose up -d"
