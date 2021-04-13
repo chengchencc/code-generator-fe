@@ -27,7 +27,7 @@
           </a-tab-pane>
           <!-- 显示配置 -->
           <a-tab-pane key="2" tab="显示属性" force-render>
-            <ui-config ref="uiConfig" :value="model.fieldUIs"></ui-config>
+            <ui-config ref="uiConfig" :value="addDefaultValue(model.fieldUIs)"></ui-config>
           </a-tab-pane>
         </a-tabs>
       </a-card>
@@ -64,6 +64,15 @@ export default {
   mounted () {},
   computed: {},
   methods: {
+    addDefaultValue (data) {
+      if(!data){
+        return data
+      }
+      data.forEach((item) => {
+        item.formColWidth = item.formColWidth || '12'
+      })
+      return data
+    },
     add () {
       this.edit({})
     },

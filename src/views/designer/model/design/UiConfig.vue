@@ -130,6 +130,18 @@ export default {
           scopedSlots: { customRender: 'tableColWidth' }
         },
         {
+          title: '表单列宽',
+          dataIndex: 'formColWidth',
+          control: ControlType.Select,
+          enums: [
+            { value: '6', name: '一行四列' },
+            { value: '8', name: '一行三列' },
+            { value: '12', name: '一行二列' },
+            { value: '24', name: '一行一列' },
+          ],
+          scopedSlots: { customRender: 'formColWidth' }
+        },
+        {
           title: '分组名称',
           dataIndex: 'groupName',
           control: ControlType.InputText,

@@ -25,7 +25,7 @@
       :value="computedValue"
       :disabled="disabled"
       @change="handleChange"
-      style="width:100%">
+      style="width: 100px">
       <!-- <a-select-option value="">
         未选择
       </a-select-option> -->
