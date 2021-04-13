@@ -82,10 +82,11 @@ export default {
       console.log('model::fields::', this.model.fields)
 
       const fieldUIs = this.model.fields.map((item) => {
-        const { tableFieldName, name, dataFieldUI } = item
+        const { tableFieldName, name, dataFieldUI, description } = item
         const ui = dataFieldUI || {}
         ui.tableFieldName = tableFieldName
         ui.name = name
+        ui.description = description
         return ui
       })
       console.log('model::fieldUIs::', fieldUIs)

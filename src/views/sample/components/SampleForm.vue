@@ -4,185 +4,161 @@
     <a-form :form="form" v-bind="formLayout">
       <a-row>
         <!-- 检查是否有 id 并且大于0，大于0是修改。其他是新增，新增不显示主键ID -->
-        <form-item-wrapper>
-          <a-form-item label="主键">
-            <a-input v-decorator="['id']" disabled />
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="文本框">
-            <a-input v-decorator="['inputText',validatorRules.inputText ]" />
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="数字">
-            <a-input-number v-decorator="['number',validatorRules.number ]" :min="1" :max="10" style="width:100%" />
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="下拉单选">
-            <a-select v-decorator="['selectOne',validatorRules.selectOne ]">
-              <a-select-option value="">请选择</a-select-option>
-              <a-select-option v-for="(item, name) in pageDict.projectSource" :key="name" :value="item.code">
-                {{ item.value }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="下拉多选">
-            <a-select v-decorator="['selectMany',validatorRules.selectMany ]" mode="multiple">
-              <a-select-option v-for="(item, name) in pageDict.mainType" :key="name" :value="item.code">
-                {{ item.value }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="多选">
-            <a-checkbox-group v-decorator="['checkBox']" style="width: 100%;">
-              <a-row>
-                <a-col :span="8" v-for="(item, name) in pageDict.custType" :key="name">
-                  <a-checkbox :value="item.code">
-                    {{ item.value }}
-                  </a-checkbox>
-                </a-col>
-              </a-row>
-            </a-checkbox-group>
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="开关">
-            <a-radio-group v-decorator="['radio',validatorRules.radio]">
-              <a-radio v-for="(item, name) in pageDict.stateSdndType" :key="name" :value="item.code">
-                {{ item.value }}
-              </a-radio>
-            </a-radio-group>
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="日期组件">
-            <a-date-picker v-decorator="['fieldDate',validatorRules.fieldDate ]" style="width: 100%" />
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="日期时间组件">
-            <a-date-picker v-decorator="['fieldDateTime',validatorRules.fieldDateTime ]"
-                           format="YYYY-MM-DD HH:mm:ss"
-                           show-time
-                           style="width: 100%" />
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="时间组件">
-            <a-date-picker v-decorator="['fieldTime',validatorRules.fieldTime ]" style="width: 100%" />
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="文件上传">
-            <a-upload v-decorator="['fieldFile',
-                                    {
-                                      valuePropName: 'fileList',
-                                    },
-                      ]"
-                      name="logo"
-                      :action="uploadApi"
-                      :headers="headers"
-                      @change="(info) => handleFileChange('type', info)"
-                      :showUploadList="true"
-                      list-type="picture">
-              <a-button>
-                <a-icon type="upload" /> 上传附件
-              </a-button>
-            </a-upload>
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="图片上传">
-            <a-upload v-decorator="['fieldImage',validatorRules.fieldFile]"
-                      name="logo"
-                      :action="uploadApi"
-                      :headers="headers"
-                      @change="(info) => handleFileChange('type', info)"
-                      :showUploadList="true"
-                      list-type="picture">
-              <a-button>
-                <a-icon type="upload" /> 上传图片
-              </a-button>
-            </a-upload>
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="多行文本">
-            <a-textarea v-decorator="['textArea',validatorRules.textArea ]" auto-size />
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="用户选择组件">
-            <span>暂不支持类型</span>
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="组织选择组件">
-            <span>暂不支持类型</span>
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="富文本">
-            <span>暂不支持类型</span>
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="区域选择">
-            <span>暂不支持类型</span>
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="树选择">
-            <span>暂不支持类型</span>
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="自定义弹框">
-            <span>暂不支持类型</span>
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="创建者">
-            <a-input v-decorator="['creator',validatorRules.creator ]" />
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="创建时间">
-            <a-date-picker v-decorator="['createTime',validatorRules.createTime ]"
-                           format="YYYY-MM-DD HH:mm:ss"
-                           show-time
-                           style="width: 100%" />
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="创建者名称">
-            <a-input v-decorator="['createName',validatorRules.createName ]" />
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="更新者">
-            <a-input v-decorator="['updator',validatorRules.updator ]" />
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="更新时间">
-            <a-date-picker v-decorator="['updateTime',validatorRules.updateTime ]"
-                           format="YYYY-MM-DD HH:mm:ss"
-                           show-time
-                           style="width: 100%" />
-          </a-form-item>
-        </form-item-wrapper>
-        <form-item-wrapper>
-          <a-form-item label="更新者名称">
-            <a-input v-decorator="['updateName',validatorRules.updateName ]" />
-          </a-form-item>
-        </form-item-wrapper>
+
+        <a-form-item label="主键">
+          <a-input v-decorator="['id']" disabled />
+        </a-form-item>
+
+        <a-form-item label="文本框">
+          <a-input v-decorator="['inputText',validatorRules.inputText ]" />
+        </a-form-item>
+
+        <a-form-item label="数字">
+          <a-input-number v-decorator="['number',validatorRules.number ]" :min="1" :max="10" style="width:100%" />
+        </a-form-item>
+
+        <a-form-item label="下拉单选">
+          <a-select v-decorator="['selectOne',validatorRules.selectOne ]">
+            <a-select-option value="">请选择</a-select-option>
+            <a-select-option v-for="(item, name) in pageDict.projectSource" :key="name" :value="item.code">
+              {{ item.value }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
+        <a-form-item label="下拉多选">
+          <a-select v-decorator="['selectMany',validatorRules.selectMany ]" mode="multiple">
+            <a-select-option v-for="(item, name) in pageDict.mainType" :key="name" :value="item.code">
+              {{ item.value }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
+        <a-form-item label="多选">
+          <a-checkbox-group v-decorator="['checkBox']" style="width: 100%;">
+            <a-row>
+              <a-col :span="8" v-for="(item, name) in pageDict.custType" :key="name">
+                <a-checkbox :value="item.code">
+                  {{ item.value }}
+                </a-checkbox>
+              </a-col>
+            </a-row>
+          </a-checkbox-group>
+        </a-form-item>
+
+        <a-form-item label="开关">
+          <a-radio-group v-decorator="['radio',validatorRules.radio]">
+            <a-radio v-for="(item, name) in pageDict.stateSdndType" :key="name" :value="item.code">
+              {{ item.value }}
+            </a-radio>
+          </a-radio-group>
+        </a-form-item>
+
+        <a-form-item label="日期组件">
+          <a-date-picker v-decorator="['fieldDate',validatorRules.fieldDate ]" style="width: 100%" />
+        </a-form-item>
+
+        <a-form-item label="日期时间组件">
+          <a-date-picker v-decorator="['fieldDateTime',validatorRules.fieldDateTime ]"
+                         format="YYYY-MM-DD HH:mm:ss"
+                         show-time
+                         style="width: 100%" />
+        </a-form-item>
+
+        <a-form-item label="时间组件">
+          <a-date-picker v-decorator="['fieldTime',validatorRules.fieldTime ]" style="width: 100%" />
+        </a-form-item>
+
+        <a-form-item label="文件上传">
+          <a-upload v-decorator="['fieldFile',
+                                  {
+                                    valuePropName: 'fileList',
+                                  },
+                    ]"
+                    name="logo"
+                    :action="uploadApi"
+                    :headers="headers"
+                    @change="(info) => handleFileChange('type', info)"
+                    :showUploadList="true"
+                    list-type="picture">
+            <a-button>
+              <a-icon type="upload" /> 上传附件
+            </a-button>
+          </a-upload>
+        </a-form-item>
+
+        <a-form-item label="图片上传">
+          <a-upload v-decorator="['fieldImage',validatorRules.fieldFile]"
+                    name="logo"
+                    :action="uploadApi"
+                    :headers="headers"
+                    @change="(info) => handleFileChange('type', info)"
+                    :showUploadList="true"
+                    list-type="picture">
+            <a-button>
+              <a-icon type="upload" /> 上传图片
+            </a-button>
+          </a-upload>
+        </a-form-item>
+
+        <a-form-item label="多行文本">
+          <a-textarea v-decorator="['textArea',validatorRules.textArea ]" auto-size />
+        </a-form-item>
+
+        <a-form-item label="用户选择组件">
+          <span>暂不支持类型</span>
+        </a-form-item>
+
+        <a-form-item label="组织选择组件">
+          <span>暂不支持类型</span>
+        </a-form-item>
+
+        <a-form-item label="富文本">
+          <span>暂不支持类型</span>
+        </a-form-item>
+
+        <a-form-item label="区域选择">
+          <span>暂不支持类型</span>
+        </a-form-item>
+
+        <a-form-item label="树选择">
+          <span>暂不支持类型</span>
+        </a-form-item>
+
+        <a-form-item label="自定义弹框">
+          <span>暂不支持类型</span>
+        </a-form-item>
+
+        <a-form-item label="创建者">
+          <a-input v-decorator="['creator',validatorRules.creator ]" />
+        </a-form-item>
+
+        <a-form-item label="创建时间">
+          <a-date-picker v-decorator="['createTime',validatorRules.createTime ]"
+                         format="YYYY-MM-DD HH:mm:ss"
+                         show-time
+                         style="width: 100%" />
+        </a-form-item>
+
+        <a-form-item label="创建者名称">
+          <a-input v-decorator="['createName',validatorRules.createName ]" />
+        </a-form-item>
+
+        <a-form-item label="更新者">
+          <a-input v-decorator="['updator',validatorRules.updator ]" />
+        </a-form-item>
+
+        <a-form-item label="更新时间">
+          <a-date-picker v-decorator="['updateTime',validatorRules.updateTime ]"
+                         format="YYYY-MM-DD HH:mm:ss"
+                         show-time
+                         style="width: 100%" />
+        </a-form-item>
+
+        <a-form-item label="更新者名称">
+          <a-input v-decorator="['updateName',validatorRules.updateName ]" />
+        </a-form-item>
+
       </a-row>
 
     </a-form>

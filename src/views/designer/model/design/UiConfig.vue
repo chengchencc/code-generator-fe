@@ -1,13 +1,12 @@
 <template>
   <a-table :columns="columns" :dataSource="value" size="small" rowKey="id" :pagination="false">
     <template v-for="c in controls" :slot="c.dataIndex" slot-scope="text, record, index">
-      <dynamic-form-item
-        :key="c.dataIndex"
-        :controlType="c.control"
-        :value="text"
-        :enums="c.enums"
-        :disabled="c.disabled || false"
-        @change="handleRowChanged($event,c.dataIndex,record,index)"></dynamic-form-item>
+      <dynamic-form-item :key="c.dataIndex"
+                         :controlType="c.control"
+                         :value="text"
+                         :enums="c.enums"
+                         :disabled="c.disabled || false"
+                         @change="handleRowChanged($event,c.dataIndex,record,index)"></dynamic-form-item>
       <!-- <div v-if="col.control == ControlType.Action" :key="col.dataIndex">
         action
       </div> -->
@@ -50,19 +49,25 @@ export default {
   data () {
     return {
       columns: [
-        {
-          title: '字段编码',
-          dataIndex: 'tableFieldName',
-          control: ControlType.InputText,
-          disabled: true,
-          scopedSlots: { customRender: 'tableFieldName' }
-        },
+        // {
+        //   title: '字段编码',
+        //   dataIndex: 'tableFieldName',
+        //   control: ControlType.InputText,
+        //   disabled: true,
+        //   scopedSlots: { customRender: 'tableFieldName' }
+        // },
         {
           title: '字段名称',
           dataIndex: 'name',
           control: ControlType.InputText,
           disabled: true,
           scopedSlots: { customRender: 'name' }
+        },
+        {
+          title: '字段描述',
+          dataIndex: 'description',
+          control: ControlType.InputText,
+          scopedSlots: { customRender: 'description' }
         },
         {
           title: '控件类型',
