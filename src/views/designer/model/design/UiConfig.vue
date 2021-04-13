@@ -76,6 +76,7 @@ export default {
           enums: [
             { value: 'InputText', name: '文本框' },
             { value: 'Number', name: '数字' },
+            { value: 'Amount', name: '金额' },
             { value: 'Password', name: '密码' },
             { value: 'SelectOne', name: '下拉单选' },
             { value: 'SelectMany', name: '下拉多选' },
