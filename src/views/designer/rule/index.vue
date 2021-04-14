@@ -99,7 +99,7 @@
             {{ index + 1 }}
           </span>
           <span slot="status" slot-scope="text">
-            <a-tag color="orange">text</a-tag>
+            <a-tag color="orange">{{text}}</a-tag>
           </span>
           <span slot="action" slot-scope="text, record">
             <template>
@@ -120,13 +120,6 @@
       <!-- 嵌入表单区域 -->
       <modal-form ref="modalForm" @ok="handleOk" @cancel="handleCancel" />
 
-      <!-- 表单详情 -->
-      <!-- <detail-modal
-                    ref="detailModal"
-                    :visible="detailVisible"
-                    :loading="confirmLoading"
-                    :model="mdl"
-                    @cancel="handleDetailCancel" /> -->
     </a-card>
   </page-header-wrapper>
 </template>
@@ -142,8 +135,9 @@ import { httpGet } from '@/utils/httpClient'
 
 const columns = [
   {
-    title: '#',
-    scopedSlots: { customRender: 'serial' }
+    title: '序号',
+    scopedSlots: { customRender: 'serial' },
+    width: '70px',
   },
   {
     title: '作者',
@@ -188,11 +182,44 @@ const columns = [
     customRender: toDateTime
   },
   {
+    title: '创建者',
+    dataIndex: 'creationUserId',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '180px',
+    customRender: (value) => value
+  },
+  {
+    title: '删除时间',
+    dataIndex: 'deletionTime',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '180px',
+    customRender: toDateTime,
+  },
+  {
+    title: '删除人',
+    dataIndex: 'deletionUserId',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '180px',
+    customRender: (value) => value
+  },
+  {
     title: '最后修改时间',
     dataIndex: 'lastModifyTime',
     ellipsis: false, // 超过宽度将自动省略
     align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    customRender: toDateTime
+    width: '180px',
+    customRender: toDateTime,
+  },
+  {
+    title: '最后修改人',
+    dataIndex: 'lastModifyUserId',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '180px',
+    customRender: (value) => value
   },
   {
     title: '操作',
@@ -213,11 +240,8 @@ export default {
       // 页面级字典
       pageDict: {},
       url: {
-        list: '/api-test/generator/generatorRule',
-        delete: '/api-sample/GeneratorRule/delete',
-        deleteBatch: '/api-sample/GeneratorRule/deleteBatch',
-        exportXlsUrl: '/api-sample/GeneratorRule/exportXlsx',
-        importExcelUrl: '/api-sample/GeneratorRule/importExcel'
+        list: '/api-test/generatorRule/page', 
+        delete: '/api-test/generatorRule/delete',
       }
     }
   },
@@ -257,7 +281,12 @@ export default {
           this.$message.error('获取数据失败')
           this.loading = false
         })
-    }
+    },
+    handleEdit: function (record) {
+      // 弹框编辑
+      this.$refs.modalForm.edit(record)
+      this.$refs.modalForm.title = '编辑'
+    },
   }
 }
 </script>
