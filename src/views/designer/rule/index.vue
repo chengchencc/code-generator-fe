@@ -3,7 +3,7 @@
   <page-header-wrapper>
     <a-card :bordered="false">
       <!-- 搜索过滤区域 -->
-      <div class="table-page-search-wrapper">
+      <!-- <div class="table-page-search-wrapper">
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
@@ -47,7 +47,7 @@
             </a-col>
           </a-row>
         </a-form>
-      </div>
+      </div> -->
       <!-- 功能按钮区域 -->
       <div class="table-operator">
         <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button>

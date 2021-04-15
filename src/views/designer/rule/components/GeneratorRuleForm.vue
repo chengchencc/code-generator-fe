@@ -29,7 +29,12 @@
                         </a-col>
                         <a-col :span="12" :style="colStyle">
                             <a-form-item label="模板" v-bind="colInfo12">
-                                <a-input v-decorator="['uiTemplate',validatorRules.uiTemplate ]" :disabled="unEditable"/>
+                                <a-select v-decorator="['uiTemplate',validatorRules.uiTemplate ]" :disabled="unEditable">
+                                    <a-select-option value="Default">Default</a-select-option>
+                                    <a-select-option v-for="(item, name) in pageDict.projectSource" :key="name" :value="item.code">
+                                        {{ item.value }}
+                                    </a-select-option>
+                                </a-select>
                             </a-form-item>
                         </a-col>
                         <a-col :span="12" :style="colStyle">
@@ -197,7 +202,15 @@
             // vue 生命周期钩子，已完成模板渲染，此处可以进行dom操作
         },
         methods: {
-            initDictConfig(){},
+            initDictConfig(){
+                console.log('初始化页面级字典项')
+                const dictCodes = [
+                    'projectSource',
+                ]
+                getDictionaryByCodes(dictCodes).then((res) => {
+                    this.pageDict = res
+                })
+            },
             beforeUpload() {
               // 上传前 的图片校验等操作
               return true

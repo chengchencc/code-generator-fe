@@ -48,7 +48,7 @@
           </a-form-model-item>
         </form-item-wrapper>
         <form-item-wrapper>
-          <a-form-model-item label="表单模板" required prop="uiTemplate">
+          <a-form-model-item label="生成策略" required prop="uiTemplate">
             <a-select v-model="model.uiTemplate">
               <!-- <a-select-option key="Default" value="Default">默认</a-select-option> -->
               <a-select-option v-for="(field,index) in templateList" :key="index" :value="field.uiTemplate">{{ field.uiTemplate}}</a-select-option>
