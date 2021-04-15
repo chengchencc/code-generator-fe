@@ -30,11 +30,6 @@
                         <a-col :span="12" :style="colStyle">
                             <a-form-item label="模板" v-bind="colInfo12">
                                 <a-input v-decorator="['uiTemplate',validatorRules.uiTemplate ]" :disabled="unEditable"/>
-                                <!-- <a-select v-decorator="['uiTemplate',validatorRules.uiTemplate ]" :disabled="unEditable">
-                                    <a-select-option v-for="(item, name) in pageDict.projectSource" :key="name" :value="item.code">
-                                        {{ item.value }}
-                                    </a-select-option>
-                                </a-select> -->
                             </a-form-item>
                         </a-col>
                         <a-col :span="12" :style="colStyle">
@@ -202,37 +197,7 @@
             // vue 生命周期钩子，已完成模板渲染，此处可以进行dom操作
         },
         methods: {
-            // 需要手动绑定该方法： @change="onCityChange"
-            // 区县for循环取值改为： v-for="(item, name) in district ? district : pageDict.district"
-            onCityChange (cityCode) {
-                this.district = []
-                this.form.setFieldsValue({countyName: ''})
-                for (let item of this.pageDict.district) {
-                    if (item.code.startsWith(cityCode.slice(0, 4))) {
-                        this.district.push(item)
-                    }
-                }
-            },
-            initDictConfig(){
-                console.log('初始化页面级字典项')
-                const dictCodes = [
-                    'projectSource',
-                ]
-                try{
-                  this.pageDict = this.$store.state.common.dict.dictsList.list || {}
-                }catch(e){}
-
-                // 模拟 this.pageDict.projectSource
-                 this.pageDict.projectSource = [
-                     {
-                         code: "Default",
-                         value: "Default"
-                     }
-                 ]
-                getDictionaryByCodes(dictCodes).then((res) => {
-                    this.pageDict = Object.assign(this.pageDict || {}, res || {})
-                }).catch((e) => {})
-            },
+            initDictConfig(){},
             beforeUpload() {
               // 上传前 的图片校验等操作
               return true

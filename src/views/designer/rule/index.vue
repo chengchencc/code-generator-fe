@@ -30,12 +30,7 @@
               </a-col>
               <a-col :md="8" :sm="24">
                 <a-form-item label="模板">
-                  <a-select v-model="queryParam.uiTemplate">
-                    <a-select-option value="">请选择</a-select-option>
-                    <a-select-option v-for="(item, name) in pageDict.projectSource" :key="name" :value="item.code">
-                      {{ item.value }}
-                    </a-select-option>
-                  </a-select>
+                  <a-input v-model="queryParam.uiTemplate" />
                 </a-form-item>
               </a-col>
             </template>
@@ -58,22 +53,18 @@
         <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button>
         <a-button type="default" icon="export" @click="handleExportXls">导出</a-button>
 
-        <a-dropdown v-if="selectedRowKeys.length > 0">
+        <!-- <a-dropdown v-if="selectedRowKeys.length > 0">
           <a-menu slot="overlay">
             <a-menu-item key="1">
               <a-icon type="delete" />
               删除
             </a-menu-item>
-            <!-- lock | unlock -->
-            <!-- <a-menu-item key="2">
-                                      <a-icon type="lock" />锁定
-                                    </a-menu-item> -->
           </a-menu>
           <a-button style="margin-left: 8px">
             批量操作
             <a-icon type="down" />
           </a-button>
-        </a-dropdown>
+        </a-dropdown> -->
       </div>
 
       <!-- 表格内容区域 -->
@@ -109,6 +100,9 @@
                   <a-menu-item key="1" type="primary">
                     <a @click="handleEdit(record)">编辑</a>
                   </a-menu-item>
+                  <a-menu-item key="2" type="primary">
+                    <a @click="handleDelete(record)">删除</a>
+                  </a-menu-item>
                 </a-menu>
                 <a>更多
                   <a-icon type="down" />
@@ -128,6 +122,7 @@
 <script>
 import moment from 'moment'
 import { toDateTime, toDate } from '@/utils/datetime'
+import { deleteRule } from '@/api/generatorRule'
 import { dictMixin } from '@/store/dict-mixin'
 import { TablePageMixin } from '@/core/mixins/TablePageMixin2'
 import ModalForm from './components/GeneratorRuleModal' // 切换到抽屉模式 引用改为 './form-drawer.vue'
@@ -246,11 +241,8 @@ export default {
   data () {
     return {
       columns: columns,
-      // 页面级字典
-      pageDict: {},
       url: {
-        list: '/api-test/generatorRule/page', 
-        delete: '/api-test/generatorRule/delete',
+        list: '/api-test/generatorRule/page',
       }
     }
   },
@@ -261,13 +253,7 @@ export default {
   },
   computed: {},
   methods: {
-    initDictConfig () {
-      console.log('初始化页面级字典项')
-      const dictCodes = ['projectSource']
-      getDictionaryByCodes(dictCodes).then((res) => {
-        this.pageDict = res
-      })
-    },
+    initDictConfig () { },
     loadData (arg) {
       if (!this.url.list) {
         this.$message.error('请设置url.list属性!')
@@ -296,6 +282,14 @@ export default {
       this.$refs.modalForm.edit(record)
       this.$refs.modalForm.title = '编辑'
     },
+    handleDelete(record) {
+      deleteRule(record.id).then((res) => {
+        console.log(res)
+        this.loadData();
+      }).catch(e => {
+        console.log(e)
+      })
+    }
   }
 }
 </script>

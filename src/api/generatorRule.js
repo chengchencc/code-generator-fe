@@ -2,6 +2,7 @@ import request from '@/utils/request'
 const path = '/api-test'
 const urls = {
   list: '/generatorRule/details',
+  delete: '/generatorRule',
 }
 
 export const getRuleList = (parameter) => {
@@ -9,6 +10,13 @@ export const getRuleList = (parameter) => {
     url: path + urls.list,
     method: 'get',
     params: parameter
+  })
+}
+
+export const deleteRule = (id) => {
+  return request({
+    url: path + urls.delete + '/' + id,
+    method: 'delete'
   })
 }
 
