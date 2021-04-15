@@ -94,6 +94,7 @@
                  :loading="loading"
                  @change="handleTableChange"
                  :rowSelection="rowSelection"
+                 :scroll="{x: 1050}"
                  class="table-page-container-wrapper">
           <span slot="serial" slot-scope="text, record, index">
             {{ index + 1 }}
@@ -144,6 +145,7 @@ const columns = [
     dataIndex: 'authorName',
     ellipsis: false, // 超过宽度将自动省略
     align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '70px',
     customRender: (value) => value
   },
   {
@@ -151,6 +153,7 @@ const columns = [
     dataIndex: 'email',
     ellipsis: false, // 超过宽度将自动省略
     align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '150px',
     customRender: (value) => value
   },
   {
@@ -158,6 +161,7 @@ const columns = [
     dataIndex: 'moduleName',
     ellipsis: false, // 超过宽度将自动省略
     align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '120px',
     customRender: (value) => value
   },
   {
@@ -165,6 +169,7 @@ const columns = [
     dataIndex: 'packageName',
     ellipsis: false, // 超过宽度将自动省略
     align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '150px',
     customRender: (value) => value
   },
   {
@@ -172,6 +177,7 @@ const columns = [
     dataIndex: 'uiTemplate',
     ellipsis: false, // 超过宽度将自动省略
     align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '150px',
     customRender: (value) => value
   },
   {
@@ -179,6 +185,7 @@ const columns = [
     dataIndex: 'creationTime',
     ellipsis: false, // 超过宽度将自动省略
     align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '120px',
     customRender: toDateTime
   },
   {
@@ -186,7 +193,7 @@ const columns = [
     dataIndex: 'creationUserId',
     ellipsis: false, // 超过宽度将自动省略
     align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '180px',
+    width: '90px',
     customRender: (value) => value
   },
   {
@@ -202,7 +209,7 @@ const columns = [
     dataIndex: 'deletionUserId',
     ellipsis: false, // 超过宽度将自动省略
     align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '180px',
+    width: '90px',
     customRender: (value) => value
   },
   {
@@ -210,7 +217,7 @@ const columns = [
     dataIndex: 'lastModifyTime',
     ellipsis: false, // 超过宽度将自动省略
     align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '180px',
+    width: '120px',
     customRender: toDateTime,
   },
   {
@@ -218,12 +225,14 @@ const columns = [
     dataIndex: 'lastModifyUserId',
     ellipsis: false, // 超过宽度将自动省略
     align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '180px',
+    width: '110px',
     customRender: (value) => value
   },
   {
     title: '操作',
     dataIndex: 'action',
+    width: '80px',
+    fixed: 'right',
     scopedSlots: { customRender: 'action' }
   }
 ]
