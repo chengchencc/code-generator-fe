@@ -29,11 +29,12 @@
                         </a-col>
                         <a-col :span="12" :style="colStyle">
                             <a-form-item label="模板" v-bind="colInfo12">
-                                    <a-select v-decorator="['uiTemplate',validatorRules.uiTemplate ]" :disabled="unEditable">
-                                        <a-select-option v-for="(item, name) in pageDict.projectSource" :key="name" :value="item.code">
-                                            {{ item.value }}
-                                        </a-select-option>
-                                    </a-select>
+                                <a-input v-decorator="['uiTemplate',validatorRules.uiTemplate ]" :disabled="unEditable"/>
+                                <!-- <a-select v-decorator="['uiTemplate',validatorRules.uiTemplate ]" :disabled="unEditable">
+                                    <a-select-option v-for="(item, name) in pageDict.projectSource" :key="name" :value="item.code">
+                                        {{ item.value }}
+                                    </a-select-option>
+                                </a-select> -->
                             </a-form-item>
                         </a-col>
                         <a-col :span="12" :style="colStyle">

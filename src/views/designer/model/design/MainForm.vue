@@ -50,7 +50,8 @@
         <form-item-wrapper>
           <a-form-model-item label="表单模板" required prop="uiTemplate">
             <a-select v-model="model.uiTemplate">
-              <a-select-option key="Default" value="Default">默认</a-select-option>
+              <!-- <a-select-option key="Default" value="Default">默认</a-select-option> -->
+              <a-select-option v-for="(field,index) in templateList" :key="index" :value="field.uiTemplate">{{ field.uiTemplate}}</a-select-option>
             </a-select>
           </a-form-model-item>
         </form-item-wrapper>
@@ -103,6 +104,7 @@
 
 <script>
 import pick from 'lodash.pick'
+import { getRuleList } from '@/api/generatorRule'
 import { FormItemWrapper } from '@/components'
 
 export default {
@@ -127,6 +129,7 @@ export default {
   },
   data () {
     return {
+      templateList: [],
       // 布局
       formLayout: {
         labelCol: {
@@ -182,7 +185,16 @@ export default {
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created () {},
+  created () {
+    getRuleList().then((res) => {
+      if( res && Array.isArray(res)) {
+        this.templateList = res
+      }
+    }).catch(e => {
+      console.log(e)
+    })
+
+  },
   // 生命周期 - 载入后, Vue 实例挂载到实际的 DOM 操作完成，一般在该过程进行 Ajax 交互
   mounted () {
     console.log('mainform::mounted::', this.model)
