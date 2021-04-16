@@ -19,7 +19,7 @@
    
    step1: 模型设计器页面点击导入
    
-   ![step1](https://raw.githubusercontent.com/ngm-Irelia/img/master/ld/demo/step4-1.jpg)
+   ![step1](http://10.10.20.242:10080/chengch/demo/-/raw/master/docs/img/step4-1.jpg)
    
    
    step2: 弹框填写数据库信息，连接数据库
