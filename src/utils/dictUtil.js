@@ -28,3 +28,49 @@ export const convertDictionaryToMapList = (dictValue) => {
   console.log('res::', dictValue)
   return dict
 }
+
+
+/**
+ * 显示字典对应key的名字 
+ * @param {*} code code
+ * @param {*} dict 字典数组
+ * @returns 对应名字
+ */
+ export function getNameByDict (code, dict) {
+  for( let i=0;i<dict.length;i++) {
+    if(dict[i].code == code) {
+    return dict[i].value
+    }
+  }
+  return ''
+}
+
+/**
+ * 显示字典对应key的名字 
+ * @param {*} code code
+ * @param {*} dict 字典数组
+ * @returns 对应名字
+ */
+ export function getManyNameByDict (code, dict) {
+  if(!code) {
+    return code
+  }
+
+  if(dict.length == 0){
+    return code
+  }
+  
+  code = JSON.parse(code);
+  if(!Array.isArray(code)) {
+    return code
+  }
+  let str = [];
+  for( let i=0;i<dict.length;i++) {
+    for( let c=0;c<code.length;c++) {
+      if(dict[i].code == code[c]) {
+        str.push(dict[i].value)
+      }
+    }
+  }
+  return str.join(',')
+}
