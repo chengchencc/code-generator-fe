@@ -23,11 +23,11 @@
 
    step2: 弹框填写数据库信息，连接数据库
 
-   ![step2](https://raw.githubusercontent.com/ngm-Irelia/img/master/ld/demo/step4-2.jpg)
+   ![step2](./img/step4-2.jpg)
 
    step3: 勾选数据库表导入
 
-   ![step3](https://raw.githubusercontent.com/ngm-Irelia/img/master/ld/demo/step4-3.jpg)
+   ![step3](./img/step4-3.jpg)
 
 5. 代码生成配置
 
@@ -35,7 +35,7 @@
 
  step1: 点击列表中 设计按钮， 弹框如下
 
- ![step3](https://raw.githubusercontent.com/ngm-Irelia/img/master/ld/demo/step5-1.jpg)
+ ![step3](./img/step5-1.jpg)
 
  step2:
 
