@@ -165,12 +165,12 @@ export default {
           control: ControlType.InputText,
           scopedSlots: { customRender: 'dictCode' }
         },
-        {
+        /* {
           title: '字典值编码',
           dataIndex: 'dictType',
           control: ControlType.InputText,
           scopedSlots: { customRender: 'dictType' }
-        }
+        } */
       ],
       dataSource: []
     }
