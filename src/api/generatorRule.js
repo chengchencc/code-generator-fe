@@ -1,8 +1,8 @@
 import request from '@/utils/request'
-const path = '/api-test'
+const path = '/api-grt'
 const urls = {
   list: '/generatorRule/details',
-  delete: '/generatorRule',
+  delete: '/generatorRule'
 }
 
 export const getRuleList = (parameter) => {

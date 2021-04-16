@@ -8,7 +8,17 @@
 
 1. 获取前端脚手架,脚手架地址：`http://47.104.201.245:3000/LudanTech/vue-web-seed.git`
 
-2. 获取后端脚手架(后续通过maven-archetype的方式进行创建),脚手架地址：``
+2. 获取后端脚手架(后续通过maven-archetype的方式进行创建),脚手架地址：`http://git.sdludan.cc:3000/LudanTech/central-platform-demo/src/branch/develop/microservice`
+
+   或者引用最新版本的`ludan-common-spring-boot-starter`,POM：
+
+   ```xml
+        <dependency>
+            <groupId>com.ludan</groupId>
+            <artifactId>ludan-common-spring-boot-starter</artifactId>
+            <version>4.3.2-RELEASE</version>
+        </dependency>
+   ```
 
 3. 数据库表创建
    根据业务进行数据库表结构设计并在开发环境数据库中创建相应表结构

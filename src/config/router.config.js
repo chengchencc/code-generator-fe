@@ -24,23 +24,23 @@ export const asyncRouterMap = [
         component: RouteView,
         meta: { title: 'menu.dashboard', keepAlive: true, icon: bxAnaalyse, permission: ['dashboard'] },
         children: [
-          {
-            path: '/dashboard/analysis/:pageNo([1-9]\\d*)?',
-            name: 'Analysis',
-            component: () => import('@/views/dashboard/Analysis'),
-            meta: { title: 'menu.dashboard.analysis', keepAlive: false, permission: ['dashboard'] }
-          },
-          // 外部链接
-          {
-            path: 'https://www.baidu.com/',
-            name: 'Monitor',
-            meta: { title: 'menu.dashboard.monitor', target: '_blank' }
-          },
+          // {
+          //   path: '/dashboard/analysis/:pageNo([1-9]\\d*)?',
+          //   name: 'Analysis',
+          //   component: () => import('@/views/dashboard/Analysis'),
+          //   meta: { title: 'menu.dashboard.analysis', keepAlive: false, permission: ['dashboard'] }
+          // },
+          // // 外部链接
+          // {
+          //   path: 'https://www.baidu.com/',
+          //   name: 'Monitor',
+          //   meta: { title: 'menu.dashboard.monitor', target: '_blank' }
+          // },
           {
             path: '/dashboard/workplace',
             name: 'Workplace',
             component: () => import('@/views/dashboard/Workplace'),
-            meta: { title: 'menu.dashboard.workplace', keepAlive: true, permission: ['dashboard'] }
+            meta: { title: '这只是一个示例', keepAlive: true, permission: ['dashboard'] }
           }
         ]
       },
@@ -48,10 +48,16 @@ export const asyncRouterMap = [
       {
         path: '/generator',
         name: 'generator',
-        meta: { title: '代码生成', icon: 'code' },
+        meta: { title: '代码生成器', icon: 'code' },
         component: RouteView,
         redirect: '/generator/datamodel',
         children: [
+          {
+            path: '/generator/strategy',
+            name: 'strategy',
+            component: () => import('@/views/designer/rule/index'),
+            meta: { title: '生成策略管理', keepAlive: false, icon: bxAnaalyse }
+          },
           {
             path: '/generator/datamodel',
             name: 'datamodel',
@@ -63,19 +69,14 @@ export const asyncRouterMap = [
             name: 'datasource',
             component: () => import('@/views/designer/datasource/index'),
             meta: { title: '数据源管理', keepAlive: false, icon: bxAnaalyse }
-          },
-          {
-            path: '/generator/strategy',
-            name: 'strategy',
-            component: () => import('@/views/designer/rule/index'),
-            meta: { title: '生成策略管理', keepAlive: false, icon: bxAnaalyse }
-          },
-          {
-            path: '/generator/edit',
-            name: 'edit',
-            component: () => import('@/views/designer/model/design/DesignModal'),
-            meta: { title: '配置', keepAlive: false, icon: bxAnaalyse }
           }
+
+          // {
+          //   path: '/generator/edit',
+          //   name: 'edit',
+          //   component: () => import('@/views/designer/model/design/DesignModal'),
+          //   meta: { title: '配置', keepAlive: false, icon: bxAnaalyse }
+          // }
 
         ]
       },
@@ -83,7 +84,7 @@ export const asyncRouterMap = [
       {
         path: '/sample',
         name: 'sample',
-        meta: { title: '示例', icon: 'code' },
+        meta: { title: '代码示例', icon: 'code' },
         component: RouteView,
         redirect: '/sample/list',
         children: [
@@ -91,31 +92,31 @@ export const asyncRouterMap = [
             path: '/sample/list',
             name: 'sample-list',
             component: () => import('@/views/sample/SampleManager'),
-            meta: { title: '示例-列表', keepAlive: false, icon: bxAnaalyse }
+            meta: { title: '单表示例-列表', keepAlive: false, icon: bxAnaalyse }
           },
           {
             path: '/sample/detail',
             name: 'sample-detail',
             component: () => import('@/views/sample/components/SamplePage'),
-            meta: { title: '示例-详情', keepAlive: false, icon: bxAnaalyse }
+            meta: { title: '单表示例-详情', keepAlive: false, icon: bxAnaalyse }
           }
         ]
       },
-      {
-        path: '/codetest',
-        name: 'codetest',
-        meta: { title: '代码生成测试', icon: 'code' },
-        component: RouteView,
-        redirect: '/codetest/list',
-        children: [
-          {
-            path: '/codetest/list',
-            name: 'codetest-list',
-            component: () => import('@/views/GeneratorRule/GeneratorRuleManager'),
-            meta: { title: '单表测试', keepAlive: false, icon: bxAnaalyse }
-          }
-        ]
-      },
+      // {
+      //   path: '/codetest',
+      //   name: 'codetest',
+      //   meta: { title: '代码生成测试', icon: 'code' },
+      //   component: RouteView,
+      //   redirect: '/codetest/list',
+      //   children: [
+      //     {
+      //       path: '/codetest/list',
+      //       name: 'codetest-list',
+      //       component: () => import('@/views/GeneratorRule/GeneratorRuleManager'),
+      //       meta: { title: '单表测试', keepAlive: false, icon: bxAnaalyse }
+      //     }
+      //   ]
+      // },
 
       // {
       //   path: '/sample',
@@ -133,226 +134,226 @@ export const asyncRouterMap = [
       //   ]
       // },
       // 详情页 模版
-      {
-        path: '/codetest/list/detail/:taskId',
-        name: 'codetestListDetail',
-        props: true,
-        hideChildrenInMenu: true,
-        component: () => import('@/views/GeneratorRule/components/GeneratorRuleDetail'),
-        meta: { title: '详情', keepAlive: false, },
-        hidden: true
-      },
+      // {
+      //   path: '/codetest/list/detail/:taskId',
+      //   name: 'codetestListDetail',
+      //   props: true,
+      //   hideChildrenInMenu: true,
+      //   component: () => import('@/views/GeneratorRule/components/GeneratorRuleDetail'),
+      //   meta: { title: '详情', keepAlive: false, },
+      //   hidden: true
+      // },
 
-      {
-        path: '/designer',
-        name: 'designer',
-        meta: { title: '流程设计器', icon: 'form' },
-        component: RouteView,
-        redirect: '/designer/datamodel',
-        children: [
-          {
-            path: '/designer/bpmn',
-            name: 'bpmn',
-            component: () => import('@/views/designer/bpmn/index'),
-            meta: { title: '流程管理', keepAlive: false, icon: bxAnaalyse }
-          }
+      // {
+      //   path: '/designer',
+      //   name: 'designer',
+      //   meta: { title: '流程设计器', icon: 'form' },
+      //   component: RouteView,
+      //   redirect: '/designer/datamodel',
+      //   children: [
+      //     {
+      //       path: '/designer/bpmn',
+      //       name: 'bpmn',
+      //       component: () => import('@/views/designer/bpmn/index'),
+      //       meta: { title: '流程管理', keepAlive: false, icon: bxAnaalyse }
+      //     }
 
-        ]
-      },
+      //   ]
+      // },
 
       // forms
-      {
-        path: '/form',
-        redirect: '/form/base-form',
-        component: RouteView,
-        meta: { title: '表单页', icon: 'form', permission: ['form'] },
-        children: [
-          {
-            path: '/form/base-form',
-            name: 'BaseForm',
-            component: () => import('@/views/form/basicForm'),
-            meta: { title: '基础表单', keepAlive: true, permission: ['form'] }
-          },
-          {
-            path: '/form/step-form',
-            name: 'StepForm',
-            component: () => import('@/views/form/stepForm/StepForm'),
-            meta: { title: '分步表单', keepAlive: true, permission: ['form'] }
-          },
-          {
-            path: '/form/advanced-form',
-            name: 'AdvanceForm',
-            component: () => import('@/views/form/advancedForm/AdvancedForm'),
-            meta: { title: '高级表单', keepAlive: true, permission: ['form'] }
-          }
-        ]
-      },
+      // {
+      //   path: '/form',
+      //   redirect: '/form/base-form',
+      //   component: RouteView,
+      //   meta: { title: '表单页', icon: 'form', permission: ['form'] },
+      //   children: [
+      //     {
+      //       path: '/form/base-form',
+      //       name: 'BaseForm',
+      //       component: () => import('@/views/form/basicForm'),
+      //       meta: { title: '基础表单', keepAlive: true, permission: ['form'] }
+      //     },
+      //     {
+      //       path: '/form/step-form',
+      //       name: 'StepForm',
+      //       component: () => import('@/views/form/stepForm/StepForm'),
+      //       meta: { title: '分步表单', keepAlive: true, permission: ['form'] }
+      //     },
+      //     {
+      //       path: '/form/advanced-form',
+      //       name: 'AdvanceForm',
+      //       component: () => import('@/views/form/advancedForm/AdvancedForm'),
+      //       meta: { title: '高级表单', keepAlive: true, permission: ['form'] }
+      //     }
+      //   ]
+      // },
 
       // list
-      {
-        path: '/list',
-        name: 'list',
-        component: RouteView,
-        redirect: '/list/table-list',
-        meta: { title: '列表页', icon: 'table', permission: ['table'] },
-        children: [
-          {
-            path: '/list/table-list/:pageNo([1-9]\\d*)?',
-            name: 'TableListWrapper',
-            hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
-            component: () => import('@/views/list/TableList'),
-            meta: { title: '查询表格', keepAlive: true, permission: ['table'] }
-          },
-          {
-            path: '/list/basic-list',
-            name: 'BasicList',
-            component: () => import('@/views/list/BasicList'),
-            meta: { title: '标准列表', keepAlive: true, permission: ['table'] }
-          },
-          {
-            path: '/list/card',
-            name: 'CardList',
-            component: () => import('@/views/list/CardList'),
-            meta: { title: '卡片列表', keepAlive: true, permission: ['table'] }
-          },
-          {
-            path: '/list/search',
-            name: 'SearchList',
-            component: () => import('@/views/list/search/SearchLayout'),
-            redirect: '/list/search/article',
-            meta: { title: '搜索列表', keepAlive: true, permission: ['table'] },
-            children: [
-              {
-                path: '/list/search/article',
-                name: 'SearchArticles',
-                component: () => import('../views/list/search/Article'),
-                meta: { title: '搜索列表（文章）', permission: ['table'] }
-              },
-              {
-                path: '/list/search/project',
-                name: 'SearchProjects',
-                component: () => import('../views/list/search/Projects'),
-                meta: { title: '搜索列表（项目）', permission: ['table'] }
-              },
-              {
-                path: '/list/search/application',
-                name: 'SearchApplications',
-                component: () => import('../views/list/search/Applications'),
-                meta: { title: '搜索列表（应用）', permission: ['table'] }
-              }
-            ]
-          }
-        ]
-      },
+      // {
+      //   path: '/list',
+      //   name: 'list',
+      //   component: RouteView,
+      //   redirect: '/list/table-list',
+      //   meta: { title: '列表页', icon: 'table', permission: ['table'] },
+      //   children: [
+      //     {
+      //       path: '/list/table-list/:pageNo([1-9]\\d*)?',
+      //       name: 'TableListWrapper',
+      //       hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+      //       component: () => import('@/views/list/TableList'),
+      //       meta: { title: '查询表格', keepAlive: true, permission: ['table'] }
+      //     },
+      //     {
+      //       path: '/list/basic-list',
+      //       name: 'BasicList',
+      //       component: () => import('@/views/list/BasicList'),
+      //       meta: { title: '标准列表', keepAlive: true, permission: ['table'] }
+      //     },
+      //     {
+      //       path: '/list/card',
+      //       name: 'CardList',
+      //       component: () => import('@/views/list/CardList'),
+      //       meta: { title: '卡片列表', keepAlive: true, permission: ['table'] }
+      //     },
+      //     {
+      //       path: '/list/search',
+      //       name: 'SearchList',
+      //       component: () => import('@/views/list/search/SearchLayout'),
+      //       redirect: '/list/search/article',
+      //       meta: { title: '搜索列表', keepAlive: true, permission: ['table'] },
+      //       children: [
+      //         {
+      //           path: '/list/search/article',
+      //           name: 'SearchArticles',
+      //           component: () => import('../views/list/search/Article'),
+      //           meta: { title: '搜索列表（文章）', permission: ['table'] }
+      //         },
+      //         {
+      //           path: '/list/search/project',
+      //           name: 'SearchProjects',
+      //           component: () => import('../views/list/search/Projects'),
+      //           meta: { title: '搜索列表（项目）', permission: ['table'] }
+      //         },
+      //         {
+      //           path: '/list/search/application',
+      //           name: 'SearchApplications',
+      //           component: () => import('../views/list/search/Applications'),
+      //           meta: { title: '搜索列表（应用）', permission: ['table'] }
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // },
       // template
-      {
-        path: '/tpl',
-        name: 'tpl',
-        component: RouteView,
-        redirect: '/tpl/crud',
-        meta: { title: '模板页', icon: 'table', permission: ['sys'] },
-        children: [
-          {
-            path: '/tpl/crud',
-            name: 'Curd',
-            hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
-            component: () => import('@/views/tpl/crud/index'),
-            meta: { title: '增删改查模板', keepAlive: true, permission: ['sys'] }
-          },
-          {
-            path: '/tpl/fulllist',
-            name: 'fulllist',
-            hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
-            component: () => import('@/views/tpl/full/index'),
-            meta: { title: '列表页模板', keepAlive: true, permission: ['sys'] }
-          },
-          {
-            path: '/tpl/fullform',
-            name: 'formpage',
-            hidden: true,
-            hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
-            component: () => import('@/views/tpl/full/form-page.vue'),
-            meta: { title: '表单页模板', keepAlive: true, permission: ['sys'] }
-          },
-          {
-            path: '/tpl/testlist',
-            name: 'testlist',
-            hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
-            component: () => import('@/views/tpl/test/index'),
-            meta: { title: '列表页模板测试', keepAlive: true, permission: ['sys'] }
-          },
-          {
-            path: '/tpl/testform',
-            name: 'testform',
-            hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
-            component: () => import('@/views/tpl/test/form-page.vue'),
-            meta: { title: '表单页模板测试', keepAlive: true, permission: ['sys'] }
-          },
-          {
-            path: '/tpl/dict',
-            name: 'dict',
-            hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
-            component: () => import('@/views/SysDataDict/index'),
-            meta: { title: '字典维护', keepAlive: true, permission: ['sys'] }
-          },
-          {
-            path: '/tpl/dictvalue',
-            name: 'dictvalue',
-            hidden: true,
-            hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
-            component: () => import('@/views/SysDataDictValue/index'),
-            meta: { title: '字典维护', keepAlive: true, permission: ['sys'] }
-          }
-        ]
-      },
+      // {
+      //   path: '/tpl',
+      //   name: 'tpl',
+      //   component: RouteView,
+      //   redirect: '/tpl/crud',
+      //   meta: { title: '模板页', icon: 'table', permission: ['sys'] },
+      //   children: [
+      //     {
+      //       path: '/tpl/crud',
+      //       name: 'Curd',
+      //       hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+      //       component: () => import('@/views/tpl/crud/index'),
+      //       meta: { title: '增删改查模板', keepAlive: true, permission: ['sys'] }
+      //     },
+      //     {
+      //       path: '/tpl/fulllist',
+      //       name: 'fulllist',
+      //       hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+      //       component: () => import('@/views/tpl/full/index'),
+      //       meta: { title: '列表页模板', keepAlive: true, permission: ['sys'] }
+      //     },
+      //     {
+      //       path: '/tpl/fullform',
+      //       name: 'formpage',
+      //       hidden: true,
+      //       hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+      //       component: () => import('@/views/tpl/full/form-page.vue'),
+      //       meta: { title: '表单页模板', keepAlive: true, permission: ['sys'] }
+      //     },
+      //     {
+      //       path: '/tpl/testlist',
+      //       name: 'testlist',
+      //       hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+      //       component: () => import('@/views/tpl/test/index'),
+      //       meta: { title: '列表页模板测试', keepAlive: true, permission: ['sys'] }
+      //     },
+      //     {
+      //       path: '/tpl/testform',
+      //       name: 'testform',
+      //       hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+      //       component: () => import('@/views/tpl/test/form-page.vue'),
+      //       meta: { title: '表单页模板测试', keepAlive: true, permission: ['sys'] }
+      //     },
+      //     {
+      //       path: '/tpl/dict',
+      //       name: 'dict',
+      //       hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+      //       component: () => import('@/views/SysDataDict/index'),
+      //       meta: { title: '字典维护', keepAlive: true, permission: ['sys'] }
+      //     },
+      //     {
+      //       path: '/tpl/dictvalue',
+      //       name: 'dictvalue',
+      //       hidden: true,
+      //       hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+      //       component: () => import('@/views/SysDataDictValue/index'),
+      //       meta: { title: '字典维护', keepAlive: true, permission: ['sys'] }
+      //     }
+      //   ]
+      // },
 
       // demo
-      {
-        path: '/demo',
-        name: 'demo',
-        component: RouteView,
-        redirect: '/demo/dict',
-        meta: { title: '测试', icon: 'table', permission: ['sys'] },
-        children: [
-          {
-            path: '/demo/dict',
-            name: 'dict-index',
-            hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
-            component: () => import('@/views/SysDataDict/index'),
-            meta: { title: '字典维护', keepAlive: true, permission: ['sys'] }
-          },
-          {
-            path: '/demo/formpage',
-            name: 'dict-formpage',
-            hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
-            component: () => import('@/views/SysDataDict/form-page'),
-            meta: { title: '字典详情', keepAlive: true, permission: ['sys'] }
-          }
-        ]
-      },
+      // {
+      //   path: '/demo',
+      //   name: 'demo',
+      //   component: RouteView,
+      //   redirect: '/demo/dict',
+      //   meta: { title: '测试', icon: 'table', permission: ['sys'] },
+      //   children: [
+      //     {
+      //       path: '/demo/dict',
+      //       name: 'dict-index',
+      //       hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+      //       component: () => import('@/views/SysDataDict/index'),
+      //       meta: { title: '字典维护', keepAlive: true, permission: ['sys'] }
+      //     },
+      //     {
+      //       path: '/demo/formpage',
+      //       name: 'dict-formpage',
+      //       hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+      //       component: () => import('@/views/SysDataDict/form-page'),
+      //       meta: { title: '字典详情', keepAlive: true, permission: ['sys'] }
+      //     }
+      //   ]
+      // },
 
       // profile
-      {
-        path: '/profile',
-        name: 'profile',
-        component: RouteView,
-        redirect: '/profile/basic',
-        meta: { title: '详情页', icon: 'profile', permission: ['profile'] },
-        children: [
-          {
-            path: '/profile/basic',
-            name: 'ProfileBasic',
-            component: () => import('@/views/profile/basic'),
-            meta: { title: '基础详情页', permission: ['profile'] }
-          },
-          {
-            path: '/profile/advanced',
-            name: 'ProfileAdvanced',
-            component: () => import('@/views/profile/advanced/Advanced'),
-            meta: { title: '高级详情页', permission: ['profile'] }
-          }
-        ]
-      },
+      // {
+      //   path: '/profile',
+      //   name: 'profile',
+      //   component: RouteView,
+      //   redirect: '/profile/basic',
+      //   meta: { title: '详情页', icon: 'profile', permission: ['profile'] },
+      //   children: [
+      //     {
+      //       path: '/profile/basic',
+      //       name: 'ProfileBasic',
+      //       component: () => import('@/views/profile/basic'),
+      //       meta: { title: '基础详情页', permission: ['profile'] }
+      //     },
+      //     {
+      //       path: '/profile/advanced',
+      //       name: 'ProfileAdvanced',
+      //       component: () => import('@/views/profile/advanced/Advanced'),
+      //       meta: { title: '高级详情页', permission: ['profile'] }
+      //     }
+      //   ]
+      // },
 
       // result
       {

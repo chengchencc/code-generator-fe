@@ -65,7 +65,7 @@ export default {
   computed: {},
   methods: {
     addDefaultValue (data) {
-      if(!data){
+      if (!data) {
         return data
       }
       data.forEach((item) => {
@@ -153,7 +153,7 @@ export default {
       // })
     },
     handleGenerator () {
-      downFile(`/api-test/generator/exportToZip`, { entityId: this.model.id }).then((data) => {
+      downFile(`/api-grt/generator/exportToZip`, { entityId: this.model.id }).then((data) => {
         this.$message.success('已生成！')
         // if (!data) {
         //   this.$message.warning('文件下载失败')

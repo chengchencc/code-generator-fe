@@ -5,9 +5,9 @@ const proxyConfig = {
   //   ws: false,
   //   changeOrigin: true
   // }
-  '/api-test': {
+  '/api-grt': {
     target: 'http://127.0.0.1:8080',
-    pathRewrite: { '^/api-test': '' },
+    pathRewrite: { '^/api-grt': '' },
     ws: false,
     changeOrigin: true
   },

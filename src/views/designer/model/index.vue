@@ -304,7 +304,7 @@ export default {
     },
     handleDownloadCode (record) {
       console.log(record)
-      downFile(`/api-test/generator/exportToZip`, { entityId: record.id }).then((data) => {
+      downFile(`/api-grt/generator/exportToZip`, { entityId: record.id }).then((data) => {
         if (!data) {
           this.$message.warning('文件下载失败')
           return

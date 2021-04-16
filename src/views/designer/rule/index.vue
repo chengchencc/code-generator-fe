@@ -91,7 +91,7 @@
             {{ index + 1 }}
           </span>
           <span slot="status" slot-scope="text">
-            <a-tag color="orange">{{text}}</a-tag>
+            <a-tag color="orange">{{ text }}</a-tag>
           </span>
           <span slot="action" slot-scope="text, record">
             <template>
@@ -133,7 +133,7 @@ const columns = [
   {
     title: '序号',
     scopedSlots: { customRender: 'serial' },
-    width: '70px',
+    width: '70px'
   },
   {
     title: '作者',
@@ -191,38 +191,38 @@ const columns = [
     width: '90px',
     customRender: (value) => value
   },
-  {
-    title: '删除时间',
-    dataIndex: 'deletionTime',
-    ellipsis: false, // 超过宽度将自动省略
-    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '180px',
-    customRender: toDateTime,
-  },
-  {
-    title: '删除人',
-    dataIndex: 'deletionUserId',
-    ellipsis: false, // 超过宽度将自动省略
-    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '90px',
-    customRender: (value) => value
-  },
+  // {
+  //   title: '删除时间',
+  //   dataIndex: 'deletionTime',
+  //   ellipsis: false, // 超过宽度将自动省略
+  //   align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+  //   width: '180px',
+  //   customRender: toDateTime
+  // },
+  // {
+  //   title: '删除人',
+  //   dataIndex: 'deletionUserId',
+  //   ellipsis: false, // 超过宽度将自动省略
+  //   align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+  //   width: '90px',
+  //   customRender: (value) => value
+  // },
   {
     title: '最后修改时间',
     dataIndex: 'lastModifyTime',
     ellipsis: false, // 超过宽度将自动省略
     align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
     width: '120px',
-    customRender: toDateTime,
+    customRender: toDateTime
   },
-  {
-    title: '最后修改人',
-    dataIndex: 'lastModifyUserId',
-    ellipsis: false, // 超过宽度将自动省略
-    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-    width: '110px',
-    customRender: (value) => value
-  },
+  // {
+  //   title: '最后修改人',
+  //   dataIndex: 'lastModifyUserId',
+  //   ellipsis: false, // 超过宽度将自动省略
+  //   align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+  //   width: '110px',
+  //   customRender: (value) => value
+  // },
   {
     title: '操作',
     dataIndex: 'action',
@@ -242,7 +242,7 @@ export default {
     return {
       columns: columns,
       url: {
-        list: '/api-test/generatorRule/page',
+        list: '/api-grt/generatorRule/page'
       }
     }
   },
@@ -253,7 +253,7 @@ export default {
   },
   computed: {},
   methods: {
-    initDictConfig () { },
+    initDictConfig () {},
     loadData (arg) {
       if (!this.url.list) {
         this.$message.error('请设置url.list属性!')
@@ -282,13 +282,15 @@ export default {
       this.$refs.modalForm.edit(record)
       this.$refs.modalForm.title = '编辑'
     },
-    handleDelete(record) {
-      deleteRule(record.id).then((res) => {
-        console.log(res)
-        this.loadData();
-      }).catch(e => {
-        console.log(e)
-      })
+    handleDelete (record) {
+      deleteRule(record.id)
+        .then((res) => {
+          console.log(res)
+          this.loadData()
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     }
   }
 }
