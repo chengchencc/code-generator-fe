@@ -1,4 +1,5 @@
 import { httpDelete, httpGet, httpPost } from '@/utils/httpClient'
+import request from '@/utils/request'
 
 const path = '/api-grt/dataModel'
 
@@ -13,3 +14,10 @@ export const getTableInfos = (params) => httpPost('/api-grt/datasource/getTableI
 export const importFromDb = (params) => httpPost('/api-grt/datasource/importFromDb', params)
 
 export const saveDataModel = (params) => httpPost('/api-grt/dataModel/saveDataModel', params)
+
+export const exportBatchToZip = (params) => request({
+    url: '/api-grt/generator/exportBatchToZip',
+    data: params,
+    method: 'post',
+    responseType: 'blob'
+  })

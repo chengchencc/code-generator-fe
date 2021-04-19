@@ -12,7 +12,7 @@
     dialogClass="full-screen-modal model-design-modal">
     <a-spin :spinning="confirmLoading">
       <a-card>
-        <a-button type="button" @click="handleGenerator">生成代码</a-button>
+        <!-- <a-button type="button" @click="handleGenerator">生成代码</a-button> -->
         <!-- <div>
           <a-button type="primary" @click="handleOk">保存</a-button>
         </div> -->

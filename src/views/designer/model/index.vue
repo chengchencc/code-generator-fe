@@ -70,10 +70,10 @@
         <a-button type="default" icon="import" @click="handleImportData">导入</a-button>
         <a-dropdown v-if="selectedRowKeys.length > 0">
           <a-menu slot="overlay">
-            <a-menu-item key="1">
+            <!-- <a-menu-item key="1">
               <a-icon type="delete" />删除
-            </a-menu-item>
-            <a-menu-item key="1" @click="handleDownloadCode">
+            </a-menu-item> -->
+            <a-menu-item key="1" @click="handleDownloadCodeBatch">
               <a-icon type="import" />下载代码
             </a-menu-item>
             <!-- <a-button type="default" icon="import" @click="handleDownloadCode">下载代码</a-button> -->
@@ -134,7 +134,9 @@
                   <!-- <a @click="handleDetail(record)">详情</a> -->
                 </a-menu-item>
               </a-menu>
-              <a>更多<a-icon type="down" /></a>
+              <a>更多
+                <a-icon type="down" />
+              </a>
             </a-dropdown>
           </template>
         </span>
@@ -156,7 +158,7 @@
 </template>
 
 <script>
-import { deleteItem, findPageList } from './api'
+import { deleteItem, findPageList, exportBatchToZip } from './api'
 
 import { TablePageMixin } from '@/core/mixins/TablePage2Mixin'
 import ImportModal from './import/ImportModal.vue'
@@ -305,6 +307,33 @@ export default {
     handleDownloadCode (record) {
       console.log(record)
       downFile(`/api-grt/generator/exportToZip`, { entityId: record.id }).then((data) => {
+        if (!data) {
+          this.$message.warning('文件下载失败')
+          return
+        }
+        if (typeof window.navigator.msSaveBlob !== 'undefined') {
+          window.navigator.msSaveBlob(new Blob([data]), 'code.zip')
+        } else {
+          const url = window.URL.createObjectURL(new Blob([data]))
+          const link = document.createElement('a')
+          link.style.display = 'none'
+          link.href = url
+          link.setAttribute('download', 'code.zip')
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link) // 下载完成移除元素
+          window.URL.revokeObjectURL(url) // 释放掉blob对象
+        }
+      })
+    },
+    handleDownloadCodeBatch () {
+      // console.log(record)
+
+      console.log(this.selectionRows)
+      const ids = this.selectionRows.map((row) => row.id)
+      console.log(ids)
+
+      exportBatchToZip(ids).then((data) => {
         if (!data) {
           this.$message.warning('文件下载失败')
           return
