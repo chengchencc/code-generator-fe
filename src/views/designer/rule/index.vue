@@ -135,6 +135,14 @@ const columns = [
     scopedSlots: { customRender: 'serial' },
     width: '70px'
   },
+    {
+    title: '策略名称',
+    dataIndex: 'ruleName',
+    ellipsis: false, // 超过宽度将自动省略
+    align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+    width: '70px',
+    customRender: (value) => value
+  },
   {
     title: '作者',
     dataIndex: 'authorName',

@@ -4,7 +4,11 @@
     <a-form :form="form" v-bind="formLayout">
       <a-row :gutter="26" :style="rowStyle">
         <!-- 检查是否有 id 并且大于0，大于0是修改。其他是新增，新增不显示主键ID -->
-
+        <a-col :span="12" :style="colStyle">
+          <a-form-item label="策略名称" v-bind="colInfo12">
+            <a-input v-decorator="['ruleName',validatorRules.ruleName ]" :disabled="unEditable" />
+          </a-form-item>
+        </a-col>
         <a-col :span="12" :style="colStyle">
           <a-form-item label="作者" v-bind="colInfo12">
             <a-input v-decorator="['authorName',validatorRules.authorName ]" :disabled="unEditable" />
@@ -123,6 +127,7 @@ export default {
       pageDict: {},
       validatorRules: {
         id: { rules: [{ required: true, message: '主键不能为空' }, { validator: this.validateId }] },
+        ruleName: { rules: [{ required: true, message: '策略名称不能为空' }] },
         authorName: { rules: [{ required: false, message: '作者不能为空' }, { validator: this.validateAuthorName }] },
         email: { rules: [{ required: false, message: '作者邮箱不能为空' }, { validator: this.validateEmail }] },
         moduleName: { rules: [{ required: false, message: '模块名不能为空' }, { validator: this.validateModuleName }] },
