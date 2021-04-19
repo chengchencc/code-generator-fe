@@ -57,6 +57,7 @@ import storage from 'store'
 // const fields = ['id', 'dictCode', 'code', 'value', 'parentDictValueCode', 'orderBy', 'extA', 'extB', 'enable']
 const fields = [
   'id',
+  'ruleName',
   'authorName',
   'email',
   'moduleName',

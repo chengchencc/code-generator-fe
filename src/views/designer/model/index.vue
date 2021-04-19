@@ -69,11 +69,11 @@
         <a-button type="primary" icon="reload" @click="searchQuery">刷新</a-button>
         <a-button type="default" icon="import" @click="handleImportData">导入</a-button>
         <a-dropdown v-if="selectedRowKeys.length > 0">
-          <a-menu slot="overlay">
-            <!-- <a-menu-item key="1">
+          <a-menu slot="overlay" >
+            <a-menu-item key="1" @click="handleBatchDel">
               <a-icon type="delete" />删除
-            </a-menu-item> -->
-            <a-menu-item key="1" @click="handleDownloadCodeBatch">
+            </a-menu-item>
+            <a-menu-item key="2" @click="handleDownloadCodeBatch">
               <a-icon type="import" />下载代码
             </a-menu-item>
             <!-- <a-button type="default" icon="import" @click="handleDownloadCode">下载代码</a-button> -->
@@ -123,6 +123,8 @@
               <!-- <a @click="handleEdit(record)">编辑</a>
             <a-divider type="vertical" /> -->
               <a @click="handleDesign(record)">设计</a>
+              <a-divider type="vertical" />
+              <a @click="handleDownloadCode(record)">生成</a>
               <!-- <a-divider type="vertical" /> -->
               <!-- <a-popconfirm title="删除后不能恢复，确定删除？" ok-text="是" cancel-text="否" @confirm="handleDelete(record)">
               <a>删除</a>
@@ -133,9 +135,9 @@
                   <a-menu-item>
                     <a @click="handleDeploy(record)">发布</a>
                   </a-menu-item>
-                  <a-menu-item>
+                  <!-- <a-menu-item>
                     <a @click="handleDownloadCode(record)">下载代码</a>
-                  </a-menu-item>
+                  </a-menu-item> -->
                   <a-menu-item>
                     <a @click="handleDelete(record)">删除</a>
                     <!-- <a @click="handleDetail(record)">详情</a> -->
@@ -166,7 +168,7 @@
 </template>
 
 <script>
-import { deleteItem, findPageList, exportBatchToZip } from './api'
+import { deleteItem, findPageList, exportBatchToZip, deleteBatch } from './api'
 
 import { TablePageMixin } from '@/core/mixins/TablePage2Mixin'
 import ImportModal from './import/ImportModal.vue'
@@ -177,9 +179,10 @@ import { TableWrapper } from '@/components'
 
 export default {
   name: 'TableList',
-  mixins: [TablePageMixin, TableWrapper],
+  mixins: [TablePageMixin],
 
   components: {
+    TableWrapper,
     DesignModal,
     ImportModal
   },
@@ -194,36 +197,35 @@ export default {
           title: '主键',
           dataIndex: 'id',
           ellipsis: false, // 超过宽度将自动省略
-          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-          width: '200px'
+          align: 'left' // 设置列内容的对齐方式 'left' | 'right' | 'center'
         },
         {
           title: '表名',
           dataIndex: 'tableName',
           ellipsis: false, // 超过宽度将自动省略
-          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-          width: '200px'
+          align: 'left' // 设置列内容的对齐方式 'left' | 'right' | 'center'
+          // width: '200px'
         },
         {
           title: '模型编号',
           dataIndex: 'code',
           ellipsis: false, // 超过宽度将自动省略
-          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-          width: '200px'
+          align: 'left' // 设置列内容的对齐方式 'left' | 'right' | 'center'
+          // width: '200px'
         },
         {
           title: '模型名称',
           dataIndex: 'name',
           ellipsis: false, // 超过宽度将自动省略
-          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-          width: '200px'
+          align: 'left' // 设置列内容的对齐方式 'left' | 'right' | 'center'
+          // width: '200px'
         },
         {
           title: '表结构',
           dataIndex: 'tableSchema',
           ellipsis: false, // 超过宽度将自动省略
           align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-          width: '200px',
+          // width: '200px',
           customRender: (value) => {
             return TableSchema[value] || value
           }
@@ -233,7 +235,7 @@ export default {
           dataIndex: 'tableType',
           ellipsis: false, // 超过宽度将自动省略
           align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-          width: '200px',
+          // width: '200px',
           customRender: (value) => {
             return TableType[value] || value
           }
@@ -244,7 +246,7 @@ export default {
           dataIndex: 'isPublished',
           ellipsis: false, // 超过宽度将自动省略
           align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-          width: '200px',
+          // width: '200px',
           // customRender: (value) => (value ? '是' : '否')
           scopedSlots: { customRender: 'status' }
         },
@@ -260,7 +262,7 @@ export default {
           dataIndex: 'version',
           ellipsis: false, // 超过宽度将自动省略
           align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-          width: '200px',
+          // width: '200px',
           customRender: (value) => {
             return `v${value}`
           }
@@ -268,7 +270,7 @@ export default {
         {
           title: '操作',
           dataIndex: 'action',
-          width: '200px',
+          // width: '200px',
           scopedSlots: { customRender: 'action' }
         }
       ]
@@ -312,6 +314,38 @@ export default {
           console.error(e)
           this.$message.error('删除失败')
         })
+    },
+    /** 批量删除 */
+    handleBatchDel () {
+      // if (!this.url.deleteBatch) {
+      //   this.$message.error('请设置url.deleteBatch属性!')
+      //   return
+      // }
+      if (this.selectedRowKeys.length <= 0) {
+        this.$message.warning('请选择一条记录！')
+      } else {
+        var ids = []
+        for (var a = 0; a < this.selectedRowKeys.length; a++) {
+          ids.push(this.selectedRowKeys[a])
+        }
+        var that = this
+        this.$confirm({
+          title: '确认删除',
+          content: '是否删除选中数据?',
+          onOk: function () {
+            deleteBatch({ ids: ids })
+              .then((res) => {
+                that.$message.success('删除成功！')
+                that.loadData()
+                that.onClearSelected()
+              })
+              .catch((res) => {
+                console.error(res)
+                that.$message.warning('删除失败！')
+              })
+          }
+        })
+      }
     },
     handleDownloadCode (record) {
       console.log(record)

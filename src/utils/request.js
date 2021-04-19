@@ -38,6 +38,12 @@ const errorHandler = (error) => {
         })
       }
     }
+    if (error.response.status === 500) {
+      notification.error({
+        message: '错误',
+        description: '服务异常'
+      })
+    }
   }
   return Promise.reject(error)
 }

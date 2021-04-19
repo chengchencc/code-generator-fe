@@ -1,13 +1,13 @@
 import { httpDelete, httpGet, httpPost } from '@/utils/httpClient'
 import request from '@/utils/request'
 
-const path = '/api-grt/dataModel'
-
 export const findPageList = (params) => httpGet('/api-grt/dataModel/page', params)
 
-export const deleteItem = (params) => httpDelete(path, params)
+export const deleteItem = (params) => httpDelete('/api-grt/dataModel', params)
 
-export const saveItem = (params) => httpPost(path, params)
+export const deleteBatch = (params) => httpDelete('/api-grt/dataModel/deleteBatch', params)
+
+export const saveItem = (params) => httpPost('/api-grt/dataModel', params)
 
 export const getTableInfos = (params) => httpPost('/api-grt/datasource/getTableInfos', params)
 

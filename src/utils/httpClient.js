@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-
+import qs from 'qs'
 // post
 export function httpPost (url, parameter) {
   return request({
@@ -14,7 +14,10 @@ export function httpGet (url, parameter) {
   return request({
     url: url,
     method: 'get',
-    params: parameter
+    params: parameter,
+    paramsSerializer: params => {
+      return qs.stringify(params)
+    }
   })
 }
 
@@ -32,7 +35,10 @@ export function httpDelete (url, parameter) {
   return request({
     url: url,
     method: 'delete',
-    params: parameter
+    params: parameter,
+    paramsSerializer: params => {
+      return qs.stringify(params, { arrayFormat: 'repeat' })
+    }
   })
 }
 
