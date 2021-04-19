@@ -332,6 +332,7 @@ export default {
       console.log(this.selectionRows)
       const ids = this.selectionRows.map((row) => row.id)
       console.log(ids)
+      this.$message.info('正在生成代码，请耐心等待...')
 
       exportBatchToZip(ids).then((data) => {
         if (!data) {
