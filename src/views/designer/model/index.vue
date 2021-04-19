@@ -90,57 +90,65 @@
         </a-dropdown>
       </div>
       <!-- 表格内容区域 -->
-      <a-table ref="table"
-               bordered
-               :size="tableConfig.size"
-               rowKey="id"
-               :columns="columns"
-               :dataSource="dataSource"
-               :pagination="ipagination"
-               :loading="loading"
-               @change="handleTableChange"
-               :rowSelection="rowSelection"
-               class="table-page-container-wrapper">
-        <!-- <span slot="serial" slot-scope="text, record, index">
+      <table-wrapper>
+        <div class="ant-alert ant-alert-info" style="margin-bottom: 16px">
+          <i class="anticon anticon-info-circle ant-alert-icon"></i>已选择&nbsp;<a style="font-weight: 600">{{
+            selectedRowKeys.length
+          }}</a>项&nbsp;&nbsp;
+          <a style="margin-left: 24px" @click="onClearSelected">清空</a>
+        </div>
+        <a-table ref="table"
+                 bordered
+                 :size="tableConfig.size"
+                 rowKey="id"
+                 :columns="columns"
+                 :dataSource="dataSource"
+                 :pagination="ipagination"
+                 :loading="loading"
+                 @change="handleTableChange"
+                 :rowSelection="rowSelection"
+                 class="table-page-container-wrapper">
+          <!-- <span slot="serial" slot-scope="text, record, index">
           {{ index + 1 }}
         </span> -->
-        <span slot="status" slot-scope="text">
-          <a-badge :status="text?'default':'success'" :text="text?'已发布':'未发布'" />
-        </span>
-        <!-- <span slot="description" slot-scope="text">
+          <span slot="status" slot-scope="text">
+            <a-badge :status="text?'default':'success'" :text="text?'已发布':'未发布'" />
+          </span>
+          <!-- <span slot="description" slot-scope="text">
           <ellipsis :length="4" tooltip>{{ text }}</ellipsis>
         </span> -->
 
-        <span slot="action" slot-scope="text, record">
-          <template>
-            <!-- <a @click="handleEdit(record)">编辑</a>
+          <span slot="action" slot-scope="text, record">
+            <template>
+              <!-- <a @click="handleEdit(record)">编辑</a>
             <a-divider type="vertical" /> -->
-            <a @click="handleDesign(record)">设计</a>
-            <!-- <a-divider type="vertical" /> -->
-            <!-- <a-popconfirm title="删除后不能恢复，确定删除？" ok-text="是" cancel-text="否" @confirm="handleDelete(record)">
+              <a @click="handleDesign(record)">设计</a>
+              <!-- <a-divider type="vertical" /> -->
+              <!-- <a-popconfirm title="删除后不能恢复，确定删除？" ok-text="是" cancel-text="否" @confirm="handleDelete(record)">
               <a>删除</a>
             </a-popconfirm> -->
-            <a-divider type="vertical" />
-            <a-dropdown>
-              <a-menu slot="overlay">
-                <a-menu-item>
-                  <a @click="handleDeploy(record)">发布</a>
-                </a-menu-item>
-                <a-menu-item>
-                  <a @click="handleDownloadCode(record)">下载代码</a>
-                </a-menu-item>
-                <a-menu-item>
-                  <a @click="handleDelete(record)">删除</a>
-                  <!-- <a @click="handleDetail(record)">详情</a> -->
-                </a-menu-item>
-              </a-menu>
-              <a>更多
-                <a-icon type="down" />
-              </a>
-            </a-dropdown>
-          </template>
-        </span>
-      </a-table>
+              <a-divider type="vertical" />
+              <a-dropdown>
+                <a-menu slot="overlay">
+                  <a-menu-item>
+                    <a @click="handleDeploy(record)">发布</a>
+                  </a-menu-item>
+                  <a-menu-item>
+                    <a @click="handleDownloadCode(record)">下载代码</a>
+                  </a-menu-item>
+                  <a-menu-item>
+                    <a @click="handleDelete(record)">删除</a>
+                    <!-- <a @click="handleDetail(record)">详情</a> -->
+                  </a-menu-item>
+                </a-menu>
+                <a>更多
+                  <a-icon type="down" />
+                </a>
+              </a-dropdown>
+            </template>
+          </span>
+        </a-table>
+      </table-wrapper>
       <!-- 嵌入表单区域 -->
       <design-modal ref="modalDesigner" @ok="searchQuery"></design-modal>
 
@@ -165,10 +173,11 @@ import ImportModal from './import/ImportModal.vue'
 import DesignModal from './design/DesignModal.vue'
 import { TableSchema, TableType } from './dictionary'
 import { downFile } from '@/utils/httpClient'
+import { TableWrapper } from '@/components'
 
 export default {
   name: 'TableList',
-  mixins: [TablePageMixin],
+  mixins: [TablePageMixin, TableWrapper],
 
   components: {
     DesignModal,
@@ -330,7 +339,8 @@ export default {
       // console.log(record)
 
       console.log(this.selectionRows)
-      const ids = this.selectionRows.map((row) => row.id)
+      console.log(this.selectedRowKeys)
+      const ids = this.selectedRowKeys
       console.log(ids)
       this.$message.info('正在生成代码，请耐心等待...')
 
