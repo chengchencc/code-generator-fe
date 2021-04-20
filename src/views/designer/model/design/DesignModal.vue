@@ -116,10 +116,13 @@ export default {
           dataFieldUI: uiData
         }
         console.log('DesignModal::handleOK::params::', params)
+        this.$message.info('正在保存，数据量较大，请稍等...')
         saveDataModel(params).then((res) => {
           this.$message.success('保存成功！')
           // this.visible = false
           this.$emit('ok')
+        }).catch(e => {
+          this.$message.error('保存失败！')
         })
       }
       // const that = this

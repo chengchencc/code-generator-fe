@@ -284,9 +284,11 @@ export default {
   computed: {},
   methods: {
     loadData () {
+      this.loading = true
       const requestParameters = this.getQueryParams()
       console.log('loadData request parameters:', requestParameters)
       findPageList(requestParameters).then((res) => {
+        this.loading = false
         this.dataSource = res.items
         this.ipagination.total = res.total
       })

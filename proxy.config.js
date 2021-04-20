@@ -19,7 +19,7 @@ const proxyConfig = {
   },
   '/api-cm': {
     target: 'http://10.10.20.11',
-    pathRewrite: { '^/api-cm': 'app-creditmid-service-chengch' },
+    pathRewrite: { '^/api-cm': 'app-creditmid-service-v2' },
     ws: false,
     changeOrigin: true
   },

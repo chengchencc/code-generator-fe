@@ -16,17 +16,17 @@
         </a-col>
         <a-col :span="12" :style="colStyle">
           <a-form-item label="作者邮箱" v-bind="colInfo12">
-            <a-input v-decorator="['email',validatorRules.email ]" :disabled="unEditable" />
+            <a-input placeholder="ludan@sdnydb.com" v-decorator="['email',validatorRules.email ]" :disabled="unEditable" />
           </a-form-item>
         </a-col>
         <a-col :span="12" :style="colStyle">
           <a-form-item label="模块名" v-bind="colInfo12">
-            <a-input v-decorator="['moduleName',validatorRules.moduleName ]" :disabled="unEditable" />
+            <a-input placeholder="demo" v-decorator="['moduleName',validatorRules.moduleName ]" :disabled="unEditable" />
           </a-form-item>
         </a-col>
         <a-col :span="12" :style="colStyle">
           <a-form-item label="包名" v-bind="colInfo12">
-            <a-input v-decorator="['packageName',validatorRules.packageName ]" :disabled="unEditable" />
+            <a-input placeholder="com.ludan" v-decorator="['packageName',validatorRules.packageName ]" :disabled="unEditable" />
           </a-form-item>
         </a-col>
         <a-col :span="12" :style="colStyle">
@@ -182,10 +182,6 @@ export default {
   methods: {
     initDictConfig () {
       console.log('初始化页面级字典项')
-      const dictCodes = ['projectSource']
-      getDictionaryByCodes(dictCodes).then((res) => {
-        this.pageDict = res
-      })
     },
     beforeUpload () {
       // 上传前 的图片校验等操作

@@ -48,8 +48,8 @@
           </a-form-model-item>
         </form-item-wrapper>
         <form-item-wrapper>
-          <a-form-model-item label="生成策略" required prop="uiTemplate">
-            <a-select v-model="model.uiTemplate">
+          <a-form-model-item label="生成策略" required>
+            <a-select v-model="model.generatorRuleId">
               <!-- <a-select-option key="Default" value="Default">默认</a-select-option> -->
               <a-select-option v-for="(field,index) in templateList" :key="index" :value="field.id">{{ field.ruleName }}</a-select-option>
             </a-select>
@@ -180,7 +180,8 @@ export default {
         tableSchema: [{ required: true, message: '必填', trigger: 'blur' }],
         tableType: [{ required: true, message: '必填', trigger: 'blur' }],
         tableIdType: [{ required: true, message: '必填', trigger: 'blur' }],
-        uiTemplate: [{ required: true, message: '必填', trigger: 'blur' }]
+        generatorRuleId: [{ required: true, message: '必填', trigger: 'blur' }],
+        uiTemplate: [{ required: false, message: '必填', trigger: 'blur' }]
       }
     }
   },
