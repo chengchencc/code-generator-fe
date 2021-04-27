@@ -17,7 +17,7 @@
           <a-step title="完成" />
         </a-steps>
         <div class="content">
-          <step1 v-if="currentTab === 0" @nextStep="nextStep" />
+          <step1 v-if="currentTab === 0" :value="model" @nextStep="nextStep" />
           <step2 v-if="currentTab === 1" :value="model" @nextStep="nextStep2" @prevStep="prevStep" />
           <step3 v-if="currentTab === 2" :value="model" @prevStep="prevStep" @finish="finish" />
         </div>
