@@ -127,11 +127,18 @@ export const TablePageMixin = {
       this.loading = true
       httpGet(this.url.list, params).then((res) => {
         if (res.code === 0) {
-          this.dataSource = res.data
+          this.dataSource = this.transformListResponseData(res.data)
           this.ipagination.total = res.count
         }
         this.loading = false
       })
+    },
+    /**
+     * 针对loadData，
+     * @param {*} responseData
+     */
+     transformListResponseData (responseData) {
+      return responseData
     },
     initDictConfig () {
       console.log('--这是一个假的方法!')

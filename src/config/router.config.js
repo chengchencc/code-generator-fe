@@ -1,6 +1,7 @@
 // eslint-disable-next-line
 import { UserLayout, BasicLayout, BlankLayout } from '@/layouts'
 import { bxAnaalyse } from '@/core/icons'
+import { viz } from '@/views/viz/SysDept/SysDept-router.config'
 
 const RouteView = {
   name: 'RouteView',
@@ -80,7 +81,7 @@ export const asyncRouterMap = [
 
         ]
       },
-
+      viz,
       {
         path: '/sample',
         name: 'sample',

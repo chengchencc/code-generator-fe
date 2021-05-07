@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import { constantRouterMap } from '@/config/router.config'
+// import { testRouter } from './test.config'
 
 // hack router push callback
 const originalPush = Router.prototype.push

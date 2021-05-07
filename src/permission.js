@@ -37,6 +37,7 @@ router.beforeEach((to, from, next) => {
               // 根据roles权限生成可访问的路由表
               // 动态添加可访问路由表
               router.addRoutes(store.getters.addRouters)
+              // router.addRouters()
               // // 获取字典项
               // store.dispatch('getDicts', {
               //   codes: ['custType', 'areacode_one', 'areacode_sec'],
