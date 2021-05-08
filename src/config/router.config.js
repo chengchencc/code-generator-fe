@@ -82,7 +82,6 @@ export const asyncRouterMap = [
 
         ]
       },
-      viz,
       {
         path: '/sample',
         name: 'sample',
@@ -101,24 +100,10 @@ export const asyncRouterMap = [
             name: 'sample-detail',
             component: () => import('@/views/sample/components/SamplePage'),
             meta: { title: '单表示例-详情', keepAlive: false, icon: bxAnaalyse }
-          }
+          },
+          viz
         ]
       },
-      // {
-      //   path: '/codetest',
-      //   name: 'codetest',
-      //   meta: { title: '代码生成测试', icon: 'code' },
-      //   component: RouteView,
-      //   redirect: '/codetest/list',
-      //   children: [
-      //     {
-      //       path: '/codetest/list',
-      //       name: 'codetest-list',
-      //       component: () => import('@/views/GeneratorRule/GeneratorRuleManager'),
-      //       meta: { title: '单表测试', keepAlive: false, icon: bxAnaalyse }
-      //     }
-      //   ]
-      // },
 
       // {
       //   path: '/sample',

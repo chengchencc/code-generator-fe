@@ -88,7 +88,7 @@
                  :loading="loading"
                  @change="handleTableChange"
                  @expand="handleExpand"
-
+                 :rowSelection="rowSelection"
                  :scroll="{x: 1050}"
                  class="table-page-container-wrapper">
           <span slot="serial" slot-scope="text, record, index">
@@ -177,22 +177,22 @@ export default {
           width: '180px',
           customRender: (value) => value
         },
-        // {
-        //   title: '联系电话',
-        //   dataIndex: 'phone',
-        //   ellipsis: false, // 超过宽度将自动省略
-        //   align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-        //   width: '180px',
-        //   customRender: (value) => value
-        // },
-        // {
-        //   title: '邮箱',
-        //   dataIndex: 'email',
-        //   ellipsis: false, // 超过宽度将自动省略
-        //   align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-        //   width: '180px',
-        //   customRender: (value) => value
-        // },
+        {
+          title: '联系电话',
+          dataIndex: 'phone',
+          ellipsis: false, // 超过宽度将自动省略
+          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+          width: '180px',
+          customRender: (value) => value
+        },
+        {
+          title: '邮箱',
+          dataIndex: 'email',
+          ellipsis: false, // 超过宽度将自动省略
+          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+          width: '180px',
+          customRender: (value) => value
+        },
         {
           title: '操作',
           dataIndex: 'action',
@@ -241,7 +241,6 @@ export default {
       }
       var params = this.getQueryParams() // 查询条件
       this.loading = true
-      this.dataSource = []
       httpGet(this.url.findRoot, params).then((res) => {
         if (res.code === 0) {
           this.dataSource = this.transformListResponseData(res.data)
