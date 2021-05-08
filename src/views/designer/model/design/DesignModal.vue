@@ -119,7 +119,7 @@ export default {
         this.$message.info('正在保存，数据量较大，请稍等...')
         saveDataModel(params).then((res) => {
           this.$message.success('保存成功！')
-          // this.visible = false
+          this.visible = false
           this.$emit('ok')
         }).catch(e => {
           this.$message.error('保存失败！')

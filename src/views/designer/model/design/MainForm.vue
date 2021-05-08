@@ -51,7 +51,7 @@
           <a-form-model-item label="生成策略" required>
             <a-select v-model="model.generatorRuleId">
               <!-- <a-select-option key="Default" value="Default">默认</a-select-option> -->
-              <a-select-option v-for="(field,index) in templateList" :key="index" :value="field.id">{{ field.ruleName }}</a-select-option>
+              <a-select-option v-for="(field,index) in ruleList" :key="index" :value="field.id">{{ field.ruleName }}</a-select-option>
             </a-select>
           </a-form-model-item>
         </form-item-wrapper>
@@ -65,9 +65,17 @@
         </form-item-wrapper>
 
         <form-item-wrapper v-if="model.tableSchema && model.tableSchema === 'Tree'">
-          <a-form-model-item label="ParentId" required>
+          <a-form-model-item label="ParentIdField" required>
             <a-select v-model="model.parentId">
-              <a-select-option v-for="(field,index) in model.fields" :key="index" :value="field.id">{{ field.name || field.code }}</a-select-option>
+              <a-select-option v-for="(item,index) in model.fields" :key="index" :value="item.id">{{ item.name || item.code }}</a-select-option>
+            </a-select>
+          </a-form-model-item>
+        </form-item-wrapper>
+
+        <form-item-wrapper v-if="model.tableSchema && model.tableSchema === 'Tree'">
+          <a-form-model-item label="TreePathField" required>
+            <a-select v-model="model.treeIdPathId">
+              <a-select-option v-for="(item,index) in model.fields" :key="index" :value="item.id">{{ item.name || item.code }}</a-select-option>
             </a-select>
           </a-form-model-item>
         </form-item-wrapper>
@@ -122,14 +130,15 @@ export default {
           tableSchema: '',
           tableType: '',
           tableIdType: '',
-          uiTemplate: ''
+          uiTemplate: '',
+          parentId: ''
         }
       }
     }
   },
   data () {
     return {
-      templateList: [],
+      ruleList: [],
       // 布局
       formLayout: {
         labelCol: {
@@ -189,7 +198,7 @@ export default {
   created () {
     getRuleList().then((res) => {
       if (res && Array.isArray(res)) {
-        this.templateList = res
+        this.ruleList = res
       }
     }).catch(e => {
       console.log(e)
@@ -203,6 +212,8 @@ export default {
 
       // this.model = this.value
     })
+
+    // this.fields = this.model.fields
   },
   methods: {
     handleChange () {

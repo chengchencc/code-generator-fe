@@ -1,7 +1,8 @@
 // eslint-disable-next-line
 import { UserLayout, BasicLayout, BlankLayout } from '@/layouts'
 import { bxAnaalyse } from '@/core/icons'
-import { viz } from '@/views/viz/SysDept/SysDept-router.config'
+// import { viz } from '@/views/viz/SysDept/SysDept-router.config'
+import { viz } from '@/views/modules/viz/SysDept/SysDept-router.config'
 
 const RouteView = {
   name: 'RouteView',
