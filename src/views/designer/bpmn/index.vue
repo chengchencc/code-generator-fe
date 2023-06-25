@@ -105,6 +105,7 @@ export default {
       this.bpmnModeler.saveXML({ format: true }, function (err, xml) {
         done(err, xml)
       })
+      // this.bpmnModeler.save
     },
     // 下载为SVG格式,done是个函数，调用的时候传入的
     saveSVG (done) {

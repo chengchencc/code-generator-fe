@@ -131,22 +131,22 @@ export const asyncRouterMap = [
       //   hidden: true
       // },
 
-      // {
-      //   path: '/designer',
-      //   name: 'designer',
-      //   meta: { title: '流程设计器', icon: 'form' },
-      //   component: RouteView,
-      //   redirect: '/designer/datamodel',
-      //   children: [
-      //     {
-      //       path: '/designer/bpmn',
-      //       name: 'bpmn',
-      //       component: () => import('@/views/designer/bpmn/index'),
-      //       meta: { title: '流程管理', keepAlive: false, icon: bxAnaalyse }
-      //     }
+      {
+        path: '/designer',
+        name: 'designer',
+        meta: { title: '流程设计器', icon: 'form' },
+        component: RouteView,
+        redirect: '/designer/datamodel',
+        children: [
+          {
+            path: '/designer/bpmn',
+            name: 'bpmn',
+            component: () => import('@/views/designer/bpmn/index'),
+            meta: { title: '流程管理', keepAlive: false, icon: bxAnaalyse }
+          }
 
-      //   ]
-      // },
+        ]
+      },
 
       // forms
       // {

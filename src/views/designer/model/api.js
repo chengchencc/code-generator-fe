@@ -21,3 +21,6 @@ export const exportBatchToZip = (params) => request({
     method: 'post',
     responseType: 'blob'
   })
+
+export const searchByName = (params) => httpGet('/api-grt/dataModel/findTop10ByNameStartsWith', params)
+export const findEntityById = (id) => httpGet(`/api-grt/dataModel/detail/${id}`)

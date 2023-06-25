@@ -23,7 +23,7 @@ export default {
   menu: {
     locale: true
   },
-  title: '管理后台',
+  title: 'CC 设计器',
   pwa: false,
   iconfontUrl: '',
   production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true'

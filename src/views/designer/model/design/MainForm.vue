@@ -51,7 +51,8 @@
           <a-form-model-item label="生成策略" required>
             <a-select v-model="model.generatorRuleId">
               <!-- <a-select-option key="Default" value="Default">默认</a-select-option> -->
-              <a-select-option v-for="(field,index) in ruleList" :key="index" :value="field.id">{{ field.ruleName }}</a-select-option>
+              <a-select-option v-for="(field,index) in ruleList" :key="index" :value="field.id">{{ field.ruleName }}
+              </a-select-option>
             </a-select>
           </a-form-model-item>
         </form-item-wrapper>
@@ -67,7 +68,8 @@
         <form-item-wrapper v-if="model.tableSchema && model.tableSchema === 'Tree'">
           <a-form-model-item label="ParentIdField" required>
             <a-select v-model="model.parentId">
-              <a-select-option v-for="(item,index) in model.fields" :key="index" :value="item.id">{{ item.name || item.code }}</a-select-option>
+              <a-select-option v-for="(item,index) in model.fields" :key="index" :value="item.id">
+                {{ item.name || item.code }}</a-select-option>
             </a-select>
           </a-form-model-item>
         </form-item-wrapper>
@@ -75,7 +77,8 @@
         <form-item-wrapper v-if="model.tableSchema && model.tableSchema === 'Tree'">
           <a-form-model-item label="TreePathField" required>
             <a-select v-model="model.treeIdPathId">
-              <a-select-option v-for="(item,index) in model.fields" :key="index" :value="item.id">{{ item.name || item.code }}</a-select-option>
+              <a-select-option v-for="(item,index) in model.fields" :key="index" :value="item.id">
+                {{ item.name || item.code }}</a-select-option>
             </a-select>
           </a-form-model-item>
         </form-item-wrapper>
@@ -94,11 +97,20 @@
         <form-item-wrapper
           v-if="model.tableType && (model.tableType === 'OneToOneChildTable'|| model.tableType === 'OneToManyChildTable')">
           <a-form-model-item label="主实体" required>
-            <a-select v-model="model.mainEntityId">
-              <a-select-option key="1" value="1">用户表</a-select-option>
+            <a-select v-model="model.mainEntityId"
+                      show-search
+                      placeholder="请输入实体名称搜索"
+                      @search="searchEntity"
+                      @change="handleMainEntityChange"
+                      :filter-option="false">
+              <a-spin v-if="searching" slot="notFoundContent" />
+              <a-select-option v-for="d in topEntities" :key="d.id" :value="d.id">
+                {{ d.name }}
+              </a-select-option>
+              <!-- <a-select-option key="1" value="1">用户表1</a-select-option>
               <a-select-option key="2" value="2">组织表</a-select-option>
               <a-select-option key="3" value="3">角色表</a-select-option>
-              <a-select-option key="4" value="4">业务表一</a-select-option>
+              <a-select-option key="4" value="4">业务表一</a-select-option> -->
             </a-select>
           </a-form-model-item>
         </form-item-wrapper>
@@ -114,6 +126,9 @@
 import pick from 'lodash.pick'
 import { getRuleList } from '@/api/generatorRule'
 import { FormItemWrapper } from '@/components'
+import debounce from 'lodash/debounce'
+import { httpGet } from '@/utils/httpClient'
+import { findEntityById, searchByName } from '../api'
 
 export default {
   name: 'MainForm',
@@ -191,18 +206,23 @@ export default {
         tableIdType: [{ required: true, message: '必填', trigger: 'blur' }],
         generatorRuleId: [{ required: true, message: '必填', trigger: 'blur' }],
         uiTemplate: [{ required: false, message: '必填', trigger: 'blur' }]
-      }
+      },
+      searching: false,
+      // 实体选择框
+      topEntities: []
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {
-    getRuleList().then((res) => {
-      if (res && Array.isArray(res)) {
-        this.ruleList = res
-      }
-    }).catch(e => {
-      console.log(e)
-    })
+    getRuleList()
+      .then((res) => {
+        if (res && Array.isArray(res)) {
+          this.ruleList = res
+        }
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   },
   // 生命周期 - 载入后, Vue 实例挂载到实际的 DOM 操作完成，一般在该过程进行 Ajax 交互
   mounted () {
@@ -212,10 +232,33 @@ export default {
 
       // this.model = this.value
     })
-
+    this.initDict()
     // this.fields = this.model.fields
   },
   methods: {
+    initDict () {
+      if (this.model || this.model.mainEntityId) {
+        findEntityById(this.model.mainEntityId).then((res) => {
+          this.topEntities.push(res)
+        })
+      }
+    },
+    searchEntity: debounce(function (value) {
+      console.log('search::{}', value)
+      this.topEntities = []
+      this.searching = true
+      searchByName({ name: value }).then((res) => {
+        console.log(res)
+        this.searching = false
+        this.topEntities = res
+      })
+      // setTimeout(() => {
+      //   this.topEntities = [{ text: '111', value: '111' }]
+      // }, 2000)
+    }, 800),
+    handleMainEntityChange () {
+      console.log('handleMainEntityChange')
+    },
     handleChange () {
       console.log(arguments)
     },

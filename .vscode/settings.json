@@ -27,5 +27,9 @@
       "wrapAttributes": false,
       "sortAttributes": false
     }
-  }
+  },
+  "i18n-ally.localesPaths": [
+    "src/locales",
+    "src/locales/lang"
+  ]
 }

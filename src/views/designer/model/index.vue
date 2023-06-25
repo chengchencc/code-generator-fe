@@ -61,21 +61,18 @@
             </a-col>
           </a-row>
         </a-form>-->
-
       </div>
       <!-- 功能按钮区域 -->
       <div class="table-operator">
         <!-- <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button> -->
         <a-button type="primary" icon="reload" @click="searchQuery">刷新</a-button>
         <a-button type="default" icon="import" @click="handleImportData">导入</a-button>
+        <!-- <a-button type="default" icon="download" @click="handleDownloadCodeBatch">下载代码</a-button>
+        <a-button type="default" icon="delete" @click="handleBatchDel">删除</a-button> -->
         <a-dropdown v-if="selectedRowKeys.length > 0">
-          <a-menu slot="overlay" >
-            <a-menu-item key="1" @click="handleBatchDel">
-              <a-icon type="delete" />删除
-            </a-menu-item>
-            <a-menu-item key="2" @click="handleDownloadCodeBatch">
-              <a-icon type="import" />下载代码
-            </a-menu-item>
+          <a-menu slot="overlay">
+            <a-menu-item key="1" @click="handleBatchDel"> <a-icon type="delete" />删除 </a-menu-item>
+            <a-menu-item key="2" @click="handleDownloadCodeBatch"> <a-icon type="import" />下载代码 </a-menu-item>
             <!-- <a-button type="default" icon="import" @click="handleDownloadCode">下载代码</a-button> -->
 
             <!-- lock | unlock -->
@@ -94,25 +91,28 @@
         <div class="ant-alert ant-alert-info" style="margin-bottom: 16px">
           <i class="anticon anticon-info-circle ant-alert-icon"></i>已选择&nbsp;<a style="font-weight: 600">{{
             selectedRowKeys.length
-          }}</a>项&nbsp;&nbsp;
+          }}</a
+          >项&nbsp;&nbsp;
           <a style="margin-left: 24px" @click="onClearSelected">清空</a>
         </div>
-        <a-table ref="table"
-                 bordered
-                 :size="tableConfig.size"
-                 rowKey="id"
-                 :columns="columns"
-                 :dataSource="dataSource"
-                 :pagination="ipagination"
-                 :loading="loading"
-                 @change="handleTableChange"
-                 :rowSelection="rowSelection"
-                 class="table-page-container-wrapper">
+        <a-table
+          ref="table"
+          bordered
+          :size="tableConfig.size"
+          rowKey="id"
+          :columns="columns"
+          :dataSource="dataSource"
+          :pagination="ipagination"
+          :loading="loading"
+          @change="handleTableChange"
+          :rowSelection="rowSelection"
+          class="table-page-container-wrapper"
+        >
           <!-- <span slot="serial" slot-scope="text, record, index">
           {{ index + 1 }}
         </span> -->
           <span slot="status" slot-scope="text">
-            <a-badge :status="text?'default':'success'" :text="text?'已发布':'未发布'" />
+            <a-badge :status="text ? 'default' : 'success'" :text="text ? '已发布' : '未发布'" />
           </span>
           <!-- <span slot="description" slot-scope="text">
           <ellipsis :length="4" tooltip>{{ text }}</ellipsis>
@@ -125,10 +125,15 @@
               <a @click="handleDesign(record)">设计</a>
               <a-divider type="vertical" />
               <a @click="handleDownloadCode(record)">生成</a>
-              <!-- <a-divider type="vertical" /> -->
-              <!-- <a-popconfirm title="删除后不能恢复，确定删除？" ok-text="是" cancel-text="否" @confirm="handleDelete(record)">
-              <a>删除</a>
-            </a-popconfirm> -->
+              <a-divider type="vertical" />
+              <a-popconfirm
+                title="删除后不能恢复，确定删除？"
+                ok-text="是"
+                cancel-text="否"
+                @confirm="handleDelete(record)"
+              >
+                <a>删除</a>
+              </a-popconfirm>
               <a-divider type="vertical" />
               <a-dropdown>
                 <a-menu slot="overlay">
@@ -143,7 +148,8 @@
                     <!-- <a @click="handleDetail(record)">详情</a> -->
                   </a-menu-item>
                 </a-menu>
-                <a>更多
+                <a
+                >更多
                   <a-icon type="down" />
                 </a>
               </a-dropdown>
@@ -226,7 +232,7 @@ export default {
           ellipsis: false, // 超过宽度将自动省略
           align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
           // width: '200px',
-          customRender: (value) => {
+          customRender: value => {
             return TableSchema[value] || value
           }
         },
@@ -236,7 +242,7 @@ export default {
           ellipsis: false, // 超过宽度将自动省略
           align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
           // width: '200px',
-          customRender: (value) => {
+          customRender: value => {
             return TableType[value] || value
           }
         },
@@ -263,7 +269,7 @@ export default {
           ellipsis: false, // 超过宽度将自动省略
           align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
           // width: '200px',
-          customRender: (value) => {
+          customRender: value => {
             return `v${value}`
           }
         },
@@ -287,7 +293,7 @@ export default {
       this.loading = true
       const requestParameters = this.getQueryParams()
       console.log('loadData request parameters:', requestParameters)
-      findPageList(requestParameters).then((res) => {
+      findPageList(requestParameters).then(res => {
         this.loading = false
         this.dataSource = res.items
         this.ipagination.total = res.total
@@ -308,11 +314,11 @@ export default {
     /** 单条业务删除 */
     handleDelete (record) {
       deleteItem({ id: record.id })
-        .then((res) => {
+        .then(res => {
           this.refresh()
           this.$message.info('删除成功')
         })
-        .catch((e) => {
+        .catch(e => {
           console.error(e)
           this.$message.error('删除失败')
         })
@@ -336,12 +342,12 @@ export default {
           content: '是否删除选中数据?',
           onOk: function () {
             deleteBatch({ ids: ids })
-              .then((res) => {
+              .then(res => {
                 that.$message.success('删除成功！')
                 that.loadData()
                 that.onClearSelected()
               })
-              .catch((res) => {
+              .catch(res => {
                 console.error(res)
                 that.$message.warning('删除失败！')
               })
@@ -351,7 +357,7 @@ export default {
     },
     handleDownloadCode (record) {
       console.log(record)
-      downFile(`/api-grt/generator/exportToZip`, { entityId: record.id }).then((data) => {
+      downFile(`/api-grt/generator/exportToZip`, { entityId: record.id }).then(data => {
         if (!data) {
           this.$message.warning('文件下载失败')
           return
@@ -380,7 +386,7 @@ export default {
       console.log(ids)
       this.$message.info('正在生成代码，请耐心等待...')
 
-      exportBatchToZip(ids).then((data) => {
+      exportBatchToZip(ids).then(data => {
         if (!data) {
           this.$message.warning('文件下载失败')
           return
